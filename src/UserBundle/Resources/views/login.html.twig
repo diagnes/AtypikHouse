@@ -1,0 +1,74 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}| Connexion{% endblock %}
+{% block fos_user_content %}
+    <!--Start login register area-->
+    <section class="login-register-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-md-offset-3 col-sm-offset-0">
+                    <div class="form">
+                        <div class="sec-title">
+                            <h1>Connexion</h1>
+                            <span class="border"></span>
+                        </div>
+                        <div>
+                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}">Facebook</a>
+                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">Google</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
+                                <form action="{{ path("fos_user_security_check") }}" method="post">
+                                    {% if csrf_token %}
+                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                    {% endif %}
+
+                                    <div class="col-md-12">
+                                        <div class="input-field">
+                                            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Utilisateur" />
+                                            <div class="icon-holder">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="input-field">
+                                            <input type="password" id="password" name="_password" required="required" placeholder="Mot de passe"/>
+                                            <div class="icon-holder">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <button class="thm-btn bgclr-1" type="submit" id="_submit" name="_submit">{{ 'security.login.submit'|trans }}</button>
+                                                <div class="remember-text">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                                                            <span>Remember Me</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End login register area-->
+{% endblock %}

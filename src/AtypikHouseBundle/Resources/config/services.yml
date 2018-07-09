@@ -1,0 +1,14 @@
+services:
+    ah.reservation_manager:
+        class: AtypikHouseBundle\Service\ReservationManager
+        arguments: ['@jms_serializer.serializer', '@doctrine.orm.entity_manager', '%atypikhouse_global_fees%', '@security.helper']
+    ah.reservation_admin_manager:
+        class: AtypikHouseBundle\Service\ReservationAdminManager
+        arguments: ['@jms_serializer.serializer', '%atypikhouse_global_fees%']
+    ah.reservation_listener:
+        class: AtypikHouseBundle\Listener\ReservationListener
+        arguments: ['@ah.reservation_manager']
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+
+

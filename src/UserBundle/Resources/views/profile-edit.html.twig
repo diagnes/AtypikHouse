@@ -1,0 +1,116 @@
+{% extends 'FrontBundle::layout.html.twig' %}
+
+{% block content %}
+    <section class="breadcrumb-area" style="background-image: url(bundles/front/images/resources/breadcrumb-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumbs">
+                        <h1>Profile</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End breadcrumb area-->
+
+    <!--Start Checkout area-->
+    <section class="checkout-area">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form billing-info">
+                        <div class="sec-title pdb-50">
+                            <h1>Info Personnel</h1>
+                            <span class="border"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                {{ form_row(form.image) }}
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                {{ form_row(form.username) }}
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                {{ form_row(form.personalInfo.firstname) }}
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                {{ form_row(form.personalInfo.lastname) }}
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                {{ form_row(form.personalInfo.birthDate) }}
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                {{ form_row(form.email) }}
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                {{ form_row(form.plainPassword) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="table">
+                        <div class="sec-title">
+                            <h1>Adresse</h1>
+                            <span class="border"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Adresse (Trouvée votre adresse avec google map autocomplete)</label>
+                                <div class="field-input">
+                                    <input class="form-control" data-form="adminbundle_ordercommand_address_" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-xs-12">
+                                {{ form_row(form.address.streetNumber) }}
+                            </div>
+                            <div class="col-sm-10 col-xs-12">
+                                {{ form_row(form.address.address) }}
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                {{ form_row(form.address.area) }}
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                {{ form_row(form.address.city) }}
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                {{ form_row(form.address.postalcode) }}
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                {{ form_row(form.address.country) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="table">
+                        <div class="sec-title">
+                            <h1>Plus d'information</h1>
+                            <span class="border"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                {{ form_row(form.personalInfo.biography) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row bottom">
+                <div class="col-lg-12 col-md-12">
+                    <div class="cart-total">
+                        <div class="payment-options">
+                            <button class="btn-block thm-btn bgclr-1" type="submit">Modifier profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+    <!--End Checkout area-->
+{% endblock %}

@@ -1,0 +1,13 @@
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: UserBundle\Entity\User
+    from_email:
+        address:        contact@atypikhouse.com
+        sender_name:    Equipe AtypikHouse
+    service:
+        mailer: fos_user.mailer.twig_swift
+    registration:
+        form:
+            name: user_registration
+            type: UserBundle\Form\RegistrationType

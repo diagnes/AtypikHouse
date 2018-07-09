@@ -1,0 +1,44 @@
+{% extends '::layout.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}| Inscription{% endblock %}
+{% block body %}
+    <!--Start breadcrumb area-->
+    <section class="breadcrumb-area" style="background-image: url(/bundles/front/images/resources/breadcrumb-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumbs">
+                        <h1>Inscription</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End breadcrumb area-->
+
+    <!--Start login register area-->
+    <section class="login-register-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-md-offset-3 col-sm-offset-0">
+                    <div class="form">
+                        <div class="sec-title">
+                            <h1>Inscription</h1>
+                            <span class="border"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                                {{ form_widget(form) }}
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End login register area-->
+{% endblock %}

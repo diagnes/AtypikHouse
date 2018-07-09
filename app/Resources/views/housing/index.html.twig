@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Housings list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Slug</th>
+                <th>Createdat</th>
+                <th>Updatedat</th>
+                <th>Deletedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for housing in housings %}
+            <tr>
+                <td><a href="{{ path('api_housing_show', { 'id': housing.id }) }}">{{ housing.id }}</a></td>
+                <td>{{ housing.title }}</td>
+                <td>{{ housing.price }}</td>
+                <td>{{ housing.slug }}</td>
+                <td>{% if housing.createdAt %}{{ housing.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if housing.updatedAt %}{{ housing.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if housing.deletedAt %}{{ housing.deletedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('api_housing_show', { 'id': housing.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('api_housing_edit', { 'id': housing.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('api_housing_new') }}">Create a new housing</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,62 @@
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+atypik_house:
+    resource: "@AtypikHouseBundle/Resources/config/routing.yml"
+    prefix:   /api/reservation
+
+payment:
+    resource: "@PaymentBundle/Resources/config/routing.yml"
+    prefix:   /api/payment
+
+housing:
+    resource: "@HousingBundle/Resources/config/routing.yml"
+    prefix:   /api/housing
+
+tools:
+    resource: "@ToolsBundle/Resources/config/routing.yml"
+    prefix:   /tools
+
+# Lexit Auth
+#api_login_check:
+#    path: /api/login_check
+
+# Sonata Media Routing
+gallery:
+    resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
+    prefix: /media/gallery
+
+media:
+    resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
+    prefix: /media
+
+# JWT Auth
+api_login_check:
+    path: /api/login_check
+
+# FOS Routing
+fos_user:
+    resource: "@UserBundle/Resources/config/routing/all.xml"
+
+#HWI OAUTH
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /login
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix:   /login
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login
+
+facebook_login:
+    path: /login/check-facebook
+
+linkedin_login:
+    path: /login/check-linkedin
+
+google_login:
+    path: /login/check-google

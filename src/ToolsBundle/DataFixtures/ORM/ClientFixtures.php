@@ -1,0 +1,59 @@
+<?php
+
+namespace ToolsBundle\DataFixtures\ORM;
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use UserBundle\Entity\Address;
+use UserBundle\Entity\User;
+use UserBundle\Entity\UserPersonalInfos;
+use UserBundle\Enum\UserGenderEnum;
+
+class ClientFixtures implements FixtureInterface
+{
+    /**
+     * @param ObjectManager $manager Get the object manager
+     *
+     * @return void
+     */
+    public function load(ObjectManager $manager): void
+    {
+        $address = new Address();
+        $address->setAddress('Allée de la butte aux cailles');
+        $address->setCity('Noisy le Grand');
+        $address->setCountry('France');
+        $address->setPostalCode('93160');
+        $address->setStreetNumber('4');
+        $address->setState('Seine-st-Denis');
+
+        $personalInfos = new UserPersonalInfos();
+        $personalInfos->setGender(UserGenderEnum::MAN);
+        $personalInfos->setFirstname('John');
+        $personalInfos->setLastname('Doe');
+        $personalInfos->setAddress($address);
+        $personalInfos->setBirthDate(new \DateTime('1991-01-01'));
+        $personalInfos->setBirthLocation('');
+        $personalInfos->setDescription("On a jamais su qui j'etais vraiment donc ce n'est pas aujourd'hui que vous allez le savoir tu vois");
+        $personalInfos->setNationality('FR');
+        $personalInfos->setPhoneNumber('0192837465');
+        $personalInfos->setProfession('Anonymous');
+
+        // Un admin
+        $client = new User();
+        $personalInfos->setUser($client);
+        $client->setUsername('john');
+        $client->setEmail('john-doe@gmail.com');
+        $client->setPersonalInfos($personalInfos);
+        $client->setEmailCanonical('john-doe@gmail.com');
+        $client->setPlainPassword('Client123');
+        $client->setEnabled(true);
+        $client->setRoles(
+            [
+                'ROLE_USER'
+            ]
+        );
+        $manager->persist($client);
+
+        $manager->flush();
+    }
+}

@@ -1,0 +1,79 @@
+<?php
+
+namespace ToolsBundle\Service;
+
+use JMS\Serializer\Serializer;
+use Symfony\Component\Form\FormView;
+
+/**
+ * Reservation Manager Service
+ */
+class DataResponseManager
+{
+    /**
+     *
+     * @var Serializer
+     */
+    private $serializer;
+
+    /**
+     * DataResponseManager constructor.
+     *
+     * @param Serializer $serializer Get the service JMS Serializer
+     */
+    public function __construct(Serializer $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+    /**
+     *
+     * @param array $data Data Array to send by Json
+     *
+     * @return mixed
+     */
+    public function createAdaptedResponseData(array $data)
+    {
+        $responseData = [];
+        /**
+         * @var DataResponseAdapter $item
+         */
+        foreach ($data as $key => $item) {
+            $responseData[$key] = $item;
+        }
+        return json_decode($this->getContextSerializer($responseData));
+    }
+
+    /**
+     * @param array $responseData Array of datavalue
+     *
+     * @return mixed|string
+     */
+    public function getContextSerializer(array $responseData){
+        return $this->serializer->serialize($responseData, 'json');
+    }
+
+    /**
+     *
+     * @param FormView $formView Get the formView
+     *
+     * @return array
+     */
+    public function createCustomForm(FormView $formView)
+    {
+        $formData = [];
+
+        foreach ($formView->children as $key => $child) {
+            if ($child->children) {
+                array_merge($formData, $this->createCustomForm($child));
+            } else {
+                $formData[$key]['id'] = $child->vars['id'] ?? '';
+                $formData[$key]['key'] = $child->vars['full_name'] ?? '';
+                $formData[$key]['value'] = $child->vars['value'] ?? '';
+                $formData[$key]['label'] = $child->vars['label'] ?? '';
+                $formData[$key]['block_prefixes'] = $child->vars['block_prefixes'] ?? '';
+            }
+        }
+        return $formData;
+    }
+}

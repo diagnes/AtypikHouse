@@ -1,0 +1,171 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+#Others config file
+    - { resource: config/fos_user.yml }
+    - { resource: config/sonata_media.yml }
+    - { resource: config/lexik_jwt_authentication.yml }
+    - { resource: config/stof_doctrine_extensions.yml }
+    - { resource: config/hwi_oauth.yml }
+
+#Bundles config file
+    - { resource: "@ToolsBundle/Resources/config/services.yml" }
+    - { resource: "@UserBundle/Resources/config/services.yml" }
+    - { resource: "@HousingBundle/Resources/config/services.yml" }
+    - { resource: "@PaymentBundle/Resources/config/services.yml" }
+    - { resource: "@AtypikHouseBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+framework:
+    #esi: ~
+    translator: ~
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+    templating:
+        engines: ['twig']
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+            db_dev:
+                driver:   pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_dev_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                filters:
+                    deleted:
+                        class: 'ToolsBundle\Filter\DeletedFilter'
+                        enabled: true
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+                mappings:
+                    FOSUserBundle: ~
+                    UserBundle: ~
+                    ToolsBundle: ~
+                    PaymentBundle: ~
+                    HousingBundle: ~
+                    AtypikHouseBundle: ~
+                    ApplicationSonataMediaBundle: ~
+                    SonataMediaBundle: ~
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+            db_dev:
+                connection: db_dev
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    UserBundle: ~
+                    ToolsBundle: ~
+                    PaymentBundle: ~
+                    HousingBundle: ~
+                    AtypikHouseBundle: ~
+                    ApplicationSonataMediaBundle: ~
+                    SonataMediaBundle: ~
+                    FOSUserBundle: ~
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+    organize_migrations: false # Version >= 1.2, possible values are: "BY_YEAR", "BY_YEAR_AND_MONTH", false
+    custom_template: ~ # Version >= 1.2, path to your custom migrations template

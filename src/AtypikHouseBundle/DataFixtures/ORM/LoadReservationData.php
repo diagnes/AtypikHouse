@@ -1,0 +1,56 @@
+<?php
+
+namespace ToolsBundle\DataFixtures\ORM;
+
+use AtypikHouseBundle\Entity\Reservation;
+use AtypikHouseBundle\Enum\ReservationStateEnum;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use HousingBundle\Entity\Housing;
+use HousingBundle\Entity\HousingType;
+use UserBundle\Entity\Address;
+use UserBundle\Entity\User;
+
+class LoadReservationData implements FixtureInterface
+{
+    /**
+     * @param ObjectManager $manager Get the object manager
+     *
+     * @return void
+     */
+    public function load(ObjectManager $manager): void
+    {
+        $userAdmin = $manager->getRepository(User::class)->findOneBy(['email' => 'john-doe@gmail.com']);
+
+        $adress = new Address();
+        $adress->setAddress('Allée de la butte');
+        $adress->setCity('Reims');
+        $adress->setCountry('France');
+        $adress->setPostalCode('69001');
+        $adress->setStreetNumber('4');
+        $adress->setState('Haute-Garonne');
+        $manager->persist($adress);
+
+        $housingType = new HousingType();
+        $housingType->setName('Maison');
+        $housingType->setDescription('Une petite description et voila');
+        $manager->persist($housingType);
+
+        $housing = new Housing();
+        $housing->setAddress($adress);
+        $housing->setPrice(random_int(0, 100));
+        $housing->setType($housingType);
+        $housing->setProprietary($userAdmin);
+        $housing->setTitle('La casa de blanca');
+        $manager->persist($housing);
+
+        $reservation = new Reservation();
+        $reservation->setState(ReservationStateEnum::CREATED);
+        $reservation->setHousing($housing);
+        $reservation->setUser($userAdmin);
+
+        $manager->persist($reservation);
+
+        $manager->flush();
+    }
+}

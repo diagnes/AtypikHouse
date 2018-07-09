@@ -1,0 +1,66 @@
+<?php
+
+namespace ToolsBundle\Service;
+
+/**
+ * Reservation Manager Service
+ */
+class DataResponseAdapter
+{
+    /**
+     * @var array
+     */
+    private $data;
+    /**
+     * @var string
+     */
+    private $class;
+
+    /**
+     * DataResponseAdapter constructor.
+     *
+     * @param mixed  $data  Data for entity
+     * @param string $class Data Class for deserialize
+     */
+    public function __construct($data, string $class)
+    {
+        $this->data = $data;
+        $this->class = $class;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param array $data Set data for Adapter
+     *
+     * @return void
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass(): string
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param string $class Set Class for the adapter
+     *
+     * @return void
+     */
+    public function setClass(string $class)
+    {
+        $this->class = $class;
+    }
+}

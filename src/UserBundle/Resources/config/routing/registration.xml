@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://symfony.com/schema/routing"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="fos_user_registration_register" path="/">
+        <default key="_controller">FOSUserBundle:Registration:register</default>
+    </route>
+
+    <route id="user_registration_register_modal" path="/register-modal" methods="GET">
+        <default key="_controller">AnaxagoSecurityBundle:Registration:registerModal</default>
+        <default key="referrer">/</default>
+    </route>
+
+    <route id="user_registration_social_redirect" path="/social-redirect" methods="GET">
+        <default key="_controller">AnaxagoSecurityBundle:Registration:socialRedirect</default>
+    </route>
+
+    <route id="fos_user_registration_check_email" path="/check-email" methods="GET">
+        <default key="_controller">FOSUserBundle:Registration:checkEmail</default>
+    </route>
+
+    <route id="fos_user_registration_confirm" path="/confirm/{token}" methods="GET">
+        <default key="_controller">FOSUserBundle:Registration:confirm</default>
+    </route>
+
+    <route id="fos_user_registration_confirmed" path="/confirmed" methods="GET">
+        <default key="_controller">FOSUserBundle:Registration:confirmed</default>
+    </route>
+
+    <route id="fos_user_registration_complete" path="/complete" methods="GET">
+        <default key="_controller">FOSUserBundle:Registration:completed</default>
+    </route>
+
+</routes>

@@ -1,0 +1,27 @@
+api_housing_admin_validate:
+    path:     /validate/{id}
+    defaults: { _controller: "HousingBundle:HousingAdmin:validate" }
+    methods:  GET
+    requirements:
+            id: \d+
+
+api_housing_admin_refuse:
+    path:     /refuse
+    defaults: { _controller: "HousingBundle:HousingAdmin:refuse" }
+    methods:  [GET, POST]
+    requirements:
+            id: \d+
+
+api_housing_admin_delete:
+    path:     /delete/{id}
+    defaults: { _controller: "HousingBundle:HousingAdmin:delete" }
+    methods:  [GET, POST]
+    requirements:
+            id: \d+
+
+api_housing_admin_undelete:
+    path:     /undelete/{id}
+    defaults: { _controller: "HousingBundle:HousingAdmin:undelete" }
+    methods:  [GET, POST]
+    requirements:
+            id: \d+

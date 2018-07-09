@@ -1,0 +1,17 @@
+services:
+    atypikhouse.user_infos:
+        class: ToolsBundle\Security\UserInfos
+
+    atypikhouse.user_provider:
+        class: ToolsBundle\Security\CustomUserProvider
+        arguments: ['@fos_user.user_manager.default', '@atypikhouse.user_infos', '@session',{facebook: facebookId, google: googleId}]
+
+    tools.data_response_manager:
+        class: ToolsBundle\Service\DataResponseManager
+        arguments:
+            - '@jms_serializer'
+    kernel.listener.doctrine:
+        class: ToolsBundle\Listener\DoctrineListener
+        public: false
+        tags:
+            - { name: doctrine.event_listener, event: preFlush, method: preFlush }

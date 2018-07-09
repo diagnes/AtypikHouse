@@ -1,0 +1,7 @@
+atypik_house_api_reservation:
+    resource: "@AtypikHouseBundle/Resources/config/routing/reservation.yml"
+    prefix:   /
+
+atypik_house_api_reservation_admin:
+    resource: "@AtypikHouseBundle/Resources/config/routing/reservation_admin.yml"
+    prefix:   /admin

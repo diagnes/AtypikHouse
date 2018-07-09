@@ -1,0 +1,3 @@
+#atypik_house_api_login_social_network:
+#    resource: "@UserBundle/Resources/config/routing/social_network.yml"
+#    prefix: /

@@ -1,0 +1,4 @@
+api_login_check_facebook:
+    path: /
+    defaults: { _controller: "AtypikHouseBundle:SocialNetwork:getJwtTokenFacebook"}
+    methods: GET

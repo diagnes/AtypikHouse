@@ -1,0 +1,22 @@
+hwi_oauth:
+    connect:
+        account_connector: atypikhouse.user_provider
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            facebook: facebookId
+            google: googleId
+    resource_owners:
+        facebook:
+            type: facebook
+            client_id: 1132274736912290
+            client_secret: 5cb75028656d957c3f6d6d5985c8ea35
+            scope: "email"
+            options:
+                display: popup
+        google:
+            type: google
+            client_id: 548287357468-jqf4agbttqsn185erbnd2homhav5cu7h.apps.googleusercontent.com
+            client_secret: -ARHK4ARX5LEhqM2wCgyK3oQ
+            scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"

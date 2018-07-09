@@ -1,0 +1,9 @@
+api_login_check_facebook:
+    path: /login/check-facebook
+    defaults: { _controller: "UserBundle:SocialNetwork:getJwtTokenFacebook"}
+    methods: GET
+
+api_login_check_google:
+    path: /login/check-google
+    defaults: { _controller: "UserBundle:SocialNetwork:getJwtTokenGoogle"}
+    methods: GET

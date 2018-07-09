@@ -1,0 +1,39 @@
+api_reservation_new:
+    path:     /new
+    defaults: { _controller: "AtypikHouseBundle:Reservation:new" }
+    methods:  [GET, POST]
+
+api_reservation_edit:
+    path:     /edit/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:edit" }
+    methods:  [GET, POST]
+    requirements:
+            id: \d+
+
+api_reservation_validate:
+    path:     /validate/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:validate" }
+    methods:  GET
+    requirements:
+            id: \d+
+
+api_reservation_refused:
+    path:     /refused/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:refused" }
+    methods:  GET
+    requirements:
+            id: \d+
+
+api_reservation_canceled:
+    path:     /canceled/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:canceled" }
+    methods:  GET
+    requirements:
+            id: \d+
+
+api_reservation_show:
+    path:     /{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:show" }
+    methods:  GET
+    requirements:
+            id: \d+

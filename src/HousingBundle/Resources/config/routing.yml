@@ -1,0 +1,8 @@
+housing_api_housing:
+    resource: "@HousingBundle/Resources/config/routing/housing.yml"
+    prefix:   /
+
+housing_api_housing_admin:
+    resource: "@HousingBundle/Resources/config/routing/housing_admin.yml"
+    prefix:   /admin
+
