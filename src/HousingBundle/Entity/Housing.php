@@ -2,6 +2,7 @@
 
 namespace HousingBundle\Entity;
 
+use AtypikHouseBundle\Entity\Reservation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -51,6 +52,13 @@ class Housing
     private $state;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="visible", type="string", length=15, options={"default" : 0})
@@ -63,6 +71,13 @@ class Housing
      * @ORM\Column(name="price", type="float")
      */
     private $price;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="max_resident", type="integer")
+     */
+    private $maxResident;
 
     /**
      * @var string
@@ -133,7 +148,7 @@ class Housing
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -141,15 +156,17 @@ class Housing
     /**
      * @param int $id Set id
      *
-     * @return void
+     * @return Housing
      */
     public function setId(int $id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return null|User
      */
     public function getProprietary()
     {
@@ -157,13 +174,15 @@ class Housing
     }
 
     /**
-     * @param mixed $proprietary Set proprietary
+     * @param User $proprietary Set proprietary
      *
-     * @return void
+     * @return Housing
      */
-    public function setProprietary($proprietary)
+    public function setProprietary(?User $proprietary)
     {
         $this->proprietary = $proprietary;
+
+        return $this;
     }
 
     /**
@@ -177,17 +196,39 @@ class Housing
     /**
      * @param string $title Set title
      *
-     * @return void
+     * @return Housing
      */
     public function setTitle(string $title)
     {
         $this->title = $title;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getState(): string
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description Set a description
+     *
+     * @return Housing
+     */
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): ?string
     {
         return $this->state;
     }
@@ -195,27 +236,33 @@ class Housing
     /**
      * @param string $state Set state
      *
-     * @return void
+     * @return Housing
      */
-    public function setState(string $state)
+    public function setState($state)
     {
         $this->state = $state;
+
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isVisible(): bool
+    public function isVisible(): ?bool
     {
         return $this->visible;
     }
 
     /**
-     * @param bool $visible
+     * @param bool $visible Set visible to true or false
+     *
+     * @return Housing
      */
     public function setVisible(bool $visible)
     {
         $this->visible = $visible;
+
+        return $this;
     }
 
     /**
@@ -229,11 +276,33 @@ class Housing
     /**
      * @param float $price Set price
      *
-     * @return void
+     * @return Housing
      */
     public function setPrice($price)
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxResident(): ?int
+    {
+        return $this->maxResident;
+    }
+
+    /**
+     * @param int $maxResident Set a max resident
+     *
+     * @return Housing
+     */
+    public function setMaxResident(int $maxResident)
+    {
+        $this->maxResident = $maxResident;
+
+        return $this;
     }
 
     /**
@@ -247,11 +316,13 @@ class Housing
     /**
      * @param string $slug Set slug
      *
-     * @return void
+     * @return Housing
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
+
+        return $this;
     }
 
     /**
@@ -265,11 +336,13 @@ class Housing
     /**
      * @param mixed $address Set Address
      *
-     * @return void
+     * @return Housing
      */
     public function setAddress($address)
     {
         $this->address = $address;
+
+        return $this;
     }
 
     /**
@@ -281,13 +354,15 @@ class Housing
     }
 
     /**
-     * @param mixed $type Set type
+     * @param HousingType $type Set type
      *
-     * @return void
+     * @return Housing
      */
-    public function setType($type)
+    public function setType(?HousingType $type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -299,15 +374,46 @@ class Housing
     }
 
     /**
-     * @param mixed $undisponibility
+     * @param ArrayCollection|HousingUndisponibility[] $undisponibility Set an undisponibility
+     *
+     * @return Housing
      */
     public function setUndisponibility($undisponibility)
     {
         $this->undisponibility = $undisponibility;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @param HousingUndisponibility $housingUndisponibility Add housingUndisponibility value
+     *
+     * @return Housing
+     */
+    public function addUndisponibility(HousingUndisponibility $housingUndisponibility)
+    {
+        $this->undisponibility->add($housingUndisponibility);
+        $housingUndisponibility->setHousing($this);
+
+        return $this;
+    }
+
+    /**
+     * @param HousingUndisponibility $housingUndisponibility Add housingUndisponibility value
+     *
+     * @return Housing
+     */
+    public function removeUndisponibility(HousingUndisponibility $housingUndisponibility)
+    {
+        $this->undisponibility->removeElement($housingUndisponibility);
+        $housingUndisponibility->setHousing(null);
+
+        return $this;
+    }
+
+
+    /**
+     * @return ArrayCollection|HousingDetailValue[]
      */
     public function getDetails()
     {
@@ -315,13 +421,41 @@ class Housing
     }
 
     /**
-     * @param null|HousingDetail $details Set details
+     * @param null|HousingDetailValue[] $details Set list details value
      *
-     * @return void
+     * @return Housing
      */
-    public function setDetails(?HousingDetail $details)
+    public function setDetails($details)
     {
         $this->details = $details;
+
+        return $this;
+    }
+
+    /**
+     * @param HousingDetailValue|null $housingDetailValue Add detail value
+     *
+     * @return Housing
+     */
+    public function addDetail(HousingDetailValue $housingDetailValue)
+    {
+        $this->details->add($housingDetailValue);
+        $housingDetailValue->setHousing($this);
+
+        return $this;
+    }
+
+    /**
+     * @param HousingDetailValue|null $housingDetailValue Add detail value
+     *
+     * @return Housing
+     */
+    public function removeDetail(HousingDetailValue $housingDetailValue)
+    {
+        $this->details->removeElement($housingDetailValue);
+        $housingDetailValue->setHousing(null);
+
+        return $this;
     }
 
     /**
@@ -335,11 +469,13 @@ class Housing
     /**
      * @param mixed $notations SetNoations
      *
-     * @return void
+     * @return Housing
      */
     public function setNotations($notations)
     {
         $this->notations = $notations;
+
+        return $this;
     }
 
     /**
@@ -353,15 +489,43 @@ class Housing
     /**
      * @param mixed $documents Set documents
      *
-     * @return void
+     * @return Housing
      */
     public function setDocuments($documents)
     {
         $this->documents = $documents;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @param HousingDocument|null $housingDocument add Housing document targeted
+     *
+     * @return Housing
+     */
+    public function addDocument(HousingDocument $housingDocument)
+    {
+        $this->documents->add($housingDocument);
+        $housingDocument->setHousing($this);
+
+        return $this;
+    }
+
+    /**
+     * @param HousingDocument|null $housingDocument Remove Housing document targeted
+     *
+     * @return Housing
+     */
+    public function removeDocument(HousingDocument $housingDocument)
+    {
+        $this->documents->removeElement($housingDocument);
+        $housingDocument->setHousing(null);
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|HousingImages[]
      */
     public function getImages()
     {
@@ -371,15 +535,44 @@ class Housing
     /**
      * @param mixed $images Set Images
      *
-     * @return void
+     * @return Housing
      */
     public function setImages($images)
     {
         $this->images = $images;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @param HousingImages $housingImages Add HousingImages value
+     *
+     * @return Housing
+     */
+    public function addImage(HousingImages $housingImages)
+    {
+        $this->images->add($housingImages);
+        $housingImages->setHousing($this);
+
+        return $this;
+    }
+
+    /**
+     * @param  HousingImages $housingImages Remove HousingImages value
+     *
+     * @return Housing
+     */
+    public function removeImage(HousingImages $housingImages)
+    {
+        $this->images->removeElement($housingImages);
+        $housingImages->setHousing(null);
+
+        return $this;
+    }
+
+
+    /**
+     * @return ArrayCollection|Reservation[]
      */
     public function getReservations()
     {
@@ -389,11 +582,13 @@ class Housing
     /**
      * @param mixed $reservations Set reservation
      *
-     * @return void
+     * @return Housing
      */
     public function setReservations($reservations)
     {
         $this->reservations = $reservations;
+
+        return $this;
     }
 
     /**

@@ -1,3 +1,7 @@
-#atypik_house_api_login_social_network:
-#    resource: "@UserBundle/Resources/config/routing/social_network.yml"
-#    prefix: /
+atypik_house_api_login_social_network:
+    resource: "@UserBundle/Resources/config/routing/social_network.yml"
+    prefix: /
+
+atypik_house_user_admin:
+    resource: "@UserBundle/Resources/config/routing/user_admin.yml"
+    prefix: /admin/user

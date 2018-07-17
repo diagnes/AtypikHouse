@@ -18,7 +18,7 @@ class Address
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id",               type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -215,5 +215,13 @@ class Address
     public function setAdditionalAddress($additionalAddress): void
     {
         $this->additionalAddress = $additionalAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getStreetNumber().' '.$this->getAddress().' '.$this->getPostalCode().' '.$this->getCity();
     }
 }

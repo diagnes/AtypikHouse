@@ -14,10 +14,6 @@
                 <td>{{ reservation.state }}</td>
             </tr>
             <tr>
-                <th>Deletedat</th>
-                <td>{% if reservation.deletedAt %}{{ reservation.deletedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
                 <th>Createdat</th>
                 <td>{% if reservation.createdAt %}{{ reservation.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
@@ -25,15 +21,19 @@
                 <th>Updatedat</th>
                 <td>{% if reservation.updatedAt %}{{ reservation.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
+            <tr>
+                <th>Deletedat</th>
+                <td>{% if reservation.deletedAt %}{{ reservation.deletedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('api_reservation_index') }}">Back to the list</a>
+            <a href="{{ path('reservation_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('api_reservation_edit', { 'id': reservation.id }) }}">Edit</a>
+            <a href="{{ path('reservation_edit', { 'id': reservation.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

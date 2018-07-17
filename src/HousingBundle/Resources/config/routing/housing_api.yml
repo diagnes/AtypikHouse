@@ -1,0 +1,24 @@
+api_housing_index:
+    path:     /all
+    defaults: { _controller: "HousingBundle:HousingApi:all" }
+    methods:  GET
+
+api_housing_new:
+    path:     /new
+    defaults: { _controller: "HousingBundle:HousingApi:new" }
+    methods:  [GET, POST]
+
+api_housing_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HousingBundle:HousingApi:edit" }
+    methods:  [GET, POST]
+    requirements:
+            id: \d+
+
+api_housing_show:
+    path:     /{id}
+    defaults: { _controller: "HousingBundle:HousingApi:show" }
+    methods:  GET
+    requirements:
+            id: \d+
+

@@ -4,6 +4,7 @@ namespace UserBundle\Controller;
 
 use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -15,15 +16,23 @@ class SecurityController extends BaseController
      *
      * @param Request $request Get the request symfony parameters
      *
-     * @return JsonResponse
+     * @return string
+     * @throws \InvalidArgumentException
      */
-    public function loginAction(Request $request): JsonResponse
+    public function loginAction(Request $request)
     {
         /**
-         *
          * @var $session \Symfony\Component\HttpFoundation\Session\Session
          */
         $session = $request->getSession();
+        $authChecker = $this->container->get('security.authorization_checker');
+        $router = $this->container->get('router');
+        if ($authChecker->isGranted('ROLE_USER')) {
+            return new RedirectResponse($router->generate('atypikhouse_home'), 307);
+        }
+        if ($authChecker->isGranted('ROLE_PROPRIETARY')) {
+            return new RedirectResponse($router->generate('admin_homepage'), 307);
+        }
 
         $authErrorKey = Security::AUTHENTICATION_ERROR;
         $lastUsernameKey = Security::LAST_USERNAME;
@@ -49,14 +58,12 @@ class SecurityController extends BaseController
             ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
             : null;
 
-        return new JsonResponse(
+        return $this->render(
+            'UserBundle::login.html.twig',
             [
                 'last_username' => $lastUsername,
                 'error' => $error,
-                'path' => $this->generateUrl('fos_user_security_check'),
-                '_csrf_token' => $csrfToken,
-                '_username' => '',
-                '_password' => '',
+                'csrf_token' => $csrfToken,
             ]
         );
     }

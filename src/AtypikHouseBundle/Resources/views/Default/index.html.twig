@@ -1,8 +1,39 @@
 {% extends '::layout.html.twig' %}
 
-{% block body %}
-    {{ form_start(form) }}
-    {{ form_row(form) }}
-    <button type="submit"> Enregistrer </button>
-    {{ form_end(form) }}
+{% block content %}
+    <section class="banner">
+        <div class="banner-slide" id="banner-slide">
+            <div class="banner-slide-item" data-src="bundles/atypikhouse/images/background/bg-1.jpg"></div>
+            <div class="banner-slide-item" data-src="bundles/atypikhouse/images/background/bg-2.jpg"></div>
+        </div>
+        <div class="container">
+            <div class="logo-banner text-center"><a href="index2.html" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
+            <div class="banner-cn">
+                <div class="form-cn form-hotel tab-pane active in" id="form-hotel">
+                    <h2>Where would you like to go?</h2>
+                    <div class="form-search clearfix">
+                        <div class="form-field field-destination">
+                            <label for="destination"><span>Destination:</span> Country, City</label>
+                            <input type="text" id="destination" class="field-input">
+                        </div>
+                        <div class="form-field field-date">
+                            <input type="text" class="field-input calendar-input" placeholder="Check in"></div>
+                        <div class="form-field field-date"><input type="text" class="field-input calendar-input" placeholder="Check out"></div>
+                        <div class="form-field field-select">
+                            <div class="select">
+                                <span>Guest</span>
+                                <select>
+                                    <option>Guest</option>
+                                    <option>1 Guest</option>
+                                    <option>2 Guest</option>
+                                    <option>3 Guest</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-submit"><button type="submit" class="awe-btn awe-btn-lager awe-search">Search</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

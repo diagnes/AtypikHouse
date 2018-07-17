@@ -2,35 +2,54 @@
 
 namespace HousingBundle\Form;
 
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use HousingBundle\Entity\HousingImages;
 
 class HousingImagesType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder Get the builder Interface
+     * @param array                $options Get the options for this form
+     *
+     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('createdAt')->add('updatedAt')->add('housing')->add('file');
-    }/**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'HousingBundle\Entity\HousingImages'
-        ));
+        $builder
+            ->add(
+                'file',
+                MediaType::class,
+                [
+                'label' => 'Upload an image',
+                'provider' => 'sonata.media.provider.image',
+                'required' => true,
+                'context'  => 'default'
+                ]
+            );
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver Get the form resolver options
+     *
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+            'data_class' => HousingImages::class
+            ]
+        );
+    }
+
+    /**
+     * @return string
      */
     public function getBlockPrefix()
     {
         return 'housingbundle_housingimages';
     }
-
-
 }

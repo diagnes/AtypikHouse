@@ -1,8 +1,24 @@
-housing_api_housing:
+atypikhouse_housing:
     resource: "@HousingBundle/Resources/config/routing/housing.yml"
-    prefix:   /
+    prefix:   /housing
 
-housing_api_housing_admin:
+atypikhouse_admin_housing:
     resource: "@HousingBundle/Resources/config/routing/housing_admin.yml"
-    prefix:   /admin
+    prefix:   /admin/housing
 
+atypikhouse_admin_housing_detail:
+    resource: "@HousingBundle/Resources/config/routing/housing_details.yml"
+    prefix:   /admin/housing/detail
+
+atypikhouse_admin_housing_type:
+    resource: "@HousingBundle/Resources/config/routing/housing_type.yml"
+    prefix:   /admin/housing-type
+
+#API Part
+atypikhouse_api_housing:
+    resource: "@HousingBundle/Resources/config/routing/housing_api.yml"
+    prefix:   /api/housing
+
+atypikhouse_api_housing_admin:
+    resource: "@HousingBundle/Resources/config/routing/housing_admin_api.yml"
+    prefix:   /api/admin/housing

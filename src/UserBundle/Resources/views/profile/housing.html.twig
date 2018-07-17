@@ -1,0 +1,56 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %} {{ parent() }} | Profil {% endblock %}
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="user-profile.html" title=""><img src="images/logo-banner.png" alt=""></a></div>
+    </section>
+    <div class="main">
+        <div class="container">
+            <div class="main-cn element-page bg-white clearfix">
+                <section class="breakcrumb-sc">
+                    <ul class="breadcrumb arrow">
+                        <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+                        <li>My WishList</li>
+                    </ul>
+                </section>
+                <section class="user-profile">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% include 'UserBundle:partial:navbar-user.html.twig' %}
+                        </div>
+                        <div class="col-md-9">
+                            <h2 class="user-profile__title">Settings</h2>
+                            <div class="my-profile">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="my-profile__title">Personal Information</h4>
+                                        <ul>
+                                            <li><span>First Name</span>JohDoe</li>
+                                            <li><span>Last Name</span>Black</li>
+                                            <li><span>Email</span><a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="713b1e1931161c10181d5f121e1c">[email&#160;protected]</a></li>
+                                            <li><span>Phone number</span>+84 973.085.425</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="my-profile__title">Location</h4>
+                                        <ul>
+                                            <li><span>Home Airport</span>JohDoe</li>
+                                            <li><span>Street Address</span>Black</li>
+                                            <li><span>City</span><a href="../../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="b2f8dddaf2d5dfd3dbde9cd1dddf">[email&#160;protected]</a></li>
+                                            <li><span>Country of passport</span>+84 973.085.425</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p>Sign up now for our regular promotional emails packed with special offers and exclusive deals. You can personalise the offers you receive from us by selecting your favorite cities</p>
+                                <div class="check-box"><input type="checkbox" id="my-profile__checkbox"><label for="my-profile__checkbox">Yes, I would like to receive Special Offers &amp; Promotions from Agoda</label></div>
+                                <a href="user-profile.html#" class="btn">Edit profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

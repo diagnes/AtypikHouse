@@ -5,6 +5,8 @@ namespace UserBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use UserBundle\Entity\User;
@@ -25,17 +27,45 @@ class RegistrationType extends AbstractType
                 'email',
                 EmailType::class,
                 [
-                'label' => 'E-mail',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Email',
+                    ]
+                ]
+            )
+            ->add(
+                'username',
+                TextType::class,
+                [
+                'attr' => [
+                    'class' => 'input-text',
+                    'placeholder' => 'Username',
+                ]
                 ]
             )
             ->add(
                 'plainPassword',
-                PasswordType::class,
+                RepeatedType::class,
                 [
-                'label' => 'Mot de passe',
+                'type' => PasswordType::class,
+                'first_name' => 'pass',
+                'second_name' => 'confirm',
+                'first_options' => [
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Password',
+                    ]
+                ],
+                'second_options' => [
+                    'label' => false,
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Repeat Password',
+                    ]
+                ],
+                'invalid_message' => 'fos_user.password.mismatch',
                 ]
-            )
-            ->add('professionalInfos', RegistrationProfessionalType::class, []);
+            );
     }
 
     /**

@@ -5,12 +5,12 @@ services:
 
     ah.housing_type_manager:
         class: HousingBundle\Service\HousingTypeManager
-        arguments: ['@jms_serializer.serializer', '@doctrine.orm.entity_manager', '@security.helper']
+        arguments: ['@jms_serializer.serializer', '@doctrine.orm.entity_manager', '@security.helper', '@ah.housing_manager']
 
-    ah.reservation_listener:
+    ah.housing_listener:
         class: HousingBundle\Listener\HousingListener
-        arguments: ['@ah.housing_manager']
+        arguments: ['@ah.housing_manager', '@ah.housing_type_manager']
         tags:
-            - { name: doctrine.event_listener, event: preUpdate }
-
-
+            - { name: doctrine.event_listener, event: prePersist, method: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate , method: preUpdate }
+            - { name: doctrine.event_listener, event: onFlush , method: onFlush }

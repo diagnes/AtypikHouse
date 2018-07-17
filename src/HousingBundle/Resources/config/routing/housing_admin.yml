@@ -1,27 +1,50 @@
-api_housing_admin_validate:
-    path:     /validate/{id}
-    defaults: { _controller: "HousingBundle:HousingAdmin:validate" }
-    methods:  GET
-    requirements:
-            id: \d+
+atyipikhouse_admin_housing_index:
+    path:     /all
+    defaults: { _controller: "HousingBundle:HousingAdmin:all" }
 
-api_housing_admin_refuse:
+atyipikhouse_admin_housing_waiting:
+    path:     /all/waiting
+    defaults: { _controller: "HousingBundle:HousingAdmin:allWaiting" }
+
+atyipikhouse_admin_housing_validate:
+    path:     /validate/{slug}
+    defaults: { _controller: "HousingBundle:HousingAdmin:validate" }
+
+atyipikhouse_admin_housing_refuse:
     path:     /refuse
     defaults: { _controller: "HousingBundle:HousingAdmin:refuse" }
-    methods:  [GET, POST]
-    requirements:
-            id: \d+
 
-api_housing_admin_delete:
-    path:     /delete/{id}
+atyipikhouse_admin_housing_delete:
+    path:     /delete/{slug}
     defaults: { _controller: "HousingBundle:HousingAdmin:delete" }
-    methods:  [GET, POST]
-    requirements:
-            id: \d+
 
-api_housing_admin_undelete:
-    path:     /undelete/{id}
+atyipikhouse_admin_housing_undelete:
+    path:     /undelete/{slug}
     defaults: { _controller: "HousingBundle:HousingAdmin:undelete" }
-    methods:  [GET, POST]
-    requirements:
-            id: \d+
+atyipikhouse_admin_housing_new:
+    path:     /new
+    defaults: { _controller: "HousingBundle:HousingProprietary:new" }
+
+atyipikhouse_admin_housing_edit:
+    path:     /edit/{slug}
+    defaults: { _controller: "HousingBundle:HousingProprietary:edit" }
+
+atyipikhouse_admin_housing_edit_detail:
+    path:     /edit/details/{slug}
+    defaults: { _controller: "HousingBundle:HousingProprietary:editDetails" }
+
+atyipikhouse_admin_housing_edit_teaser:
+    path:     /edit/teaser/{slug}
+    defaults: { _controller: "HousingBundle:HousingProprietary:editTeaser" }
+
+atyipikhouse_admin_housing_edit_document:
+    path:     /edit/document/{slug}
+    defaults: { _controller: "HousingBundle:HousingProprietary:editDocument" }
+
+atyipikhouse_admin_housing_edit_unavailability:
+    path:     /edit/unavailability/{slug}
+    defaults: { _controller: "HousingBundle:HousingProprietary:editUnavailability" }
+
+atyipikhouse_admin_housing_ask_validation:
+    path:     /ask/validation/{slug}
+    defaults: { _controller: "HousingBundle:HousingProprietary:validationAsk" }

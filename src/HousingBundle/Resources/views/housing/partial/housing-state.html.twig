@@ -1,0 +1,11 @@
+{% if housing.state == "created" %}
+    <span class="label">Created</span>
+{% elseif housing.state == "validation_ask" %}
+    <span class="label label-info">Validation pending</span>
+{% elseif housing.state == "validated" %}
+    <span class="label label-primary">Validated</span>
+{% elseif housing.state == "refused" %}
+    <span class="label label-danger">Refused</span>
+{% elseif housing.state == "canceled" %}
+    <span class="label label-warning">Canceled</span>
+{% endif %}

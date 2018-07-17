@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use ToolsBundle\DataTrait\DateTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ToolsBundle\DataTrait\DeletedDateTrait;
+
 /**
  * HousingDetailType
  *
@@ -18,6 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class HousingType
 {
     use DateTrait;
+    use DeletedDateTrait;
 
     /**
      * @var int
@@ -29,7 +32,9 @@ class HousingType
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\Housing", mappedBy="type")
+     * @var Housing[]
+     *
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\Housing", mappedBy="type", cascade={"persist"})
      */
     private $housings;
 
@@ -57,25 +62,43 @@ class HousingType
     private $description;
 
     /**
+     * @var HousingDetail[]
+     *
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingDetail", mappedBy="housingType", cascade={"all"})
+     */
+    private $details;
+
+    /**
      * HousingType constructor.
      */
     public function __construct()
     {
         $this->housings = new ArrayCollection();
+        $this->details = new ArrayCollection();
     }
 
     /**
-     * Get id.
-     *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @param int $id set a id
+     *
+     * @return HousingType
+     */
+    public function setId(int $id): HousingType
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|Housing[]
      */
     public function getHousings()
     {
@@ -83,66 +106,118 @@ class HousingType
     }
 
     /**
-     * @param mixed $housings
+     * @param ArrayCollection|Housing[] $housings Set a housings
      *
-     * @return void
+     * @return HousingType
      */
-    public function setHousings($housings): void
+    public function setHousings($housings)
     {
         $this->housings = $housings;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string $name Set a name
      *
-     * @return void
+     * @return HousingType
      */
-    public function setName(string $name): void
+    public function setName(string $name): HousingType
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
     /**
-     * @param string $slug
+     * @param string $slug Set a slug
      *
-     * @return void
+     * @return HousingType
      */
-    public function setSlug(string $slug): void
+    public function setSlug(string $slug): HousingType
     {
         $this->slug = $slug;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string $description Set a new description
      *
-     * @return void
+     * @return HousingType
      */
-    public function setDescription(string $description): void
+    public function setDescription(string $description): HousingType
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|HousingDetail[]
+     */
+    public function getDetails()
+    {
+        return $this->details;
+    }
+
+    /**
+     * @param ArrayCollection|HousingDetail[] $details Set a details
+     *
+     * @return HousingType
+     */
+    public function setDetails($details)
+    {
+        $this->details = $details;
+
+        return $this;
+    }
+
+    /**
+     * @param HousingDetail $details Add a detail
+     *
+     * @return $this
+     */
+    public function addDetail(HousingDetail $details)
+    {
+        $this->details->add($details);
+        $details->setHousingType($this);
+
+        return $this;
+    }
+
+    /**
+     * @param HousingDetail $details Remove a detail
+     *
+     * @return $this
+     */
+    public function removeDetail(HousingDetail $details)
+    {
+        $this->details->removeElement($details);
+        $details->setHousingType(null);
+        return $this;
     }
 }

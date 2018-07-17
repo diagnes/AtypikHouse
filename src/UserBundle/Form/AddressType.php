@@ -11,8 +11,8 @@ use UserBundle\Entity\Address;
 class AddressType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param FormBuilderInterface $builder Get the builder Interface
+     * @param array                $options Get the options for this form
      *
      * @return void
      */
@@ -23,10 +23,9 @@ class AddressType extends AbstractType
                 'streetNumber',
                 TextType::class,
                 [
-                'label' => 'Street',
-                'required' => true,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'input-text',
+                    'placeholder' => 'StreetNumber',
                 ]
                 ]
             )
@@ -34,10 +33,9 @@ class AddressType extends AbstractType
                 'address',
                 TextType::class,
                 [
-                'label' => 'Address',
-                'required' => true,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'input-text',
+                    'placeholder' => 'Address',
                 ]
                 ]
             )
@@ -45,10 +43,9 @@ class AddressType extends AbstractType
                 'city',
                 TextType::class,
                 [
-                'label' => 'City',
-                'required' => true,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'input-text',
+                    'placeholder' => 'City',
                 ]
                 ]
             )
@@ -56,10 +53,9 @@ class AddressType extends AbstractType
                 'postalcode',
                 TextType::class,
                 [
-                'label' => 'Postal code',
-                'required' => true,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'input-text',
+                    'placeholder' => 'Postal Code',
                 ]
                 ]
             )
@@ -67,17 +63,16 @@ class AddressType extends AbstractType
                 'country',
                 TextType::class,
                 [
-                'label' => 'Country',
-                'required' => true,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'input-text',
+                    'placeholder' => 'Country',
                 ]
                 ]
             );
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $resolver Get the form resolver options
      *
      * @return void
      */

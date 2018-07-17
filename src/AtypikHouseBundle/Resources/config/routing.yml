@@ -1,7 +1,11 @@
+atypikhouse_home:
+    path:     /
+    defaults: { _controller: "AtypikHouseBundle:Index:index" }
+
 atypik_house_api_reservation:
     resource: "@AtypikHouseBundle/Resources/config/routing/reservation.yml"
-    prefix:   /
+    prefix:   /api/reservation
 
 atypik_house_api_reservation_admin:
     resource: "@AtypikHouseBundle/Resources/config/routing/reservation_admin.yml"
-    prefix:   /admin
+    prefix:   /api/reservation/admin

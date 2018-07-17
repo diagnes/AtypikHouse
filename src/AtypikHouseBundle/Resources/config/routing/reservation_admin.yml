@@ -1,30 +1,40 @@
-api_reservation_admin_all:
+atypikhouse_reservation_admin_all:
     path:     /all
     defaults: { _controller: "AtypikHouseBundle:ReservationAdmin:all" }
     methods:  GET
 
-api_reservation_admin_validate:
+atypikhouse_reservation_admin_new:
+    path:     /new
+    defaults: { _controller: "AtypikHouseBundle:ReservationAdmin:new" }
+    methods:  [GET, POST]
+
+atypikhouse_reservation_admin_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AtypikHouseBundle:ReservationAdmin:edit" }
+    methods:  [GET, POST]
+
+atypikhouse_reservation_admin_validate:
     path:     /validate/{id}
     defaults: { _controller: "AtypikHouseBundle:ReservationAdmin:validate" }
     methods:  GET
     requirements:
             id: \d+
 
-api_reservation_admin_refused:
+atypikhouse_reservation_admin_refused:
     path:     /refused/{id}
     defaults: { _controller: "AtypikHouseBundle:ReservationAdmin:refused" }
     methods:  GET
     requirements:
             id: \d+
 
-api_reservation_admin_deleted:
+atypikhouse_reservation_admin_deleted:
     path:     /delete/{id}
     defaults: { _controller: "AtypikHouseBundle:ReservationAdmin:delete" }
     methods:  GET
     requirements:
             id: \d+
 
-api_reservation_admin_undeleted:
+atypikhouse_reservation_admin_undeleted:
     path:     /undelete/{id}
     defaults: { _controller: "AtypikHouseBundle:ReservationAdmin:undelete" }
     methods:  GET

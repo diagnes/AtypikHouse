@@ -12,4 +12,19 @@
         <default key="_controller">FOSUserBundle:Profile:edit</default>
     </route>
 
+    <route id="fos_user_profile_reservations" path="/reservations" methods="GET">
+        <default key="_controller">UserBundle:Profile:showReservation</default>
+    </route>
+
+    <route id="fos_user_profile_wishlist" path="/wishlist" methods="GET">
+        <default key="_controller">UserBundle:Profile:showWishList</default>
+    </route>
+
+    <route id="fos_user_profile_notation" path="/notation" methods="GET">
+        <default key="_controller">UserBundle:Profile:showNotationList</default>
+    </route>
+
+    <route id="fos_user_profile_housing" path="/housing" methods="GET">
+        <default key="_controller">UserBundle:Profile:showHousingList</default>
+    </route>
 </routes>

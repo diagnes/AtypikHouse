@@ -17,10 +17,10 @@ class UserRoleEnum extends AbstractEnum
     public static function toAssoc(): array
     {
         return [
-            self::ROLE_IT => 'Role It',
-            self::ROLE_ADMIN => 'Role admin',
-            self::ROLE_PROPRIETARY => 'Role proprietaire',
-            self::ROLE_USER => 'Role utilisateur',
+            'Role It' => self::ROLE_IT,
+            'Role admin' => self::ROLE_ADMIN,
+            'Role proprietaire' => self::ROLE_PROPRIETARY,
+            'Role utilisateur' => self::ROLE_USER,
         ];
     }
 }

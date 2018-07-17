@@ -25,14 +25,22 @@ class RegistrationProfessionalType extends AbstractType
                 'siret',
                 TextType::class,
                 [
-                'label' => 'Siret',
+                    'label' => false,
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Siret',
+                    ]
                 ]
             )
             ->add(
                 'entreprise',
                 TextType::class,
                 [
-                'label' => 'Entreprise',
+                    'label' => false,
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Enterprise',
+                    ]
                 ]
             );
     }

@@ -1,0 +1,19 @@
+atyipikhouse_admin_housing_type_index:
+    path:     /all
+    defaults: { _controller: "HousingBundle:HousingType:all" }
+
+atyipikhouse_admin_housing_type_new:
+    path:     /new
+    defaults: { _controller: "HousingBundle:HousingType:new" }
+
+atyipikhouse_admin_housing_type_edit:
+    path:     /edit/{slug}
+    defaults: { _controller: "HousingBundle:HousingType:edit" }
+
+atyipikhouse_admin_housing_type_delete:
+    path:     /delete/{slug}
+    defaults: { _controller: "HousingBundle:HousingType:delete" }
+
+atyipikhouse_admin_housing_type_undelete:
+    path:     /undelete/{slug}
+    defaults: { _controller: "HousingBundle:HousingType:undelete" }

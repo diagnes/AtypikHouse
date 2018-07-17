@@ -18,12 +18,11 @@ use ToolsBundle\DataTrait\DeletedDateTrait;
 class User extends BaseUser
 {
     use DateTrait;
-    use DeletedDateTrait;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id",               type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -41,19 +40,19 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserPersonalInfos", mappedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(name="personal_info", referencedColumnName="id")
+     * @ORM\JoinColumn(name="personal_info",                             referencedColumnName="id")
      */
     private $personalInfos;
 
     /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserProfessionalInfos", mappedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(name="professional_info", referencedColumnName="id")
+     * @ORM\JoinColumn(name="professional_info",                             referencedColumnName="id")
      */
     private $professionalInfos;
 
     /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserScoreCard", mappedBy="user")
-     * @ORM\JoinColumn(name="score_card", referencedColumnName="id")
+     * @ORM\JoinColumn(name="score_card",                            referencedColumnName="id")
      */
     private $scoreCard;
 

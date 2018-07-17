@@ -1,39 +1,29 @@
-api_reservation_new:
+atypikhouse_reservation_index:
+    path:     /
+    defaults: { _controller: "AtypikHouseBundle:Reservation:index" }
+    methods:  GET
+
+atypikhouse_reservation_list_proprietary_reservation:
+    path:     /admin/proprietary/reservation
+    defaults: { _controller: "AtypikHouseBundle:Reservation:listProprietaryReservation" }
+    methods:  GET
+
+atypikhouse_reservation_show:
+    path:     /{id}/show
+    defaults: { _controller: "AtypikHouseBundle:Reservation:show" }
+    methods:  GET
+
+atypikhouse_reservation_new:
     path:     /new
     defaults: { _controller: "AtypikHouseBundle:Reservation:new" }
     methods:  [GET, POST]
 
-api_reservation_edit:
-    path:     /edit/{id}
+atypikhouse_reservation_edit:
+    path:     /{id}/edit
     defaults: { _controller: "AtypikHouseBundle:Reservation:edit" }
     methods:  [GET, POST]
-    requirements:
-            id: \d+
 
-api_reservation_validate:
-    path:     /validate/{id}
-    defaults: { _controller: "AtypikHouseBundle:Reservation:validate" }
-    methods:  GET
-    requirements:
-            id: \d+
-
-api_reservation_refused:
-    path:     /refused/{id}
-    defaults: { _controller: "AtypikHouseBundle:Reservation:refused" }
-    methods:  GET
-    requirements:
-            id: \d+
-
-api_reservation_canceled:
-    path:     /canceled/{id}
-    defaults: { _controller: "AtypikHouseBundle:Reservation:canceled" }
-    methods:  GET
-    requirements:
-            id: \d+
-
-api_reservation_show:
-    path:     /{id}
-    defaults: { _controller: "AtypikHouseBundle:Reservation:show" }
-    methods:  GET
-    requirements:
-            id: \d+
+atypikhouse_reservation_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AtypikHouseBundle:Reservation:delete" }
+    methods:  DELETE

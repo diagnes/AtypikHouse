@@ -54,36 +54,40 @@ class HousingImages
     /**
      * @return Housing
      */
-    public function getHousing(): Housing
+    public function getHousing(): ?Housing
     {
         return $this->housing;
     }
 
     /**
-     * @param mixed $housing
+     * @param Housing $housing Set a housing
      *
-     * @return void
+     * @return HousingImages
      */
-    public function setHousing(Housing $housing)
+    public function setHousing(?Housing $housing): HousingImages
     {
         $this->housing = $housing;
+
+        return $this;
     }
 
     /**
      * @return Media
      */
-    public function getFile(): Media
+    public function getFile(): ?Media
     {
         return $this->file;
     }
 
     /**
-     * @param Media $file
+     * @param Media $file Set a file
      *
-     * @return void
+     * @return HousingImages
      */
-    public function setFile(Media $file): void
+    public function setFile(Media $file): HousingImages
     {
         $this->file = $file;
+
+        return $this;
     }
 }

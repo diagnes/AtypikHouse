@@ -1,0 +1,8 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} | DashBoard{% endblock %}
+{% block content %}
+    Hello World
+{% endblock %}
+
+{% block Toastr %}toastr.info('Admin Interface', 'Welcome to AtypikHouse'){% endblock %}

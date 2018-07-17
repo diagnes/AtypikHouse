@@ -1,0 +1,48 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} {{ (user.id) ? 'User-' ~ user.id : "New User" }} {% endblock %}
+
+{% block content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2>Edit Housing</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="i{{ path('admin_homepage') }}">Home</a>
+                </li>
+                <li>
+                    <a href="i{{ path('atypikhouse_user_admin_all') }}">User</a>
+                </li>
+                <li class="active">
+                    <strong>{{ (user.id) ? user.id : "New User" }}</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-4 text-right">
+            <button class="btn btn-success dim" type="button"><i class="fa fa-flash"></i></button>
+            <button class="btn btn-danger dim " type="button"><i class="fa fa-lock"></i></button>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        {% if user.id %}
+            <div class="row">
+                <div class="col-lg-2 m-b-md">
+                    <a href="{{ path('atypikhouse_user_admin_edit', {'id': user.id}) }}" class="btn btn-default dim btn-block btn-outline">General</a>
+                </div>
+                <div class="col-lg-2 m-b-md">
+                    <a href="{{ path('atypikhouse_user_admin_edit_perso', {'id': user.id}) }}" class="btn btn-default dim btn-block btn-outline">Personal</a>
+                </div>
+                <div class="col-lg-2 m-b-md">
+                    <a href="{{ path('atypikhouse_user_admin_edit_pro', {'id': user.id}) }}" class="btn btn-default dim btn-block btn-outline">Professional</a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-12 m-b-md">
+                {% block form_content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

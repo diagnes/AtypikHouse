@@ -1,31 +1,16 @@
-api_housing_index:
-    path:     /all
+atypikhouse_housing_index:
+    path:     /list
     defaults: { _controller: "HousingBundle:Housing:all" }
-    methods:  GET
 
-api_housing_new:
-    path:     /new
-    defaults: { _controller: "HousingBundle:Housing:new" }
-    methods:  [GET, POST]
-
-api_housing_edit:
-    path:     /{id}/edit
-    defaults: { _controller: "HousingBundle:Housing:edit" }
-    methods:  [GET, POST]
-    requirements:
-            id: \d+
-
-api_housing_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "HousingBundle:Housing:delete" }
-    methods:  DELETE
-    requirements:
-            id: \d+
-
-api_housing_show:
-    path:     /{id}
+atypikhouse_housing_show:
+    path:     /show/{slug}
     defaults: { _controller: "HousingBundle:Housing:show" }
-    methods:  GET
-    requirements:
-            id: \d+
+
+atypikhouse_housing_:
+    path:     /
+    defaults: { _controller: "HousingBundle:Housing:" }
+
+atypikhouse_housing_list_proprietary_housing:
+    path:     /admin/proprietary/housing
+    defaults: { _controller: "HousingBundle:Housing:listProprietaryHousing" }
 

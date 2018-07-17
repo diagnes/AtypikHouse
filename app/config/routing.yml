@@ -1,18 +1,26 @@
+atypik_house_reservation:
+    resource: "@AtypikHouseBundle/Controller/ReservationController.php"
+    type:     annotation
+
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
     prefix:   /
 
 atypik_house:
     resource: "@AtypikHouseBundle/Resources/config/routing.yml"
-    prefix:   /api/reservation
+    prefix:   /
 
 payment:
     resource: "@PaymentBundle/Resources/config/routing.yml"
-    prefix:   /api/payment
+    prefix:   /
 
 housing:
     resource: "@HousingBundle/Resources/config/routing.yml"
-    prefix:   /api/housing
+    prefix:   /
 
 tools:
     resource: "@ToolsBundle/Resources/config/routing.yml"

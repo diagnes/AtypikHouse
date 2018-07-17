@@ -1,74 +1,60 @@
-{% extends "@FOSUser/layout.html.twig" %}
+{% extends '::layout.html.twig' %}
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block title %}| Connexion{% endblock %}
-{% block fos_user_content %}
-    <!--Start login register area-->
-    <section class="login-register-area">
+{% block title %} {{ parent() }} | SignIn{% endblock %}
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="{{ path('atypikhouse_home') }}" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-md-offset-3 col-sm-offset-0">
-                    <div class="form">
-                        <div class="sec-title">
-                            <h1>Connexion</h1>
-                            <span class="border"></span>
-                        </div>
-                        <div>
-                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}">Facebook</a>
-                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">Google</a>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                {% if error %}
-                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                {% endif %}
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="main-cn element-page bg-white clearfix">
+                        <section class="breakcrumb-sc">
+                            <ul class="breadcrumb arrow">
+                                <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                <li>Sign In</li>
+                            </ul>
+                        </section>
+                        <section class="user-profile">
+                            <div class="user-form user-signup">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h2 class="user-profile__title">Sign in</h2>
+                                        <p>Access your account information and manage your bookings.</p>
+                                        {% if error %}
+                                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                        {% endif %}
 
-                                <form action="{{ path("fos_user_security_check") }}" method="post">
-                                    {% if csrf_token %}
-                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-                                    {% endif %}
-
-                                    <div class="col-md-12">
-                                        <div class="input-field">
-                                            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Utilisateur" />
-                                            <div class="icon-holder">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                        <form action="{{ path("fos_user_security_check") }}" method="post">
+                                            {% if csrf_token %}
+                                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                            {% endif %}
+                                            <div class="field-input">
+                                                <input class="input-text" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Username" required="required" >
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="input-field">
-                                            <input type="password" id="password" name="_password" required="required" placeholder="Mot de passe"/>
-                                            <div class="icon-holder">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            <div class="field-input">
+                                                <input class="input-text" type="password" id="password" name="_password" required="required" placeholder="Mot de passe">
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <button class="thm-btn bgclr-1" type="submit" id="_submit" name="_submit">{{ 'security.login.submit'|trans }}</button>
-                                                <div class="remember-text">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                                                            <span>Remember Me</span>
-                                                        </label>
-                                                    </div>
+                                            <div class="field-input">
+                                                <div class="check-box">
+                                                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" >
+                                                    <label for="_remember_me">Keep me logged in</label>
                                                 </div>
+                                                <a class="pull-right" href="{{ path('fos_user_change_password') }}">Get a new password</a>
                                             </div>
-                                        </div>
+                                            <div class="field-input">
+                                                <button type="submit" id="_submit" name="_submit" class="awe-btn awe-btn-1 awe-btn-block">Sign in</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--End login register area-->
 {% endblock %}

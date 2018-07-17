@@ -1,0 +1,23 @@
+<div class="uploaded-image col-lg-3 m-b-md">
+    {% do form.file.unlink.setRendered %}
+    <h5>
+        {% if form.file.vars.value and form.file.vars.value.name %}
+            {{ form.file.vars.value.name }}
+        {% else %}
+            New Image index __name__
+        {% endif %}
+    </h5>
+    {% if form.file.vars.value.id %}
+        {% media form.file.vars.value, 'small' %}
+    {% endif %}
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-12">
+                {{ form_label(form.file) }}
+            </label>
+            <div class="col-sm-12">
+                {{ form_widget(form.file) }}
+            </div>
+        </div>
+    </div>
+</div>

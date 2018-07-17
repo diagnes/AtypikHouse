@@ -50,6 +50,7 @@ class AppKernel extends Kernel
             new HousingBundle\HousingBundle(),
             new PaymentBundle\PaymentBundle(),
             new AtypikHouseBundle\AtypikHouseBundle(),
+            new AdminBundle\AdminBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -1,0 +1,86 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} {{ (housingType.name) ? housingType.name : "New Housing" }} {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AdminBundle/Resources/public/js/form.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Data Tables</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="i{{ path('admin_homepage') }}">Home</a>
+                </li>
+                <li>
+                    <a href="{{ path('atyipikhouse_admin_housing_type_index') }}">Housing Categories</a>
+                </li>
+                <li class="active">
+                    <strong>{{ (housingType.name) ? housingType.name : "New Categories" }}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            {{ form_start(form) }}
+            <div class="col-lg-12 m-b-md">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Categories basic infos <small> This part inform all details about categories info</small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">{{ form_label(form.name) }}</label>
+                                        <div class="col-sm-10">
+                                            {{ form_widget(form.name) }}
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">{{ form_label(form.description) }}</label>
+                                        <div class="col-sm-10">
+                                            {{ form_widget(form.description) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="details">
+                {% for form_detail in form.details.children %}
+                    {% include 'HousingBundle:housing-type:housing-type-form-prototype.html.twig' with {'form': form_detail } %}
+                {% endfor %}
+            </div>
+            <div class="col-lg-12 m-b-md">
+                <div class="form-horizontal">
+                    <div>
+                        <a data-prototype="
+                        {% filter escape %}
+                            {{ include('HousingBundle:housing-type:housing-type-form-prototype.html.twig', { 'form': form.details.vars.prototype }) }}
+                         {% endfilter %}" data-target="details" data-index="{{ form.details.children | length }}" class="btn btn-white add-prototype">Add Details</a>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

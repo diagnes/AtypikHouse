@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use ToolsBundle\Service\DataResponseAdapter;
 
 /**
@@ -32,6 +33,66 @@ class ReservationAdminController extends Controller
         ];
 
         return new JsonResponse($dataResonseManager->createAdaptedResponseData($data), 200);
+    }
+
+    /**
+     * Creates a new reservation entity
+     *
+     * @param Request $request Get the request for this action
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function newAction(Request $request)
+    {
+        $reservation = new Reservation();
+        $form = $this->createForm('AtypikHouseBundle\Form\ReservationType', $reservation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reservation);
+            $em->flush();
+
+            return $this->redirectToRoute('reservation_show', ['id' => $reservation->getId()]);
+        }
+
+        return $this->render(
+            'reservation/new.html.twig',
+            [
+            'reservation' => $reservation,
+            'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Displays a form to edit an existing reservation entity.
+     *
+     * @param Request     $request     Get the request for this action
+     * @param Reservation $reservation Get the reservation for this action
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction(Request $request, Reservation $reservation)
+    {
+        $deleteForm = $this->createDeleteForm($reservation);
+        $editForm = $this->createForm('AtypikHouseBundle\Form\ReservationType', $reservation);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('reservation_edit', ['id' => $reservation->getId()]);
+        }
+
+        return $this->render(
+            'reservation/edit.html.twig',
+            [
+            'reservation' => $reservation,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+            ]
+        );
     }
 
     /**

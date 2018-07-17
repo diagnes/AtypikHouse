@@ -1,0 +1,51 @@
+
+<header id="header" class="header">
+    <div class="container">
+        <div class="logo float-left">
+            <a href="{{ path('atypikhouse_home') }}" title="">
+                <img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt="">
+            </a>
+        </div>
+        <div class="bars" id="bars"></div>
+        <nav class="navigation nav-c" id="navigation" data-menu-type="1200">
+            <div class="nav-inner">
+                <a href="index2.html#" class="bars-close" id="bars-close">Close</a>
+                <div class="tb">
+                    <div class="tb-cell">
+                        <ul class="menu-list text-uppercase">
+                            <li {% if (app.request.attributes.get('_route') == 'atypikhouse_home') %} class="current-menu-parent" {% endif %}><a href="{{ path('atypikhouse_home') }}" title="">Home</a></li>
+                            <li><a href="{{ path('atypikhouse_home') }}" title="House">House</a></li>
+                            <li><a href="{{ path('atypikhouse_home') }}" title="Become Host">Become Host</a></li>
+                            {% if app.user %}
+                                <li>
+                                    <a href="{{ path('atypikhouse_home') }}" title="">
+                                        {% if app.user.personalInfos is not null and app.user.personalInfos.lastname is not null and app.user.personalInfos.firstname is not null %}
+                                            {{ app.user.personalInfos.firstname }} {{ app.user.personalInfos.lastname }}
+                                        {% else %}
+                                            {{ app.user.username }}
+                                        {% endif %}
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ path('fos_user_profile_show') }}" title="Profil">Profil</a></li>
+                                        <li><a href="{{ path('fos_user_profile_reservations') }}" title="My reservation">My Reservations</a></li>
+                                        {% if is_granted('ROLE_PROPRIETARY') %}
+                                            <li><a href="{{ path('admin_homepage') }}" title="My Houses">MyHouses</a></li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <li><a href="{{ path('admin_homepage') }}" title="My Houses">Back-Office</a></li>
+                                        {% endif %}
+                                        <li><a href="{{ path('fos_user_security_logout') }}" title="Logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        {% if not app.user %}
+                            <a class="awe-btn awe-btn-1 awe-btn-lager" href="{{ path('fos_user_security_login') }}" title="Sign in">Sign In</a>
+                            <a class="awe-btn awe-btn-3 awe-btn-lager" href="{{ path('fos_user_registration_register') }}" title="Sign up">Sign Up</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>

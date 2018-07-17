@@ -4,9 +4,7 @@ namespace AtypikHouseBundle\Service;
 
 use AtypikHouseBundle\Entity\Reservation;
 use AtypikHouseBundle\Enum\ReservationStateEnum;
-use Buzz\Message\Response;
 use Doctrine\ORM\EntityManager;
-use HousingBundle\Entity\Housing;
 use JMS\Serializer\Serializer;
 use PaymentBundle\Entity\MoneyMovement;
 use PaymentBundle\Entity\PaymentInfos;

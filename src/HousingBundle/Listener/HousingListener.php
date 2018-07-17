@@ -2,17 +2,31 @@
 
 namespace HousingBundle\Listener;
 
-use AtypikHouseBundle\Entity\Reservation;
-use AtypikHouseBundle\Service\ReservationAdminManager;
-use AtypikHouseBundle\Service\ReservationManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
+use Doctrine\ORM\UnitOfWork;
 use HousingBundle\Entity\Housing;
+use HousingBundle\Entity\HousingDetail;
+use HousingBundle\Entity\HousingDetailValue;
+use HousingBundle\Entity\HousingType;
 use HousingBundle\Service\HousingManager;
+use HousingBundle\Service\HousingTypeManager;
 
 /**
  * Reservation Admin Manager Service
+ *
+ * In this Listener we made all in case of some action in database
+ *
+ * PHP version 7.1
+ *
+ * @category  Listener
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
  */
 class HousingListener
 {
@@ -20,30 +34,136 @@ class HousingListener
      * @var HousingManager $housingManager
      */
     private $housingManager;
+    /**
+     * @var HousingTypeManager $housingTypeManager
+     */
+    private $housingTypeManager;
 
     /**
      * ReservationListener constructor.
      *
-     * @param HousingManager $housingManager
+     * @param HousingManager     $housingManager     Set the housing Manager
+     * @param HousingTypeManager $housingTypeManager Set the housing type Manager
      */
-    public function __construct(HousingManager $housingManager)
+    public function __construct(HousingManager $housingManager, HousingTypeManager $housingTypeManager)
     {
         $this->housingManager = $housingManager;
+        $this->housingTypeManager = $housingTypeManager;
     }
 
+
     /**
+     * On the flush make actions
      *
-     * @param PreUpdateEventArgs|LifecycleEventArgs $args Get the PreUpdateEventArgs
+     * @param OnFlushEventArgs $eventArgs Get OnFlush args value
      *
      * @return void
      *
-     * @ORM\PreUpdate
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\ORMException
      */
-    public function preUpdate(PreUpdateEventArgs $args)
+    public function onFlush(OnFlushEventArgs $eventArgs)
+    {
+        $em = $eventArgs->getEntityManager();
+        $uow = $em->getUnitOfWork();
+
+        foreach ($uow->getScheduledEntityUpdates() as $entity) {
+            if ($entity instanceof HousingDetailValue) {
+                $this->housingActionListener($entity->getHousing(), $em);
+            }
+            if ($entity instanceof Housing) {
+                $this->housingActionListener($entity, $em);
+            }
+        }
+
+        foreach ($uow->getScheduledEntityInsertions() as $entity) {
+            if ($entity instanceof Housing) {
+                $this->housingActionListener($entity, $em);
+            }
+        }
+
+        /** @var PersistentCollection $col */
+        foreach ($uow->getScheduledCollectionUpdates() as $col) {
+            if ($col->getOwner() instanceof HousingType) {
+                $this->housingTypeManager->updateAllHousings($col->getOwner(), $col, $em);
+            }
+        }
+    }
+
+    /**
+     * Before the persist make actions
+     *
+     * @param LifecycleEventArgs $args Get the LifecycleEvent argument
+     *
+     * @return void
+     *
+     * @ORM\PrePersist()
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function prePersist(LifecycleEventArgs $args)
     {
         $housing = $args->getEntity();
 
         if ($housing instanceof Housing) {
+            $this->housingManager->sendCreationNotification($housing);
         }
+    }
+
+    /**
+     *
+     * @param PreUpdateEventArgs $args Get the PreUpdateEventArgs
+     *
+     * @return void
+     *
+     * @ORM\PreUpdate()
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function preUpdate(PreUpdateEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        $state = $args->getEntityChangeSet();
+        if ($entity instanceof Housing) {
+            if (isset($state['type'])) {
+                $this->actionHousingChangeType($entity);
+            }
+        }
+    }
+
+    /**
+     * This action make all modification on
+     *
+     * @param Housing       $entity Get the listener housing targeted
+     * @param EntityManager $em     Get the listener entity manager
+     *
+     * @return void
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function housingActionListener(Housing $entity, EntityManager $em): void
+    {
+        $this->housingManager->setTypeValueHousing($entity);
+        $this->housingManager->removeUnusedValueHousing($entity);
+        $this->housingManager->editHousingValidation($entity);
+        $classMetadata = $em->getClassMetadata(\get_class($entity));
+        $em->getUnitOfWork()->computeChangeSet($classMetadata, $entity);
+        $em->persist($entity);
+    }
+
+    /**
+     * @param Housing $entity Get listener entity Housing
+     *
+     * @return void
+     */
+    private function actionHousingChangeType(Housing $entity)
+    {
     }
 }

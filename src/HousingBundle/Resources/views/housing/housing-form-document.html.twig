@@ -1,0 +1,50 @@
+{% extends 'HousingBundle:housing:housing-form.html.twig' %}
+
+{% block title %}{{ parent() }} | Housing {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
+    '@AdminBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
+    '@AdminBundle/Resources/public/css/plugins/chosen/chosen.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
+    '@AdminBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@AdminBundle/Resources/public/js/form.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block form_content %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="document-file">
+            {% if form.documents.children %}
+                {% for form_document in form.documents.children %}
+                    {% include 'HousingBundle:housing:housing-document-form-prototype.html.twig' with {'form': form_document } %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-lg-12 m-b-md">
+            <div class="form-horizontal">
+                <div>
+                    <a data-prototype="
+                    {% filter escape %}
+                        {{ include('HousingBundle:housing:housing-document-form-prototype.html.twig', { 'form': form.documents.vars.prototype }) }}
+                     {% endfilter %}" data-target="document-file" data-index="{{ form.documents.children | length }}" class="btn btn-white add-prototype">Add Document</a>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

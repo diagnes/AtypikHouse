@@ -2,8 +2,85 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block title %}| Inscription{% endblock %}
-{% block body %}
+{% block title %}{{ parent() }} | Register{% endblock %}
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="{{ path('atypikhouse_home') }}" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8">
+                    <div class="main-cn element-page bg-white clearfix">
+                        <section class="breakcrumb-sc">
+                            <ul class="breadcrumb arrow">
+                                <li><a href="{{ path('atypikhouse_home') }}"><i class="fa fa-home"></i></a></li>
+                                <li>Sign Up</li>
+                            </ul>
+                        </section>
+                        <section class="user-profile">
+                            <div class="user-form user-signup user-signup-two-part">
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-12">
+                                        <h2 class="user-profile__title">Sign Up</h2>
+                                        <p>Enjoy the new atypik lifestyle.</p>
+                                        {{ form_start(form) }}
+                                        {{ form_errors(form.email) }}
+                                        {{ form_errors(form.username) }}
+                                        <div class="field-input">
+                                            {{ form_widget(form.email) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(form.username) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(form.plainPassword.pass) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(form.plainPassword.confirm) }}
+                                        </div>
+                                        <div class="field-input">
+                                            <button type="submit" id="_submit" name="_submit" class="awe-btn awe-btn-1 awe-btn-block">Sign Up</button>
+                                        </div>
+                                        {{ form_end(form) }}
+                                    </div>
+
+                                    <div class="col-md-6 col-xs-12">
+                                        <h2 class="user-profile__title">Sign Up As Host</h2>
+                                        <p>Share your home and enjoy people.</p>
+                                        {{ form_start(formPro) }}
+                                        {{ form_errors(formPro) }}
+                                        <div class="field-input">
+                                            {{ form_widget(formPro.email) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(formPro.username) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(formPro.plainPassword.pass) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(formPro.plainPassword.confirm) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(formPro.professionalInfos.siret) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(formPro.professionalInfos.entreprise) }}
+                                        </div>
+                                        <div class="field-input">
+                                            <button type="submit" id="_submit" name="_submit" class="awe-btn awe-btn-1 awe-btn-block">Sign As Host</button>
+                                        </div>
+                                        {{ form_end(formPro) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!--Start breadcrumb area-->
     <section class="breadcrumb-area" style="background-image: url(/bundles/front/images/resources/breadcrumb-bg.jpg);">
         <div class="container">

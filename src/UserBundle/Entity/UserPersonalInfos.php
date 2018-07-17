@@ -35,6 +35,14 @@ class UserPersonalInfos
     private $user;
 
     /**
+     * @var Media
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", fetch="EAGER", cascade={"persist"})
+     * @ORM\JoinColumn(name="image_id",                                           referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $image;
+
+    /**
      *
      * @var string|null
      *

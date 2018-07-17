@@ -1,0 +1,96 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} | Housing List{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/dataTables/datatables.min.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Data Tables</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="i{{ path('admin_homepage') }}">Home</a>
+                </li>
+                <li>
+                    <a>Housing Categories</a>
+                </li>
+                <li class="active">
+                    <strong>List</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List Housing</h5>
+                        <div class="ibox-tools">
+                            <a href="{{ path('atyipikhouse_admin_housing_type_new') }}" class="btn btn-primary btn-xs">Add category</a>
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for housingType in housingTypes %}
+                                    <tr>
+                                        <th>{{ housingType.id }}</th>
+                                        <th>{{ housingType.name }}</th>
+                                        <th>{{ housingType.description }}</th>
+                                        <th>{{ housingType.createdAt | date('d-m-Y H:i:s') }}</th>
+                                        <th>
+                                            <a class="btn btn-success dim" href="{{ path('atyipikhouse_admin_housing_type_edit', { 'slug': housingType.slug }) }}" title="Edit"><i class="fa fa-pencil"></i></a>
+                                            {% if housingType.deletedAt %}
+                                                <a class="btn btn-primary dim" href="{{ path('atyipikhouse_admin_housing_type_undelete', { 'slug': housingType.slug }) }}" title="Undelete"><i class="fa fa-refresh"></i></a>
+                                            {% else %}
+                                                <a class="btn btn-danger dim" href="{{ path('atyipikhouse_admin_housing_type_delete', { 'slug': housingType.slug }) }}" title="Delete"><i class="fa fa-times"></i></a>
+                                            {% endif %}
+                                        </th>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block Toastr %}'Admin Interface', 'List Housing'{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/dataTables/datatables.min.js'
+    '@AdminBundle/Resources/public/js/plugins/jeditable/jquery.jeditable.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

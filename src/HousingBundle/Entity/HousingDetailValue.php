@@ -25,13 +25,13 @@ class HousingDetailValue
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\HousingDetail", inversedBy="values")
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\HousingDetail", inversedBy="values", cascade={"persist"})
      * @ORM\JoinColumn(name="detail_id", referencedColumnName="id")
      */
     private $detail;
 
     /**
-     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\Housing", inversedBy="details")
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\Housing", inversedBy="details", cascade={"persist"})
      * @ORM\JoinColumn(name="housing_id", referencedColumnName="id")
      */
     private $housing;
@@ -39,7 +39,7 @@ class HousingDetailValue
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="text")
+     * @ORM\Column(name="value", type="text", nullable=true)
      */
     private $value;
 
@@ -55,7 +55,7 @@ class HousingDetailValue
     }
 
     /**
-     * @return mixed
+     * @return HousingDetail
      */
     public function getDetail()
     {
@@ -63,17 +63,19 @@ class HousingDetailValue
     }
 
     /**
-     * @param mixed $detail
+     * @param HousingDetail $detail Set Housing detail
      *
-     * @return void
+     * @return HousingDetailValue
      */
-    public function setDetail($detail): void
+    public function setDetail(?HousingDetail $detail): HousingDetailValue
     {
         $this->detail = $detail;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return Housing
      */
     public function getHousing()
     {
@@ -81,30 +83,34 @@ class HousingDetailValue
     }
 
     /**
-     * @param mixed $housing
+     * @param Housing $housing Set an housing
      *
-     * @return void
+     * @return HousingDetailValue
      */
-    public function setHousing($housing): void
+    public function setHousing(?Housing $housing): HousingDetailValue
     {
         $this->housing = $housing;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function getValue()
     {
         return $this->value;
     }
 
     /**
-     * @param string $value
+     * @param string $value Set a value
      *
-     * @return void
+     * @return HousingDetailValue
      */
-    public function setValue(string $value): void
+    public function setValue(string $value): HousingDetailValue
     {
         $this->value = $value;
+
+        return $this;
     }
 }

@@ -16,3 +16,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/web/css/
+/web/js/
+/adminTmp/*

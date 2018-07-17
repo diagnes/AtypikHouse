@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use HousingBundle\Entity\Housing;
 use HousingBundle\Entity\HousingType;
+use HousingBundle\Enum\HousingStateEnum;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\User;
 
@@ -51,7 +52,10 @@ class ProdFixtures implements FixtureInterface
 
         $housing = new Housing();
         $housing->setAddress($adress);
+        $housing->setState(HousingStateEnum::CREATED);
         $housing->setPrice(99);
+        $housing->setVisible(false);
+        $housing->setMaxResident(3);
         $housing->setType($housingType);
         $housing->setProprietary($userAdmin);
         $housing->setTitle('La casa de papel');

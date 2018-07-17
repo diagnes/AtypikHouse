@@ -1,19 +1,11 @@
 <?php
 
-/*
- * This file is part of the FOSUserBundle package modify by Nefast
- *
- * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace UserBundle\Controller;
 
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +18,8 @@ use UserBundle\Form\UserProfileType;
  * Controller managing the user profile.
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @Security("has_role('ROLE_USER')")
  */
 class ProfileController extends Controller
 {
@@ -36,26 +30,13 @@ class ProfileController extends Controller
      */
     public function showAction(): Response
     {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
-        if (!\is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-
-        return $this->render(
-            'UserBundle::profile.html.twig',
-            [
-                'user' => $user,
-            ]
-        );
+        return $this->render('UserBundle::profile.html.twig');
     }
 
     /**
      * Edit the user.
      *
-     * @param Request $request
+     * @param Request $request Get the request for session
      *
      * @return Response
      *
@@ -65,10 +46,6 @@ class ProfileController extends Controller
     public function editAction(Request $request): Response
     {
         $user = $this->getUser();
-        if (!\is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-
         /**
          * @var $dispatcher EventDispatcherInterface
          */
@@ -99,5 +76,45 @@ class ProfileController extends Controller
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * Show the user reservations.
+     *
+     * @return Response
+     */
+    public function showReservationAction(): Response
+    {
+        return $this->render('UserBundle:profile:reservations.html.twig');
+    }
+
+    /**
+     * Show the user wishlist.
+     *
+     * @return Response
+     */
+    public function showWishListAction(): Response
+    {
+        return $this->render('UserBundle:profile:wishlist.html.twig');
+    }
+
+    /**
+     * Show the user Notation.
+     *
+     * @return Response
+     */
+    public function showNotationListAction(): Response
+    {
+        return $this->render('UserBundle:profile:notation.html.twig');
+    }
+
+    /**
+     * Show the user wishlist.
+     *
+     * @return Response
+     */
+    public function showHousingListAction(): Response
+    {
+        return $this->render('UserBundle:profile:housing.html.twig');
     }
 }

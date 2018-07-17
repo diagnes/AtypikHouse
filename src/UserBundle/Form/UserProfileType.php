@@ -16,8 +16,8 @@ use UserBundle\Enum\RoleUserEnum;
 class UserProfileType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param FormBuilderInterface $builder Get the form type builder
+     * @param array                $options Get the form type options
      *
      * @return void
      */
@@ -28,61 +28,27 @@ class UserProfileType extends AbstractType
                 'username',
                 TextType::class,
                 [
-                'label' => "Nom d'utilisateur",
-                'attr' => [
-                    'class' => 'form-control'
-                ]
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Username',
+                    ]
                 ]
             )
             ->add(
                 'email',
                 EmailType::class,
                 [
-                'label' => "Email",
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-                ]
-            )
-            ->add(
-                'image',
-                MediaType::class,
-                [
-                'label' => false,
-                'provider' => 'sonata.media.provider.image',
-                'required' => true,
-                'context'  => 'default'
-                ]
-            )
-            ->add(
-                'plainPassword',
-                RepeatedType::class,
-                [
-                'required' => false,
-                'type' => PasswordType::class,
-                'first_name' => 'pass',
-                'second_name' => 'confirm',
-                'first_options' => [
-                    'label' => "Mot de passe",
                     'attr' => [
-                        'class' => 'form-control'
+                        'class' => 'input-text',
+                        'placeholder' => 'Email',
                     ]
-                ],
-                'second_options' => [
-                    'label' => "Comfirmer mot de passe",
-                    'attr' => [
-                        'class' => 'form-control'
-                    ]
-                ],
-                'invalid_message' => 'fos_user.password.mismatch',
                 ]
             )
-            ->add('address', AddressType::class)
-            ->add('personalInfo', PersonalInfoType::class);
+            ->add('personalInfo', UserPersonalInfosType::class);
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $resolver Get the form resolver options
      *
      * @return void
      */

@@ -18,13 +18,11 @@ use UserBundle\Entity\User;
  */
 class HousingUndisponibility
 {
-    use DeletedDateTrait;
-
     /**
      *
      * @var int
      *
-     * @ORM\Column(name="id",               type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -33,7 +31,7 @@ class HousingUndisponibility
     /**
      *
      * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\Housing", inversedBy="undisponibility")
-     * @ORM\JoinColumn(name="housing_id",                          referencedColumnName="id")
+     * @ORM\JoinColumn(name="housing_id", referencedColumnName="id")
      */
     private $housing;
 
@@ -56,17 +54,19 @@ class HousingUndisponibility
     /**
      * @param int $id Set id for HousingUndisponibility
      *
-     * @return void
+     * @return HousingUndisponibility
      */
     public function setId(int $id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @return Housing
      */
-    public function getHousing()
+    public function getHousing(): ?Housing
     {
         return $this->housing;
     }
@@ -74,17 +74,19 @@ class HousingUndisponibility
     /**
      * @param Housing|null $housing Set housing for HousingUndisponibility
      *
-     * @return void
+     * @return HousingUndisponibility
      */
     public function setHousing($housing)
     {
         $this->housing = $housing;
+
+        return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getStartDate(): \DateTime
+    public function getStartDate(): ?\DateTime
     {
         return $this->startDate;
     }
@@ -92,11 +94,13 @@ class HousingUndisponibility
     /**
      * @param \DateTime $startDate Set startDate for HousingUndisponibility
      *
-     * @return void
+     * @return HousingUndisponibility
      */
     public function setStartDate(\DateTime $startDate)
     {
         $this->startDate = $startDate;
+
+        return $this;
     }
 
     /**

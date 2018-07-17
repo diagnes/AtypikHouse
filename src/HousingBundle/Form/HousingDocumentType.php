@@ -2,35 +2,65 @@
 
 namespace HousingBundle\Form;
 
+use HousingBundle\Entity\HousingDocument;
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HousingDocumentType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder Get the builder Interface
+     * @param array                $options Get the options for this form
+     *
+     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('createdAt')->add('updatedAt')->add('housing')->add('file');
-    }/**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'HousingBundle\Entity\HousingDocument'
-        ));
+        $builder
+            ->add(
+                'name',
+                TextType::class,
+                [
+                'label' => 'Document name',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                ]
+            )
+            ->add(
+                'file',
+                MediaType::class,
+                [
+                'label' => false,
+                'provider' => 'sonata.media.provider.file',
+                'required' => true,
+                'context'  => 'default'
+                ]
+            );
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver Get the form resolver options
+     *
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+            'data_class' => HousingDocument::class
+            ]
+        );
+    }
+
+    /**
+     * @return string
      */
     public function getBlockPrefix()
     {
         return 'housingbundle_housingdocument';
     }
-
-
 }

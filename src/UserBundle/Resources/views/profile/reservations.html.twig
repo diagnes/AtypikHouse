@@ -1,0 +1,96 @@
+{% extends 'UserBundle::layout-user.html.twig' %}
+
+{% block title %} {{ parent() }} | Notations {% endblock %}
+
+{% block inner_profile %}
+    <h2 class="user-profile__title">Notations</h2>
+    <ul class="user-profile__total">
+        <li class="has-number">Total Bookings(<span>5</span>)</li>
+        <li>Upcoming(<span>0</span>)</li>
+        <li>Departed(<span>0</span>)</li>
+        <li>Cancelled(0)</li>
+    </ul>
+    <div class="user-profile__my-booking table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Order Date</th>
+                <th>Execution Date</th>
+                <th>Cost</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="icon"><img src="images/icon/icon-flight.png" alt=""></div>
+                </td>
+                <td>London to New York City</td>
+                <td>New York City</td>
+                <td>30/4/2015</td>
+                <td>2/5/2015</td>
+                <td>$350</td>
+                <td><a href="user-booking.html#">Cancel</a></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="icon"><img src="images/icon/icon-hotel.png" alt=""></div>
+                </td>
+                <td>InterContinental New York Barclay</td>
+                <td>New York City</td>
+                <td>30/4/2015</td>
+                <td>30/4/2015 <i class="fa fa-arrow-right"></i> 2/5/2015</td>
+                <td>$350</td>
+                <td><a href="user-booking.html#">Cancel</a></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="icon"><img src="images/icon/icon-car.png" alt=""></div>
+                </td>
+                <td>London to New York City</td>
+                <td>New York City</td>
+                <td>30/4/2015</td>
+                <td>2/5/2015</td>
+                <td>$350</td>
+                <td><a href="user-booking.html#">Cancel</a></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="icon"><img src="images/icon/icon-package.png" alt=""></div>
+                </td>
+                <td>London to New York City</td>
+                <td>New York City</td>
+                <td>30/4/2015</td>
+                <td>2/5/2015</td>
+                <td>$350</td>
+                <td><a href="user-booking.html#">Cancel</a></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="icon"><img src="images/icon/icon-cruise.png" alt=""></div>
+                </td>
+                <td>London to New York City</td>
+                <td>New York City</td>
+                <td>30/4/2015</td>
+                <td>2/5/2015</td>
+                <td>$350</td>
+                <td><a href="user-booking.html#">Cancel</a></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="icon"><img src="images/icon/icon-beach.png" alt=""></div>
+                </td>
+                <td>London to New York City</td>
+                <td>New York City</td>
+                <td>30/4/2015</td>
+                <td>2/5/2015</td>
+                <td>$350</td>
+                <td><a href="user-booking.html#">Cancel</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

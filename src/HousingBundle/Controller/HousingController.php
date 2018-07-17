@@ -5,78 +5,62 @@ namespace HousingBundle\Controller;
 use HousingBundle\Entity\Housing;
 use HousingBundle\Enum\HousingStateEnum;
 use HousingBundle\Form\HousingType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use ToolsBundle\Service\DataResponseAdapter;
 
 /**
  * Housing controller.
- *
  */
 class HousingController extends Controller
 {
     /**
      * Lists all housing entities.
      *
+     * @return Response
      */
     public function allAction()
     {
-        $dataResonseManager = $this->get('tools.data_response_manager');
-
         $housings = $this->get('ah.housing_manager')->getAllHousingEntity();
-        $data = [
-            'housings' => new DataResponseAdapter($housings, Housing::class),
-        ];
-
-        return new JsonResponse($dataResonseManager->createAdaptedResponseData($data), 200);
+        return $this->render(
+            'HousingBundle:housing:list.html.twig',
+            [
+            'housings' => $housings,
+            ]
+        );
     }
 
     /**
-     * Creates a new housing entity.
+     * Lists all reservation entities.
      *
+     * @Security("has_role('ROLE_PROPRIETARY')")
+     *
+     * @return Response
      */
-    public function newAction(Request $request)
+    public function listProprietaryHousingAction()
     {
-        $housing = new Housing();
-        $form = $this->createForm(HousingType::class, $housing, []);
         $em = $this->getDoctrine()->getManager();
-        $dataResonseManager = $this->get('tools.data_response_manager');
-        $housingManager = $this->get('ah.housing_manager');
+        $reservations = $em->getRepository('AtypikHouseBundle:Reservation')->findAll();
 
-        $form->handleRequest($request);
-        try {
-            switch (true) {
-                case $request->isMethod('GET'):
-                    return new JsonResponse(
-                        $dataResonseManager->createAdaptedResponseData(
-                            [
-                                'form' => new DataResponseAdapter($dataResonseManager->createCustomForm($form->createView()), FormView::class),
-                            ]
-                        ),
-                        200
-                    );
-                    break;
-                case $request->isMethod('POST'):
-                    if ($form->isSubmitted()) {
-                        $housingManager->isValidHousing($housing);
-                        $housing->setState(HousingStateEnum::CREATED);
-                        $em->persist($housing);
-                        $em->flush();
-                    }
-                    break;
-            }
-            return new JsonResponse('Well done, your housing has been created', 201);
-        } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 500);
-        }
+        return $this->render(
+            'reservation/index.html.twig',
+            [
+            'reservations' => $reservations,
+            ]
+        );
     }
 
     /**
      * Finds and displays a housing entity.
      *
+     * @param int $id Get the housing id targeted
+     *
+     * @return JsonResponse
      */
-    public function showAction(Housing $housing)
+    public function showAction(int $id)
     {
         try {
             $housing = $this->get('ah.housing_manager')->getHousingEntity($id);
@@ -88,45 +72,6 @@ class HousingController extends Controller
             return new JsonResponse($dataResonseManager->createAdaptedResponseData($data), 200);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 400);
-        }
-    }
-
-    /**
-     * Displays a form to edit an existing housing entity.
-     *
-     */
-    public function editAction(Request $request, $housingId)
-    {
-        $dataResonseManager = $this->get('tools.data_response_manager');
-        $housingManager = $this->get('ah.housing_manager');
-
-        $housing = $housingManager->getHousingEntity($housingId);
-        $form = $this->createForm(HousingType::class, $housing, []);
-        $em = $this->getDoctrine()->getManager();
-        $form->handleRequest($request);
-
-        try {
-            switch (true) {
-                case $request->isMethod('GET'):
-                    return new JsonResponse(
-                        $dataResonseManager->createAdaptedResponseData(
-                            [
-                                'form' => new DataResponseAdapter($dataResonseManager->createCustomForm($form->createView()), FormView::class),
-                            ]
-                        ),
-                        200
-                    );
-                    break;
-                case $request->isMethod('POST'):
-                    if ($form->isSubmitted()) {
-                        $housingManager->isValidHousing($housing);
-                        $em->flush();
-                    }
-                    break;
-            }
-            return new JsonResponse('Well done, your housing has been created', 201);
-        } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 500);
         }
     }
 }

@@ -1,0 +1,85 @@
+{% extends 'HousingBundle:housing:housing-form.html.twig' %}
+
+{% block title %}{{ parent() }} | Housing {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
+    '@AdminBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
+    '@AdminBundle/Resources/public/css/plugins/chosen/chosen.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
+    '@AdminBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@AdminBundle/Resources/public/js/form.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block form_content %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Housin Teaser infos <small>This part prettify your house description</small></h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ form_start(form) }}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ form_label(form.description) }}</label>
+                        <div class="col-sm-10">
+                            {{ form_widget(form.description) }}
+                        </div>
+                    </div>
+                    {% if housing.state == "validated" or is_granted('ROLE_ADMIN') %}
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ form_label(form.visible) }}</label>
+                            <div class="col-sm-10">
+                                {{ form_widget(form.visible) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        {% do form.visible.setRendered %}
+                    {% endif %}
+
+                    <div class="hr-line-dashed"></div>
+                    <h3>Teaser</h3>
+                    <div class="row">
+                        <div class="teaser-image">
+                            {% for form_images in form.images.children %}
+                                {% include 'HousingBundle:housing:housing-teaser-form-prototype.html.twig' with {'form': form_images } %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="col-lg-12 m-b-md">
+                        <div class="form-horizontal">
+                            <div>
+                                <a data-prototype="
+                        {% filter escape %}
+                            {{ include('HousingBundle:housing:housing-teaser-form-prototype.html.twig', { 'form': form.images.vars.prototype }) }}
+                         {% endfilter %}" data-target="teaser-image" data-index="{{ form.images.children | length }}" class="btn btn-white add-prototype">Add Images</a>
+                                <button class="btn btn-primary" type="submit">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

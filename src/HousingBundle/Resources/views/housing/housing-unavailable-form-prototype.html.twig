@@ -1,0 +1,3 @@
+<div id="{% if form.startDate.vars.data %}{{ form.startDate.vars.data|date('Y-m-d') }}{% else %}__name__{% endif %}">
+    {{ form_widget(form.startDate) }}
+</div>

@@ -1,0 +1,110 @@
+<?php
+
+namespace UserBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use UserBundle\Entity\User;
+use UserBundle\Enum\UserRoleEnum;
+
+class UserInfoFormType extends AbstractType
+{
+    /**
+     * @param FormBuilderInterface $builder Get the builder Interface
+     * @param array                $options Get the options for this form
+     *
+     * @return void
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add(
+                'username',
+                TextType::class,
+                [
+                'label' => 'Username',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                ]
+            )
+            ->add(
+                'email',
+                EmailType::class,
+                [
+                'label' => 'Email',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                ]
+            )
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                'label' => 'Roles',
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'chosen-select',
+                    'data-placeholder' => 'Choose Role'
+                ],
+                'choices'  => UserRoleEnum::toAssoc(),
+                ]
+            )
+            ->add(
+                'password',
+                RepeatedType::class,
+                [
+                'required' => false,
+                'type' => PasswordType::class,
+                'first_name' => 'pass',
+                'second_name' => 'confirm',
+                'first_options' => [
+                    'label' => 'Password',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'style' => 'margin-bottom: 15px',
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Confirm assword',
+                    'attr' => [
+                        'class' => 'form-control'
+                    ]
+                ],
+                'invalid_message' => 'fos_user.password.mismatch',
+                ]
+            );
+    }
+
+    /**
+     * @param OptionsResolver $resolver Get form type OptionsResolver
+     *
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+            'data_class' => User::class,
+            'attr' => [
+                'class' => 'form-horizontal'
+            ]
+            ]
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
+    {
+        return 'userbundle_user';
+    }
+}

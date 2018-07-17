@@ -1,118 +1,146 @@
-{% extends 'FrontBundle::layout.html.twig' %}
+{% extends 'UserBundle::layout-user.html.twig' %}
 
-{% block content %}
-    <section class="breadcrumb-area" style="background-image: url(bundles/front/images/resources/breadcrumb-bg.jpg);">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="breadcrumbs">
-                        <h1>Profile</h1>
-                    </div>
-                </div>
+{% block title %} {{ parent() }} | Profil {% endblock %}
+
+{% block inner_profile %}
+    <h2 class="user-profile__title">Profil</h2>
+    <div class="my-profile">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="my-profile__title">Personal Information</h4>
+                <ul>
+                    <li>
+                        <span>UserName</span>
+                        {{ app.user.username }}
+                    </li>
+                    <li>
+                        <span>Gender</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.gender is not null %}
+                            {{ app.user.personalInfos.gender }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>First Name</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.firstname is not null %}
+                            {{ app.user.personalInfos.firstname }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Last Name</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.lastname is not null %}
+                            {{ app.user.personalInfos.lastname }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Email</span>
+                        {{ app.user.email }}
+                    </li>
+                    <li>
+                        <span>Phone number</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.phoneNumber is not null %}
+                            {{ app.user.personalInfos.phoneNumber }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Birth Date</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.birthDate is not null %}
+                            {{ app.user.personalInfos.birthDate }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Birth Location</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.birthLocation is not null %}
+                            {{ app.user.personalInfos.birthLocation }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Profession</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.profession is not null %}
+                            {{ app.user.personalInfos.profession }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Nationality</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.nationality is not null %}
+                            {{ app.user.personalInfos.nationality }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4 class="my-profile__title">Location</h4>
+                <ul>
+                    <li>
+                        <span>Street Address</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.address is not null and app.user.personalInfos.address.streetNumber is not null and app.user.personalInfos.address.address is not null %}
+                            {{ app.user.personalInfos.address.streetNumber }} {{ app.user.personalInfos.address.address }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Postal Code</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.address is not null and app.user.personalInfos.address.postalCode is not null %}
+                            {{ app.user.personalInfos.address.postalCode }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>City</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.address is not null and app.user.personalInfos.address.city is not null %}
+                            {{ app.user.personalInfos.address.city }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>State</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.address is not null and app.user.personalInfos.address.state is not null %}
+                            {{ app.user.personalInfos.address.state }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                    <li>
+                        <span>Country</span>
+                        {% if app.user.personalInfos is not null and app.user.personalInfos.address is not null and app.user.personalInfos.address.country is not null %}
+                            {{ app.user.personalInfos.address.country }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </li>
+                </ul>
             </div>
         </div>
-    </section>
-    <!--End breadcrumb area-->
-
-    <!--Start Checkout area-->
-    <section class="checkout-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                    <div class="form billing-info">
-                        <div class="sec-title pdb-50">
-                            <h1>Info Personnel</h1>
-                            <span class="border"></span>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 text-center">
-                                <p>Image profile</p>
-                                {% thumbnail user.image, 'small' %}
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <p class="labe">Nom d'utilisateur</p>
-                                <p>{{ user.username }}</p>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <p class="labe">Prénom</p>
-                                <p>{{ user.personalInfo.firstname }}</p>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <p class="labe">Nom</p>
-                                <p>{{ user.personalInfo.lastname }}</p>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <p class="labe">Date de naissance</p>
-                                <p>{{ user.personalInfo.birthDate | date('d/m/YY') }}</p>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <p class="labe">Email</p>
-                                <p>{{ user.email }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
-                    <div class="table">
-                        <div class="sec-title">
-                            <h1>Adresse</h1>
-                            <span class="border"></span>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2 col-xs-12">
-                                <p class="labe">Numéro de rue</p>
-                                <p>{{ user.address.streetNumber }}</p>
-                            </div>
-                            <div class="col-sm-10 col-xs-12">
-                                <p class="labe">Route</p>
-                                <p>{{ user.address.address }}</p>
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-                                <p class="labe">Etat</p>
-                                <p>{{ user.address.area }}</p>
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-                                <p class="labe">Ville</p>
-                                <p>{{ user.address.city }}</p>
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-                                <p class="labe">Code postale</p>
-                                <p>{{ user.address.postalcode }}</p>
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-                                <p class="labe">Pays</p>
-                                <p>{{ user.address.country }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12">
-                    <div class="table">
-                        <div class="sec-title">
-                            <h1>Plus d'information</h1>
-                            <span class="border"></span>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 col-xs-12">
-                                <p class="labe">Biographie</p>
-                                <p>{{ user.personalInfo.biography }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row bottom">
-                <div class="col-lg-12 col-md-12">
-                    <div class="cart-total">
-                        <div class="payment-options">
-                            <button class="btn-block thm-btn bgclr-1" type="submit">Modifier profile</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <p>
+            <strong>Description :</strong><br/>
+            {% if app.user.personalInfos is not null and app.user.personalInfos.description is not null %}
+                {{ app.user.personalInfos.description }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
+        <div class="check-box">
+            <input type="checkbox" id="newsletter">
+            <label for="my-profile__checkbox">Yes, I would like to receive Special Offers &amp; Promotions from Agoda</label>
         </div>
-    </section>
-    <!--End Checkout area-->
+        <a href="{{ path('fos_user_profile_edit') }}" class="btn">Edit profile</a>
+    </div>
 {% endblock %}

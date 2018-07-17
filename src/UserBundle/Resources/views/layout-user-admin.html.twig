@@ -1,0 +1,32 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %} {{ parent() }} | Profil {% endblock %}
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="user-profile.html" title=""><img src="images/logo-banner.png" alt=""></a></div>
+    </section>
+    <div class="main">
+        <div class="container">
+            <div class="main-cn element-page bg-white clearfix">
+                <section class="breakcrumb-sc">
+                    <ul class="breadcrumb arrow">
+                        <li><a href="{{ path('atypikhouse_home') }}"><i class="fa fa-home"></i></a></li>
+                        <li>My Profile</li>
+                    </ul>
+                </section>
+                <section class="user-profile">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% include 'UserBundle:partial:navbar-user.html.twig' %}
+                        </div>
+                        <div class="col-md-9">
+                            {% block inner_profile %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

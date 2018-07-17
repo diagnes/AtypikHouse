@@ -1,0 +1,106 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} | Housing List{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/dataTables/datatables.min.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Housing waiting for validation List</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="i{{ path('admin_homepage') }}">Home</a>
+                </li>
+                <li>
+                    <a>Waiting Housing</a>
+                </li>
+                <li class="active">
+                    <strong>List</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List waiting housing</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        {% if housings %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Proprietary</th>
+                                        <th>Title</th>
+                                        <th>State</th>
+                                        <th>Visible</th>
+                                        <th>Type</th>
+                                        <th>Price / Day</th>
+                                        <th>Number of reservation</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for housing in housings %}
+                                    <tr>
+                                        <th>{{ housing.id }}</th>
+                                        <th>{{ housing.proprietary.id }}</th>
+                                        <th>{{ housing.title }}</th>
+                                        <th>{{ housing.state }}</th>
+                                        <th>{{ (housing.visible) ? 'Yes' : 'No' }}</th>
+                                        <th>{{ housing.type.name }}</th>
+                                        <th>{{ housing.price }}</th>
+                                        <th>{{ housing.reservations | length }}</th>
+                                        <th>
+                                            <a class="btn btn-success dim" href="{{ path('atyipikhouse_admin_housing_edit', { 'slug': housing.slug }) }}" title="Edit"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-primary dim" href="{{ path('atyipikhouse_admin_housing_validate', { 'slug': housing.slug }) }}" title="Validate"><i class="fa fa-thumbs-up"></i></a>
+                                            <a class="btn btn-danger dim" href="{{ path('atyipikhouse_admin_housing_refuse', { 'slug': housing.slug }) }}" title="Refused"><i class="fa fa-thumbs-down"></i></a>
+                                        </th>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <button class="btn btn-primary btn-circle btn-lg" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                    <div>No housing that waiting for validation</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/dataTables/datatables.min.js'
+    '@AdminBundle/Resources/public/js/plugins/jeditable/jquery.jeditable.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

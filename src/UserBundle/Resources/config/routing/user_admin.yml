@@ -1,0 +1,38 @@
+atypikhouse_user_admin_all:
+    path:     /all
+    defaults: { _controller: "UserBundle:UserAdmin:all" }
+    methods:  GET
+
+atypikhouse_user_admin_new:
+    path:     /new
+    defaults: { _controller: "UserBundle:UserAdmin:new" }
+    methods:  [GET, POST]
+
+atypikhouse_user_admin_edit:
+    path:     /edit/{id}
+    defaults: { _controller: "UserBundle:UserAdmin:edit" }
+    methods:  [GET, POST]
+
+atypikhouse_user_admin_edit_perso:
+    path:     /edit/personal-infos/{id}
+    defaults: { _controller: "UserBundle:UserAdmin:editPerso" }
+    methods:  [GET, POST]
+
+atypikhouse_user_admin_edit_pro:
+    path:     /edit/professional-infos/{id}
+    defaults: { _controller: "UserBundle:UserAdmin:editPro" }
+    methods:  [GET, POST]
+
+atypikhouse_user_admin_deleted:
+    path:     /delete/{id}
+    defaults: { _controller: "UserBundle:UserAdmin:delete" }
+    methods:  GET
+    requirements:
+            id: \d+
+
+atypikhouse_user_admin_undeleted:
+    path:     /undelete/{id}
+    defaults: { _controller: "UserBundle:UserAdmin:undelete" }
+    methods:  GET
+    requirements:
+            id: \d+

@@ -66,9 +66,6 @@
         <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact" />
     </rule>
 
-
-    <rule ref="Squiz.Commenting.FunctionComment.TypeHintMissing" />
-
     <!-- Code MUST use an indent of 4 spaces, and MUST NOT use tabs for indenting. -->
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
@@ -81,8 +78,11 @@
     <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
 
     <rule ref="Generic.Commenting">
-        <exclude name="Generic.Commenting.DocComment.MissingShort" />
+        <exclude name="Generic.Commenting.DocComment.MissingShort"/>
         <exclude name="Generic.Commenting.DocComment.SpacingBeforeTags"/>
+        <exclude name="Generic.Commenting.DocComment.TagValueIndent"/>
+        <exclude name="Generic.Commenting.DocComment.ContentAfterOpen" />
+        <exclude name="Generic.Commenting.DocComment.ContentBeforeClose" />
     </rule>
 
     <!-- PHP keywords MUST be in lower case. -->

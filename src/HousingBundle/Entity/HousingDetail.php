@@ -36,28 +36,21 @@ class HousingDetail
     /**
      * @var string
      *
-     * @ORM\Column(name="details", type="text")
+     * @ORM\Column(name="label", type="text")
      */
-    private $details;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=45)
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=45)
-     */
-    private $type;
+    private $label;
 
     /**
      * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingDetailValue", mappedBy="detail")
      */
     private $values;
+
+    /**
+     * Many Features have One Product.
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\HousingType", inversedBy="details", cascade={"persist"})
+     * @ORM\JoinColumn(name="housing_type_id", referencedColumnName="id")
+     */
+    private $housingType;
 
     /**
      * HousingDetail constructor.
@@ -72,7 +65,7 @@ class HousingDetail
      *
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -80,77 +73,45 @@ class HousingDetail
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string $name Set a name
      *
-     * @return void
+     * @return HousingDetail
      */
-    public function setName(string $name): void
+    public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getDetails(): string
+    public function getLabel()
     {
-        return $this->details;
+        return $this->label;
     }
 
     /**
-     * @param string $details
+     * @param string $label Set a label
      *
-     * @return void
+     * @return HousingDetail
      */
-    public function setDetails(string $details): void
+    public function setLabel($label)
     {
-        $this->details = $details;
+        $this->label = $label;
+
+        return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return void
-     */
-    public function setType(string $type): void
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     *
-     * @return void
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return mixed
+     * @return ArrayCollection|HousingDetailValue[]
      */
     public function getValues()
     {
@@ -158,12 +119,34 @@ class HousingDetail
     }
 
     /**
-     * @param mixed $values
+     * @param ArrayCollection|HousingDetailValue[] $values Set values
      *
-     * @return void
+     * @return HousingDetail
      */
-    public function setValues($values): void
+    public function setValues($values)
     {
         $this->values = $values;
+
+        return $this;
+    }
+
+    /**
+     * @return null|HousingType
+     */
+    public function getHousingType()
+    {
+        return $this->housingType;
+    }
+
+    /**
+     * @param HousingType $housingType Set housing type
+     *
+     * @return HousingDetail
+     */
+    public function setHousingType(?HousingType $housingType)
+    {
+        $this->housingType = $housingType;
+
+        return $this;
     }
 }

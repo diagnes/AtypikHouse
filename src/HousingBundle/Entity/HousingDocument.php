@@ -58,54 +58,60 @@ class HousingDocument
     /**
      * @return Housing
      */
-    public function getHousing(): Housing
+    public function getHousing(): ?Housing
     {
         return $this->housing;
     }
 
     /**
-     * @param Housing $housing
+     * @param Housing $housing Set Housing
      *
-     * @return void
+     * @return HousingDocument
      */
-    public function setHousing(Housing $housing): void
+    public function setHousing(Housing $housing): HousingDocument
     {
         $this->housing = $housing;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string $name Set a name
      *
-     * @return void
+     * @return HousingDocument
      */
-    public function setName(string $name): void
+    public function setName(string $name): HousingDocument
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
      * @return Media
      */
-    public function getFile(): Media
+    public function getFile(): ?Media
     {
         return $this->file;
     }
 
     /**
-     * @param Media $file
+     * @param Media $file Set a media
      *
-     * @return void
+     * @return HousingDocument
      */
-    public function setFile(Media $file): void
+    public function setFile(Media $file): HousingDocument
     {
         $this->file = $file;
+
+        return $this;
     }
 }

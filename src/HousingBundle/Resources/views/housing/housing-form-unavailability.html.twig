@@ -1,0 +1,71 @@
+{% extends 'HousingBundle:housing:housing-form.html.twig' %}
+
+{% block title %}{{ parent() }} | Housing {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.css'
+    '@AdminBundle/Resources/public/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css'
+    '@AdminBundle/Resources/public/css/plugins/chosen/chosen.css'
+    '@AdminBundle/Resources/public/css/plugins/fullcalendar/fullcalendar.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/ionRangeSlider/ion.rangeSlider.min.js'
+    '@AdminBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@AdminBundle/Resources/public/js/plugins/fullcalendar/moment.min.js'
+    '@AdminBundle/Resources/public/js/plugins/fullcalendar/fullcalendar.min.js'
+    '@AdminBundle/Resources/public/js/form.js'
+    '@AdminBundle/Resources/public/js/calendar.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var events = [
+            {% for event in form.undisponibility.children %}
+            {
+                id: '{{ event.startDate.vars.data|date('Y-m-d') }}',
+                title: 'Unavailable',
+                start: new Date({{ event.startDate.vars.value.year }}, {{ event.startDate.vars.value.month - 1 }}, {{ event.startDate.vars.value.day }}),
+                allDay: true
+            }{% if loop.last == false %},{% endif %}
+            {% endfor %}
+        ];
+        console.log(events);
+        initCalendar(events);
+    </script>
+{% endblock %}
+
+{% block form_content %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Striped Table </h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            {{ form_start(form) }}
+            <div id="calendar" data-prototype="{% filter escape %}{{ include('HousingBundle:housing:housing-unavailable-form-prototype.html.twig', { 'form': form.undisponibility.vars.prototype }) }}{% endfilter %}"></div>
+            <div class="date-unavailable">
+                {% for form_date in form.undisponibility.children %}
+                    {% include 'HousingBundle:housing:housing-unavailable-form-prototype.html.twig' with {'form': form_date } %}
+                {% endfor %}
+            </div>
+            <div class="row m-t-10">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
