@@ -3,6 +3,7 @@
 namespace UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UserProfessionalInfos
@@ -44,89 +45,131 @@ class UserProfessionalInfos
     /**
      * @var string|null
      *
+     * @Assert\Valid()
+     * @Assert\Length(min = 10, max = 10)
+     * @Assert\Regex(pattern="/^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/", message="Phone number it's number only")
+     *
      * @ORM\Column(name="work_number", type="string", length=10, nullable=true)
      */
     private $workNumber;
 
     /**
-     * Get id.
+     * Get a Id
      *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
+     * Set a Id
+     *
+     * @param int $id Set a new id
+     *
+     * @return UserProfessionalInfos
+     */
+    public function setId(int $id): UserProfessionalInfos
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get a User
+     *
      * @return User
      */
-    public function getUser(): User
+    public function getUser()
     {
         return $this->user;
     }
 
     /**
-     * @param User $user
+     * Set a User
      *
-     * @return void
+     * @param User $user Set a new user
+     *
+     * @return UserProfessionalInfos
      */
-    public function setUser(User $user): void
+    public function setUser($user)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**
+     * Get a Siret
+     *
      * @return null|string
      */
-    public function getSiret(): ?string
+    public function getSiret()
     {
         return $this->siret;
     }
 
     /**
-     * @param string $siret
+     * Set a Siret
      *
-     * @return void
+     * @param null|string $siret Set a new siret
+     *
+     * @return UserProfessionalInfos
      */
-    public function setSiret(string $siret): void
+    public function setSiret($siret)
     {
         $this->siret = $siret;
+
+        return $this;
     }
 
     /**
+     * Get a Entreprise
+     *
      * @return null|string
      */
-    public function getEntreprise(): ?string
+    public function getEntreprise()
     {
         return $this->entreprise;
     }
 
     /**
-     * @param null|string $entreprise
+     * Set a Entreprise
      *
-     * @return void
+     * @param null|string $entreprise Set a new entreprise
+     *
+     * @return UserProfessionalInfos
      */
-    public function setEntreprise($entreprise): void
+    public function setEntreprise($entreprise)
     {
         $this->entreprise = $entreprise;
+
+        return $this;
     }
 
     /**
+     * Get a WorkNumber
+     *
      * @return null|string
      */
-    public function getWorkNumber(): ?string
+    public function getWorkNumber()
     {
         return $this->workNumber;
     }
 
     /**
-     * @param null|string $workNumber
+     * Set a WorkNumber
      *
-     * @return void
+     * @param null|string $workNumber Set a new workNumber
+     *
+     * @return UserProfessionalInfos
      */
-    public function setWorkNumber($workNumber): void
+    public function setWorkNumber($workNumber)
     {
         $this->workNumber = $workNumber;
+
+        return $this;
     }
 }

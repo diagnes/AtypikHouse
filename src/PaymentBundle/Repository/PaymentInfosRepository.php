@@ -2,6 +2,8 @@
 
 namespace PaymentBundle\Repository;
 
+use PaymentBundle\Entity\PaymentInfos;
+
 /**
  * PaymentInfosRepository
  *
@@ -10,4 +12,24 @@ namespace PaymentBundle\Repository;
  */
 class PaymentInfosRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Get the paymentInfos of the proprietary
+     *
+     * @param int $id Get the proprietary user id
+     *
+     * @return PaymentInfos[]
+     */
+    public function getProprietaryPayment(int $id)
+    {
+        $qb = $this->createQueryBuilder('pi');
+
+        $qb
+            ->leftJoin('pi.reservation', 'r')
+            ->leftJoin('r.housing', 'h')
+            ->leftJoin('h.proprietary', 'pr')
+            ->where('pr.id = :userId')
+            ->setParameter('userId', $id);
+
+        return $qb->getQuery()->getResult();
+    }
 }

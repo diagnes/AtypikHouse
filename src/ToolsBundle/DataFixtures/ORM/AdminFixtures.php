@@ -50,7 +50,7 @@ class AdminFixtures implements FixtureInterface
         $userAdmin->setEmail('admin@atipikhouse.com');
         $userAdmin->setPersonalInfos($personalInfos);
         $userAdmin->setEmailCanonical('admin@atipikhouse.com');
-        $userAdmin->setPlainPassword('Admin123');
+        $userAdmin->setPassword('Admin123');
         $userAdmin->setEnabled(true);
         $userAdmin->setRoles(
             [

@@ -1,0 +1,11 @@
+atyipikhouse_housing_notation_add:
+    path:     /add/{slug}
+    defaults: { _controller: "HousingBundle:HousingNotation:addNotation" }
+
+atyipikhouse_housing_notation_edit:
+    path:     /edit/{id}
+    defaults: { _controller: "HousingBundle:HousingNotation:editNotation" }
+
+atyipikhouse_housing_notation_delete:
+    path:     /delete/{id}
+    defaults: { _controller: "HousingBundle:HousingNotation:delete" }

@@ -1,0 +1,19 @@
+atyipikhouse_admin_housing_notation_index:
+    path:     /all
+    defaults: { _controller: "HousingBundle:HousingNotationAdmin:all" }
+
+atyipikhouse_admin_housing_notation_new:
+    path:     /new
+    defaults: { _controller: "HousingBundle:HousingNotationAdmin:new" }
+
+atyipikhouse_admin_housing_notation_edit:
+    path:     /edit/{slug}
+    defaults: { _controller: "HousingBundle:HousingNotationAdmin:edit" }
+
+atyipikhouse_admin_housing_notation_delete:
+    path:     /delete/{slug}
+    defaults: { _controller: "HousingBundle:HousingNotationAdmin:delete" }
+
+atyipikhouse_admin_housing_notation_undelete:
+    path:     /undelete/{slug}
+    defaults: { _controller: "HousingBundle:HousingNotationAdmin:undelete" }

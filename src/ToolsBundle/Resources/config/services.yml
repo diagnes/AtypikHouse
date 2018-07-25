@@ -10,8 +10,32 @@ services:
         class: ToolsBundle\Service\DataResponseManager
         arguments:
             - '@jms_serializer'
+
+    tools.reservation_extension:
+        class: ToolsBundle\Twig\ReservationExtension
+        arguments: ['@ah.reservation_manager', '@router.default']
+        tags:
+          - { name: twig.extension }
+
+    tools.notation_extension:
+        class: ToolsBundle\Twig\NotationExtension
+        arguments: ['@ah.housing_notation_manager']
+        tags:
+          - { name: twig.extension }
+
+    tools.user_extension:
+        class: ToolsBundle\Twig\UserExtension
+        tags:
+          - { name: twig.extension }
+
     kernel.listener.doctrine:
         class: ToolsBundle\Listener\DoctrineListener
         public: false
         tags:
             - { name: doctrine.event_listener, event: preFlush, method: preFlush }
+
+    sonata.media.resizer.custom:
+        class: ToolsBundle\Resizer\SonataMediaResizer
+        arguments: [ "@sonata.media.adapter.image.gd", 'outbound', "@sonata.media.metadata.proxy" ]
+
+

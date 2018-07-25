@@ -2,6 +2,7 @@
 
 namespace HousingBundle\Service;
 
+use AtypikHouseBundle\Entity\Reservation;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
 use HousingBundle\Entity\Housing;
@@ -69,10 +70,12 @@ class HousingManager
      *
      * @return Housing
      *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      * @throws \ErrorException
      */
     public function getHousingEntity(string $slug)
     {
+        $this->em->getFilters()->enable('deleted');
         if ($this->security->isGranted('ROLE_ADMIN')) {
             $this->em->getFilters()->disable('deleted');
         }
@@ -95,6 +98,7 @@ class HousingManager
      */
     public function getAllHousingEntity()
     {
+        $this->em->getFilters()->enable('deleted');
         if ($this->security->isGranted('ROLE_ADMIN')) {
             $this->em->getFilters()->disable('deleted');
             return $this->em->getRepository(Housing::class)->findAll();
@@ -106,6 +110,45 @@ class HousingManager
         }
 
         return $this->em->getRepository(Housing::class)->findBy(['visible' => true]);
+    }
+
+    /**
+     * Return All Housings for a proprietary for action
+     *
+     * @return Housing[]
+     */
+    public function getAllHousingProprietaryEntity()
+    {
+        $user = $this->security->getUser();
+        $this->em->getFilters()->enable('deleted');
+
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            $this->em->getFilters()->disable('deleted');
+        }
+
+        return $this->em->getRepository(Housing::class)->findBy(['proprietary' => $user]);
+    }
+
+    /**
+     * Made some check and return All Housings for action
+     *
+     * @param array $housingIds Get the list of housings
+     * @param int   $page       Get the page
+     *
+     * @return Housing[]
+     */
+    public function getAllHousingFrontEntity(array $housingIds = null, $page = 1)
+    {
+        $this->em->getFilters()->enable('deleted');
+        $filter = [
+            'visible' => true,
+            'state' => HousingStateEnum::VALIDATED
+        ];
+
+        if ($housingIds) {
+            $filter['id'] = $housingIds;
+        }
+        return $this->em->getRepository(Housing::class)->findBy($filter, [], 6, 6 * ($page - 1));
     }
 
 

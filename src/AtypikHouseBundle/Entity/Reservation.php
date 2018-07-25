@@ -4,6 +4,7 @@ namespace AtypikHouseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use HousingBundle\Entity\Housing;
+use HousingBundle\Entity\HousingNotation;
 use PaymentBundle\Entity\PaymentInfos;
 use ToolsBundle\DataTrait\DateTrait;
 use ToolsBundle\DataTrait\DeletedDateTrait;
@@ -24,7 +25,7 @@ class Reservation
      *
      * @var int
      *
-     * @ORM\Column(name="id",               type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -33,7 +34,7 @@ class Reservation
     /**
      *
      * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\Housing", inversedBy="reservations")
-     * @ORM\JoinColumn(name="housing_id",                          referencedColumnName="id")
+     * @ORM\JoinColumn(name="housing_id", referencedColumnName="id")
      */
     private $housing;
 
@@ -42,7 +43,7 @@ class Reservation
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="reservations")
-     * @ORM\JoinColumn(name="user_id",                       referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
@@ -62,8 +63,15 @@ class Reservation
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="AtypikHouseBundle\Entity\ReservationInfos", mappedBy="reservation", )
-     * @ORM\JoinColumn(name="reservation_infos",                               referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="HousingBundle\Entity\HousingNotation", mappedBy="reservation")
+     * @ORM\JoinColumn(name="review_id", referencedColumnName="id")
+     */
+    private $review;
+
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="AtypikHouseBundle\Entity\ReservationInfos", mappedBy="reservation", cascade={"persist"})
+     * @ORM\JoinColumn(name="reservation_infos", referencedColumnName="id")
      */
     private $reservationInfos;
 
@@ -72,7 +80,7 @@ class Reservation
      *
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -148,13 +156,15 @@ class Reservation
 
     /**
      *
-     * @param null|PaymentInfos $paymentInfo Set the pamentInfos for reservation
+     * @param null|PaymentInfos $paymentInfo Set the paymentInfos for reservation
      *
-     * @return void
+     * @return Reservation
      */
     public function setPaymentInfo(?PaymentInfos $paymentInfo)
     {
         $this->paymentInfo = $paymentInfo;
+
+        return $this;
     }
 
     /**
@@ -168,12 +178,37 @@ class Reservation
 
     /**
      *
-     * @param mixed $reservationInfos Set the reservationInfos for reservation
+     * @param ReservationInfos $reservationInfos Set the reservationInfos for reservation
      *
      * @return void
      */
     public function setReservationInfos($reservationInfos)
     {
         $this->reservationInfos = $reservationInfos;
+        $reservationInfos->setReservation($this);
+    }
+
+    /**
+     * Get a Review
+     *
+     * @return HousingNotation
+     */
+    public function getReview()
+    {
+        return $this->review;
+    }
+
+    /**
+     * Set a Review
+     *
+     * @param HousingNotation $review Set a new review
+     *
+     * @return Reservation
+     */
+    public function setReview($review)
+    {
+        $this->review = $review;
+
+        return $this;
     }
 }

@@ -2,8 +2,10 @@
 
 namespace UserBundle\Entity;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\ORM\Mapping as ORM;
 use ToolsBundle\DataTrait\DateTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UserPersonalInfos
@@ -19,7 +21,7 @@ class UserPersonalInfos
      *
      * @var int
      *
-     * @ORM\Column(name="id",               type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -30,15 +32,15 @@ class UserPersonalInfos
      * @var User|null
      *
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\User", inversedBy="personalInfos")
-     * @ORM\JoinColumn(name="user_id",                      referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
      * @var Media
      *
-     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", fetch="EAGER", cascade={"persist"})
-     * @ORM\JoinColumn(name="image_id",                                           referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", fetch="EAGER", cascade={"persist"})
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $image;
 
@@ -70,7 +72,7 @@ class UserPersonalInfos
      *
      * @var \DateTime|null
      *
-     * @ORM\Column(name="birth_date", type="datetime", nullable=true)
+     * @ORM\Column(name="birth_date", type="date", nullable=true)
      */
     private $birthDate;
 
@@ -87,7 +89,7 @@ class UserPersonalInfos
      * @var null|Address
      *
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\Address", cascade={"persist"})
-     * @ORM\JoinColumn(name="address_id",                      referencedColumnName="id")
+     * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
     private $address;
 
@@ -102,6 +104,10 @@ class UserPersonalInfos
     /**
      *
      * @var string|null
+     *
+     * @Assert\Valid()
+     * @Assert\Length(min = 10, max = 10)
+     * @Assert\Regex(pattern="/^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/", message="Phone number it's number only")
      *
      * @ORM\Column(name="phone_number", type="string", length=10, nullable=true)
      */
@@ -179,7 +185,7 @@ class UserPersonalInfos
      *
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -199,7 +205,7 @@ class UserPersonalInfos
      *
      * @return string
      */
-    public function getLastname(): string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
@@ -219,7 +225,7 @@ class UserPersonalInfos
      *
      * @return \DateTime|null
      */
-    public function getBirthDate(): ?\DateTime
+    public function getBirthDate()
     {
         return $this->birthDate;
     }
@@ -353,5 +359,38 @@ class UserPersonalInfos
     public function setNationality($nationality): void
     {
         $this->nationality = $nationality;
+    }
+
+    /**
+     * Get a Image
+     *
+     * @return Media
+     */
+    public function getImage(): ?Media
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set a Image
+     *
+     * @param Media $image Set a new image
+     *
+     * @return UserPersonalInfos
+     */
+    public function setImage(Media $image): UserPersonalInfos
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getFirstAndLastName(): ?string
+    {
+        return $this->firstname.' '.$this->lastname;
     }
 }

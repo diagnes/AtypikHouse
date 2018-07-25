@@ -2,33 +2,62 @@
 
 namespace HousingBundle\Controller;
 
+use AtypikHouseBundle\Entity\Reservation;
+use AtypikHouseBundle\Form\SearchHouseFormType;
 use HousingBundle\Entity\Housing;
-use HousingBundle\Enum\HousingStateEnum;
-use HousingBundle\Form\HousingType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use ToolsBundle\Service\DataResponseAdapter;
 
 /**
  * Housing controller.
+ *
+ * In this controller user can see all available houses
+ *
+ * PHP version 7.1
+ *
+ * @category  Controller
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
+ *
+ * @Security("has_role('ROLE_USER')")
  */
 class HousingController extends Controller
 {
     /**
      * Lists all housing entities.
      *
+     * @param Request $request Get the request
+     *
      * @return Response
      */
-    public function allAction()
+    public function allAction(Request $request)
     {
-        $housings = $this->get('ah.housing_manager')->getAllHousingEntity();
+        $queryInfos = $request->query->all();
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(SearchHouseFormType::class, null);
+        $form->handleRequest($request);
+        if ($queryInfos) {
+            $page = $queryInfos['page'] ?? 1;
+            $housingIds = $em->getRepository(Housing::class)->getHousingByQuery($queryInfos);
+            $housings = $this->get('ah.housing_manager')->getAllHousingFrontEntity($housingIds, $page);
+        } else {
+            $housings = $this->get('ah.housing_manager')->getAllHousingFrontEntity();
+        }
+
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $housingIds = $em->getRepository(Housing::class)->getHousingByQuery($data);
+            $page = $data['page'] ?? 1;
+            $housings = $this->get('ah.housing_manager')->getAllHousingFrontEntity($housingIds, $page);
+        }
+
         return $this->render(
-            'HousingBundle:housing:list.html.twig',
+            'HousingBundle:front-housing:list.html.twig',
             [
             'housings' => $housings,
+            'form' => $form->createView(),
             ]
         );
     }
@@ -42,36 +71,36 @@ class HousingController extends Controller
      */
     public function listProprietaryHousingAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $reservations = $em->getRepository('AtypikHouseBundle:Reservation')->findAll();
-
+        $housingManager = $this->get('ah.housing_manager');
+        $housings = $housingManager->getAllHousingProprietaryEntity();
         return $this->render(
-            'reservation/index.html.twig',
+            'HousingBundle:housing:list.html.twig',
             [
-            'reservations' => $reservations,
+            'housings' => $housings,
+            'menu_level' => 'housing_prorietary'
             ]
         );
     }
 
     /**
-     * Finds and displays a housing entity.
+     * Finds and displays a housing entity for users.
      *
-     * @param int $id Get the housing id targeted
+     * @param string $slug Get the housing id targeted
      *
-     * @return JsonResponse
+     * @return Response
      */
-    public function showAction(int $id)
+    public function showAction(string $slug)
     {
-        try {
-            $housing = $this->get('ah.housing_manager')->getHousingEntity($id);
-            $dataResonseManager = $this->get('tools.data_response_manager');
-            $data = [
-                'housing' => new DataResponseAdapter($housing, Housing::class),
-            ];
+        $em = $this->getDoctrine()->getManager();
+        $housing = $this->get('ah.housing_manager')->getHousingEntity($slug);
+        $reservations = $em->getRepository(Reservation::class)->getHousingReviews($slug);
 
-            return new JsonResponse($dataResonseManager->createAdaptedResponseData($data), 200);
-        } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 400);
-        }
+        return $this->render(
+            'HousingBundle:front-housing:show.html.twig',
+            [
+            'housing' => $housing,
+            'reservations' => $reservations
+            ]
+        );
     }
 }

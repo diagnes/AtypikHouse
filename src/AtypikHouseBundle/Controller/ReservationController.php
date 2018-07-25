@@ -2,30 +2,268 @@
 
 namespace AtypikHouseBundle\Controller;
 
-use AtypikHouseBundle\Entity\Reservation;
+use AtypikHouseBundle\Enum\ReservationStateEnum;
+use AtypikHouseBundle\Form\ReservationStartFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Reservation controller.
+ *
+ * In this controller user can manage his reservation
+ * Reservation information
+ *
+ * PHP version 7.1
+ *
+ * @category  Controller
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
+ *
+ * @Security("has_role('ROLE_USER')")
  */
 class ReservationController extends Controller
 {
     /**
-     * Lists all reservation entities.
+     * Init the reservation for connected user
+     *
+     * @param Request $request Get the request for the session
+     * @param string  $slug    Get the targeted housing
+     *
+     * @return Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws \ErrorException
+     */
+    public function startReservationAction(Request $request, string $slug)
+    {
+        $housingManager = $this->get('ah.housing_manager');
+        $reservationManager = $this->get('ah.reservation_manager');
+        $em = $this->getDoctrine()->getManager();
+
+        $housing = $housingManager->getHousingEntity($slug);
+        $reservation = $reservationManager->createReservation($housing);
+        $form = $this->createForm(
+            ReservationStartFormType::class,
+            $reservation,
+            [
+            'maxResident' => $housing->getMaxResident(),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($reservation);
+            $em->flush();
+
+            return $this->redirectToRoute('atypikhouse_reservation_step_two', ['slug' => $housing->getSlug(), 'id' => $reservation->getId()]);
+        }
+
+        return $this->render(
+            'AtypikHouseBundle:reservation/step:step-one.html.twig',
+            [
+            'reservation' => $reservation,
+            'housing' => $housing,
+            'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Step two of the reservation for connected user waiting for external validation
+     *
+     * @param string $slug Get the targeted housing
+     * @param int    $id   Get the targeted reservation
+     *
+     * @return Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws \ErrorException
+     */
+    public function stepTwoReservationAction(string $slug, int $id)
+    {
+        $housingManager = $this->get('ah.housing_manager');
+        $reservationManager = $this->get('ah.reservation_manager');
+
+        $housing = $housingManager->getHousingEntity($slug);
+        $reservation = $reservationManager->getReservationEntity($id);
+
+        if (ReservationStateEnum::PENDING !== $reservation->getState()) {
+            throw new AccessDeniedException('Your reservation has not been submit');
+        }
+        return $this->render(
+            'AtypikHouseBundle:reservation/step:step-two.html.twig',
+            [
+            'reservation' => $reservation,
+            'housing' => $housing,
+            ]
+        );
+    }
+
+
+    /**
+     * Step two of the reservation for connected user waiting for external validation
+     *
+     * @param string $slug Get the targeted housing
+     * @param int    $id   Get the targeted reservation
+     *
+     * @return Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws \ErrorException
+     */
+    public function stepThreeReservationAction(string $slug, int $id)
+    {
+        $housingManager = $this->get('ah.housing_manager');
+        $reservationManager = $this->get('ah.reservation_manager');
+        $housing = $housingManager->getHousingEntity($slug);
+        $reservation = $reservationManager->getReservationEntity($id);
+        if (ReservationStateEnum::VALIDATED !== $reservation->getState()) {
+            throw new AccessDeniedException('Your reservation has not been validated yet');
+        }
+        return $this->render(
+            'AtypikHouseBundle:reservation/step:step-three.html.twig',
+            [
+            'reservation' => $reservation,
+            'housing' => $housing,
+            ]
+        );
+    }
+
+
+    /**
+     * Step two of the reservation for connected user waiting for external validation
+     *
+     * @param string $slug Get the targeted housing
+     * @param int    $id   Get the targeted reservation
+     *
+     * @return Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws \ErrorException
+     */
+    public function stepFourReservationAction(string $slug, int $id)
+    {
+        $housingManager = $this->get('ah.housing_manager');
+        $reservationManager = $this->get('ah.reservation_manager');
+
+        $housing = $housingManager->getHousingEntity($slug);
+        $reservation = $reservationManager->getReservationEntity($id);
+
+        if (ReservationStateEnum::DONE !== $reservation->getState()) {
+            throw new AccessDeniedException('Your reservation has not been paid yet');
+        }
+
+        return $this->render(
+            'AtypikHouseBundle:reservation/step:step-four.html.twig',
+            [
+            'reservation' => $reservation,
+            'housing' => $housing,
+            ]
+        );
+    }
+
+    /**
+     * Step errors during payment of the reservation for connected user waiting for external validation
+     *
+     * @param string $slug Get the targeted housing
+     * @param int    $id   Get the targeted reservation
+     *
+     * @return Response
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws \ErrorException
+     */
+    public function stepErrorReservationAction(string $slug, int $id)
+    {
+        $housingManager = $this->get('ah.housing_manager');
+        $reservationManager = $this->get('ah.reservation_manager');
+
+        $housing = $housingManager->getHousingEntity($slug);
+        $reservation = $reservationManager->getReservationEntity($id);
+
+        return $this->render(
+            'AtypikHouseBundle:reservation/step:step-error.html.twig',
+            [
+            'reservation' => $reservation,
+            'housing' => $housing,
+            ]
+        );
+    }
+
+    /**
+     * Get all housing undisponibility for a housing
+     *
+     * @param int $id Get the targeted reservation id
+     *
+     * @return RedirectResponse
+     *
+     * @throws \ErrorException
+     */
+    public function cancelReservationAction(int $id)
+    {
+        $reservationManager = $this->get('ah.reservation_manager');
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $reservationManager->getReservationEntity($id);
+        $reservation->setState(ReservationStateEnum::CANCELED);
+        $em->flush();
+
+        return $this->redirectToRoute('fos_user_profile_reservations');
+    }
+
+    /**
+     * Get all housing undisponibility for a housing
+     *
+     * @param int $id Get the targeted reservation id
+     *
+     * @return RedirectResponse
+     *
+     * @throws \ErrorException
+     */
+    public function refusedReservationAction(int $id)
+    {
+        $reservationManager = $this->get('ah.reservation_manager');
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $reservationManager->getReservationEntity($id);
+        $reservation->setState(ReservationStateEnum::REFUSED_CLIENT);
+        $em->flush();
+
+        return $this->redirectToRoute('fos_user_profile_reservations');
+    }
+
+    /**
+     * Get all housing undisponibility for a housing
+     *
+     * @param string $slug Get the targeted reservation id
+     *
+     * @return JsonResponse
+     *
+     * @throws \ErrorException
+     */
+    public function getAllUndisponibilityAction(string $slug)
+    {
+        $reservationManager = $this->get('ah.reservation_manager');
+        $housing = $this->get('ah.housing_manager')->getHousingEntity($slug);
+        return new JsonResponse($reservationManager->getUndisponibility($housing), Response::HTTP_ACCEPTED);
+    }
+
+    /**
+     * Get all proprieatary reservation
+     *
+     * @Security("has_role('ROLE_PROPRIETARY')")
      *
      * @return Response
      */
-    public function indexAction()
+    public function listProprietaryReservationAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $reservations = $em->getRepository('AtypikHouseBundle:Reservation')->findAll();
-
+        $reservationManager = $this->get('ah.reservation_manager');
+        $reservations = $reservationManager->getAllReservationProprietaryEntity();
         return $this->render(
-            'reservation/index.html.twig',
+            'AtypikHouseBundle:admin:list-proprietary.html.twig',
             [
             'reservations' => $reservations,
             ]

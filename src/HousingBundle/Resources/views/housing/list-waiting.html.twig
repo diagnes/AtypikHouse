@@ -2,6 +2,8 @@
 
 {% block title %}{{ parent() }} | Housing List{% endblock %}
 
+{% set menu_level = 'housings_admin' %}
+
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets

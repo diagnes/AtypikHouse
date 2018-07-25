@@ -5,10 +5,16 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
-        ROLE_PROPRIETARY: ROLE_USER
-        ROLE_NEWS_MANAGER: ROLE_USER
-        ROLE_ADMIN: [ROLE_USER, ROLE_PROPRIETARY]
-        ROLE_IT: ROLE_ADMIN
+        ROLE_PROPRIETARY:
+            - ROLE_USER
+        ROLE_NEWS_MANAGER:
+            - ROLE_USER
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_PROPRIETARY
+            - ROLE_ALLOWED_TO_SWITCH
+        ROLE_IT:
+            - ROLE_ADMIN
 
     providers:
         fos_userbundle:
@@ -16,6 +22,7 @@ security:
 
     firewalls:
         main:
+            switch_user: true
             pattern: ^/
             form_login:
                 provider: fos_userbundle

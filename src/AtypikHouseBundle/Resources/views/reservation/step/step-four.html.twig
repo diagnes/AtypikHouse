@@ -1,0 +1,62 @@
+{% extends 'AtypikHouseBundle:reservation:reservation-wizard.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/daterangepicker/daterangepicker.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/fullcalendar/moment.min.js'
+    '@AdminBundle/Resources/public/js/plugins/daterangepicker/daterangepicker.js'
+    '@AdminBundle/Resources/public/js/form.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% set step = 4 %}
+{% block wizard_content %}
+    <div class="reservation-form no-dotted">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="payment-info">
+                    <h2>{{ housing.title }}</h2>
+                    <h3><i class="fa fa-thumbsup"></i>Your reservation is now booked</h3>
+                    <span class="star-room"><i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i></span>
+                    <ul>
+                        <li><span>Location:</span> {{ housing.address.city ~ ', ' ~ housing.address.country }}</li>
+                        <li><span>Check-in:</span> {{ reservation.reservationInfos.startDate | date('l jS F') }}</li>
+                        <li><span>Check-out:</span>{{ reservation.reservationInfos.endDate | date('l jS F') }}</li>
+                        <li><span>Stay:</span> {{ reservation.reservationInfos.interval }} Nights, Max {{ housing.maxResident }} Adult(s)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="payment-price">
+                    <figure>
+                        {% if housing.images and housing.images.first and housing.images.first.file %}
+                            {% media housing.images.first.file, 'small' %}
+                        {% else %}
+                            <img src="{{ asset('bundles/atypikhouse/images/empty-photo.jpg') }}" alt="">
+                        {% endif %}
+                    </figure>
+                    <div class="total-trip">
+                        <span>{{ reservation.reservationInfos.interval }} Nights and {{ housing.price }}€<small>/night</small></span><br>
+                        <span>Trip: {{ reservation | priceTripStay }} €</span><br>
+                        <span>Stay tax and fees: {{ reservation | taxAtypikhouse }} €</span><br>
+                        <p>Trip Total: <ins>{{ reservation | priceStay }} €</ins><small></small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -29,6 +29,9 @@
 </head>
 
 <body>
+{% if form is defined %}
+    {% form_theme form 'form/error.html.twig' %}
+{% endif %}
 <div id="wrapper">
     {% block navbar %}
         {% include 'AdminBundle:partial:navbar.html.twig' %}
@@ -37,9 +40,6 @@
     <div id="page-wrapper" class="gray-bg dashbard-1">
         {% block content %}{% endblock %}
     </div>
-</div>
-<div class="footer">
-    <strong>Copyright</strong> AtypikHouse &copy; 2018
 </div>
 <!-- Start script -->
 {% block javascripts %}

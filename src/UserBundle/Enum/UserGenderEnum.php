@@ -6,8 +6,8 @@ use ToolsBundle\Enum\AbstractEnum;
 
 class UserGenderEnum extends AbstractEnum
 {
-    public const MAN = 'Mr';
-    public const WOMEN = 'Mme';
+    public const MAN = 'M';
+    public const WOMEN = 'W';
 
     /**
      * @return array
@@ -15,8 +15,8 @@ class UserGenderEnum extends AbstractEnum
     public static function toAssoc(): array
     {
         return [
-            self::MAN => 'Man',
-            self::WOMEN => 'Women',
+            self::MAN => 'Mister',
+            self::WOMEN => 'Miss',
         ];
     }
 }

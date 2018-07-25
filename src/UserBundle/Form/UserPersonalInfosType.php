@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use UserBundle\Entity\UserPersonalInfos;
 
 /**
  * Class UserPersonalInfosType
@@ -29,103 +30,117 @@ class UserPersonalInfosType extends AbstractType
                 'image',
                 MediaType::class,
                 [
-                'label' => false,
-                'provider' => 'sonata.media.provider.image',
-                'required' => true,
-                'context'  => 'default'
+                    'label' => false,
+                    'provider' => 'sonata.media.provider.image',
+                    'required' => true,
+                    'context'  => 'default'
                 ]
             )
             ->add(
                 'gender',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Gender',
-                ]
+                    'label' => 'Gender',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Gender',
+                    ]
                 ]
             )
             ->add(
                 'firstname',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Firstname',
-                ]
+                    'label' => 'Firstname',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Firstname',
+                    ]
                 ]
             )
             ->add(
                 'lastname',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Lastname',
-                ]
+                    'label' => 'Lastname',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Lastname',
+                    ]
                 ]
             )
             ->add(
                 'birthDate',
                 DateType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'BirthDate',
-                ]
+                    'label' => 'BirthDate',
+                    'attr' => [
+                        'placeholder' => 'BirthDate',
+                    ]
                 ]
             )
             ->add(
                 'birthLocation',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'BirthLocation',
-                ]
+                    'label' => 'BirthLocation',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'BirthLocation',
+                    ]
                 ]
             )
             ->add(
                 'description',
                 TextareaType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Gender',
-                ]
+                    'label' => 'Description',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Description',
+                    ]
                 ]
             )
             ->add(
                 'phoneNumber',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Gender',
-                ]
+                    'label' => 'Phone Number',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Phone Number',
+                    ]
                 ]
             )
             ->add(
                 'profession',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Gender',
-                ]
+                    'label' => 'Profession',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Profession',
+                    ]
                 ]
             )
             ->add(
                 'nationality',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Gender',
-                ]
+                    'label' => 'Gender',
+                    'attr' => [
+                        'class' => 'input-text',
+                        'placeholder' => 'Gender',
+                    ]
                 ]
             )
-            ->add('address', AddressType::class);
+            ->add(
+                'address',
+                AddressType::class,
+                [
+                'class-input' => 'input-text'
+                ]
+            );
     }
 
     /**
@@ -137,7 +152,7 @@ class UserPersonalInfosType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => 'UserBundle\Entity\UserPersonalInfos'
+                'data_class' => UserPersonalInfos::class
             ]
         );
     }

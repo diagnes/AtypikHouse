@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Housing controller.
+ * Housing Type controller.
  *
  * In this controller we can list, add, edit and delete
  * Housing Type information

@@ -8,17 +8,12 @@
     </h4>
     <p>
         {% if app.user.personalInfos is not null and app.user.personalInfos.image is not null %}
-            {% thumbnail app.user.personalInfos, 'small' %}
+            {% thumbnail app.user.personalInfos.image, 'small' %}
         {% endif %}
     </p>
 </div>
 <ul class="user-profile__navigation">
-    <li {% if (app.request.attributes.get('_route') == 'fos_user_profile_reservations') %} class="current"{% endif %}><a href="{{ path('fos_user_profile_reservations') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-cart.png') }}" alt="">My Reservations</a></li>
+    <li {% if (app.request.attributes.get('_route') == 'fos_user_profile_reservations') %} class="current"{% endif %}><a href="{{ path('fos_user_profile_reservations') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-hotel.png') }}" alt="">My Reservations</a></li>
     <li {% if (app.request.attributes.get('_route') == 'fos_user_profile_show') %} class="current"{% endif %}><a href="{{ path('fos_user_profile_show') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-user.png') }}" alt="">My profile</a></li>
-    {% if is_granted('ROLE_PROPRIETARY') %}
-        <li {% if (app.request.attributes.get('_route') == 'fos_user_profile_notation') %} class="current"{% endif %}><a href="{{ path('fos_user_profile_notation') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-review.png') }}" alt="">Notations</a></li>
-        <li {% if (app.request.attributes.get('_route') == 'fos_user_profile_housing') %} class="current"{% endif %}><a href="{{ path('fos_user_profile_housing') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-review.png') }}" alt="">Houses</a></li>
-    {% endif %}
-    <li {% if (app.request.attributes.get('_route') == 'fos_user_profile_wishlist') %} class="current"{% endif %}><a href="{{ path('fos_user_profile_wishlist') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-heart.png') }}" alt="">Wishlist</a></li>
-    <li {% if (app.request.attributes.get('_route') == 'fos_user_security_logout') %} class="current"{% endif %}><a href="{{ path('fos_user_security_logout') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-back.png') }}" alt="">Sign out</a></li>
+    <li {% if (app.request.attributes.get('_route') == 'fos_user_profile_notation') %} class="current"{% endif %}><a href="{{ path('fos_user_profile_notation') }}"><img src="{{ asset('bundles/atypikhouse/images/icon/icon-review.png') }}" alt="">Notations</a></li>
 </ul>

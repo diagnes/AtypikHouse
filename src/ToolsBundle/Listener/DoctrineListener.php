@@ -2,6 +2,7 @@
 namespace ToolsBundle\Listener;
 
 use Doctrine\ORM\Event\PreFlushEventArgs;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * Class DoctrineListener

@@ -1,5 +1,11 @@
 services:
     user.form.registration:
-        class: UserBundle\Form\RegistrationFormType
+        class: UserBundle\Form\RegistrationType
         tags:
             - { name: form.type, alias: user_registration }
+
+    ah.user_listener:
+        class: UserBundle\Listener\UserListener
+        arguments: []
+        tags:
+            - { name: doctrine.event_listener, event: onFlush , method: onFlush }

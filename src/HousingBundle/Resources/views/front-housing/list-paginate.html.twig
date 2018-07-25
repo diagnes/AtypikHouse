@@ -1,0 +1,8 @@
+<div class="page-navigation-cn">
+    <ul class="page-navigation">
+        {% set page = (((housings | length) / 6) | round(0, 'floor')) + 1 %}
+        {% for i in 1..page %}
+            <li {% if loop.first %}class="current"{% endif %}><a href="?page={{ i }}" title="">{{ i }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,10 +1,9 @@
 {% extends '::layout.html.twig' %}
 
-{% block title %} {{ parent() }} | Profil {% endblock %}
 {% block content %}
     <section class="sub-banner">
         <div class="bg-parallax bg-1"></div>
-        <div class="logo-banner text-center"><a href="user-profile.html" title=""><img src="images/logo-banner.png" alt=""></a></div>
+        <div class="logo-banner text-center"><a href="{{ path('atypikhouse_home') }}" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
     </section>
     <div class="main">
         <div class="container">

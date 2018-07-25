@@ -12,6 +12,7 @@ use UserBundle\Entity\User;
 use UserBundle\Form\UserInfoFormType;
 use UserBundle\Form\UserPersonalFormAdminType;
 use UserBundle\Form\UserProfessionalFormAdminType;
+use UserBundle\Form\UserSecurityFormType;
 
 /**
  * Controller managing the users.
@@ -67,10 +68,12 @@ class UserAdminController extends Controller
      * @return RedirectResponse|Response
      *
      * @throws \LogicException
+     *
+     * @throws \LogicException
      */
     public function editAction(Request $request, User $user)
     {
-        return $this->returnFormView($request, $user, UserInfoFormType::class, 'edit');
+        return $this->returnFormView($request, $user, UserInfoFormType::class);
     }
 
     /**
@@ -80,10 +83,12 @@ class UserAdminController extends Controller
      * @param User    $user    Get the targeted User
      *
      * @return RedirectResponse|Response
+     *
+     * @throws \LogicException
      */
     public function editPersoAction(Request $request, User $user)
     {
-        return $this->returnFormView($request, $user, UserPersonalFormAdminType::class, 'edit');
+        return $this->returnFormView($request, $user, UserPersonalFormAdminType::class);
     }
 
     /**
@@ -93,10 +98,12 @@ class UserAdminController extends Controller
      * @param User    $user    Get the targeted User
      *
      * @return RedirectResponse|Response
+     *
+     * @throws \LogicException
      */
     public function editProAction(Request $request, User $user)
     {
-        return $this->returnFormView($request, $user, UserProfessionalFormAdminType::class, 'edit');
+        return $this->returnFormView($request, $user, UserProfessionalFormAdminType::class);
     }
 
     /**
@@ -106,6 +113,8 @@ class UserAdminController extends Controller
      * @param User    $user    Get the targeted User
      *
      * @return RedirectResponse
+     *
+     * @throws \LogicException
      */
     public function deleteAction(Request $request, User $user)
     {
@@ -133,7 +142,7 @@ class UserAdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user->setEnabled(true);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', sprintf('The %s category has been enabled', $user->getUsername()));
+            $this->get('session')->getFlashBag()->add('success', sprintf('The %s user has been enabled', $user->getUsername()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
@@ -146,22 +155,18 @@ class UserAdminController extends Controller
      * @param Request $request   Get the session request
      * @param User    $user      Get the targeted user
      * @param string  $formClass Get the action status for saving user
-     * @param string  $state     Get the action status for saving user
      *
      * @return Response
      * @throws \LogicException
      */
-    private function returnFormView(Request $request, User $user, $formClass, $state = 'new'): Response
+    private function returnFormView(Request $request, User $user, $formClass): Response
     {
-        $em = $this->getDoctrine()->getManager();
+        /** @var UserManager $userManager */
+        $userManager = $this->get('fos_user.user_manager');
         $form = $this->createForm($formClass, $user, []);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($state === 'new') {
-                $em->persist($user);
-            }
-            $em->flush();
-            
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userManager->updateUser($user);
             return $this->redirectToRoute($this->getRedirectForFormType($formClass), ['id' => $user->getId()]);
         }
         

@@ -1,0 +1,87 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="{{ path('atypikhouse_home') }}" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
+    </section>
+    <div class="main">
+        <div class="container">
+            <div class="main-cn hotel-page bg-white clearfix">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <section class="breakcrumb-sc">
+                            <ul class="breadcrumb arrow">
+                                <li><a href="{{ path('atypikhouse_home') }}"><i class="fa fa-home"></i></a></li>
+                                <li>Hotels</li>
+                                <li>{% if research is defined %}{{ research }}{% else %}List{% endif %}</li>
+                            </ul>
+                        </section>
+                        <section class="hotel-list">
+                            <div class="sort-view clearfix">
+                                <h2>{% if research is defined %}For research : "{{ research }}"{% else %}List houses{% endif %}</h2>
+                            </div>
+                            <div class="hotel-list-cn clearfix">
+                                {% for housing in housings %}
+                                    <div class="hotel-list-item">
+                                        <figure class="hotel-img float-left">
+                                            <a href="{{ path('atypikhouse_housing_show', { 'slug' : housing.slug }) }}" title="">
+                                                {% if housing.images and housing.images.first and housing.images.first.file %}
+                                                    {% media housing.images.first.file, 'big' %}
+                                                {% else %}
+                                                    <img src="{{ asset('bundles/atypikhouse/images/empty-photo.jpg') }}" alt="">
+                                                {% endif %}
+                                            </a>
+                                        </figure>
+                                        <div class="hotel-text">
+                                            <div class="hotel-name"><a href="{{ path('atypikhouse_housing_show', { 'slug' : housing.slug }) }}" title="">{{ housing.title }}</a></div>
+                                            <div class="hotel-star-address">
+                                                {% set average_review = housing | housingScore %}
+                                                <span class="hotel-star">
+                                                    {{ average_review | scoreToStars | raw }}
+                                                </span>
+                                                <span class="rating">{{ average_review | translateScore }}<br><ins>{{ (average_review) ? average_review | scoreFormat : '' }}</ins>
+                                                </span>
+                                                <address class="hotel-address">{{ housing.address.city ~ ', ' ~ housing.address.country  }}</address>
+                                            </div>
+                                            <p>{{ housing.description | truncate(150) }}</a></p>
+                                            <hr class="hr">
+                                            <div class="price-box float-left"><span class="price special-price">{{ housing.price }}€<small>/night</small></span></div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% include 'HousingBundle:front-housing:list-paginate.html.twig' %}
+                        </section>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9">
+                        <div class="sidebar-cn">
+                            <div class="search-result">
+                                <p>We found<br><ins>{{ housings | length }}</ins> <span>properties availability</span></p>
+                            </div>
+                            <div class="search-sidebar">
+                                <div class="row">
+                                    <div class="form-search clearfix">
+                                        {{ form_start(form) }}
+                                        <div class="form-field col-md-12">
+                                            <label for="destination"><span>Destination:</span> Netherlands</label>
+                                            {{ form_widget(form.destination) }}
+                                        </div>
+                                        <div class="form-field field-select col-md-6">
+                                            <div class="select">
+                                                <span>{{ form.resident.vars.value }} Guest</span>
+                                                {{ form_widget(form.resident) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-submit col-md-12"><button type="submit" class="awe-btn awe-btn-medium awe-search">Search</button></div>
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

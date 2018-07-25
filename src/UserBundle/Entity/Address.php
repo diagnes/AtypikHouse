@@ -18,7 +18,7 @@ class Address
     /**
      * @var int
      *
-     * @ORM\Column(name="id",               type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -69,152 +69,241 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="additional_address", type="string", length=45, nullable=true)
+     * @ORM\Column(name="latitude", type="string", length=150, nullable=true)
      */
-    private $additionalAddress;
+    private $latitude;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="string", length=150, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * Get a Id
+     *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id Set the  for Address
+     * Set a Id
      *
-     * @return void
+     * @param int $id Set a new id
+     *
+     * @return Address
      */
-    public function setId(int $id): void
+    public function setId(int $id): Address
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
+     * Get a StreetNumber
+     *
      * @return null|string
      */
-    public function getStreetNumber(): ?string
+    public function getStreetNumber()
     {
         return $this->streetNumber;
     }
 
     /**
-     * @param null|string $streetNumber Set the street number for Address
+     * Set a StreetNumber
      *
-     * @return void
+     * @param null|string $streetNumber Set a new streetNumber
+     *
+     * @return Address
      */
-    public function setStreetNumber($streetNumber): void
+    public function setStreetNumber($streetNumber)
     {
         $this->streetNumber = $streetNumber;
+
+        return $this;
     }
 
     /**
+     * Get a Address
+     *
      * @return string
      */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
     /**
-     * @param string $address Set the address for Address
+     * Set a Address
      *
-     * @return void
+     * @param string $address Set a new address
+     *
+     * @return Address
      */
-    public function setAddress(string $address): void
+    public function setAddress(string $address): Address
     {
         $this->address = $address;
+
+        return $this;
     }
 
     /**
+     * Get a City
+     *
      * @return string
      */
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
     /**
-     * @param string $city Set the city for Address
+     * Set a City
      *
-     * @return void
+     * @param string $city Set a new city
+     *
+     * @return Address
      */
-    public function setCity(string $city): void
+    public function setCity(string $city): Address
     {
         $this->city = $city;
+
+        return $this;
     }
 
     /**
+     * Get a State
+     *
      * @return string
      */
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
 
     /**
-     * @param string $state Set the state for Address
+     * Set a State
      *
-     * @return void
+     * @param string $state Set a new state
+     *
+     * @return Address
      */
-    public function setState(string $state): void
+    public function setState(string $state): Address
     {
         $this->state = $state;
+
+        return $this;
     }
 
     /**
+     * Get a PostalCode
+     *
      * @return string
      */
-    public function getPostalCode(): string
+    public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }
 
     /**
-     * @param string $postalCode Set the postalCode for Address
+     * Set a PostalCode
      *
-     * @return void
+     * @param string $postalCode Set a new postalCode
+     *
+     * @return Address
      */
-    public function setPostalCode(string $postalCode): void
+    public function setPostalCode(string $postalCode): Address
     {
         $this->postalCode = $postalCode;
+
+        return $this;
     }
 
     /**
+     * Get a Country
+     *
      * @return string
      */
-    public function getCountry(): string
+    public function getCountry(): ?string
     {
         return $this->country;
     }
 
     /**
-     * @param string $country Set the country for Address
+     * Set a Country
      *
-     * @return void
+     * @param string $country Set a new country
+     *
+     * @return Address
      */
-    public function setCountry(string $country): void
+    public function setCountry(string $country): Address
     {
         $this->country = $country;
+
+        return $this;
     }
 
     /**
+     * Get a Latitude
+     *
+     * @return string
+     */
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set a Latitude
+     *
+     * @param string $latitude Set a new latitude
+     *
+     * @return Address
+     */
+    public function setLatitude(string $latitude): Address
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get a Longitude
+     *
+     * @return string
+     */
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set a Longitude
+     *
+     * @param string $longitude Set a new longitude
+     *
+     * @return Address
+     */
+    public function setLongitude(string $longitude): Address
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get the latitude and fongitude for address
+     *
      * @return null|string
      */
-    public function getAdditionalAddress(): ?string
+    public function getLatAndLong(): ?string
     {
-        return $this->additionalAddress;
-    }
-
-    /**
-     * @param null|string $additionalAddress Set the additionalAddress for Address
-     *
-     * @return void
-     */
-    public function setAdditionalAddress($additionalAddress): void
-    {
-        $this->additionalAddress = $additionalAddress;
+        return $this->latitude.', '.$this->longitude;
     }
 
     /**

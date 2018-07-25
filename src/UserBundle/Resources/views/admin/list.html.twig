@@ -2,6 +2,8 @@
 
 {% block title %}{{ parent() }} | User List{% endblock %}
 
+{% set menu_level = 'user_admin' %}
+
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets

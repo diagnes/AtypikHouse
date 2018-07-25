@@ -2,8 +2,12 @@
 
 namespace HousingBundle\Entity;
 
+use AtypikHouseBundle\Entity\Reservation;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use ToolsBundle\DataTrait\DateTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+use ToolsBundle\DataTrait\DeletedDateTrait;
 
 /**
  * HousingNotation
@@ -14,6 +18,7 @@ use ToolsBundle\DataTrait\DateTrait;
 class HousingNotation
 {
     use DateTrait;
+    use DeletedDateTrait;
 
     /**
      * @var int
@@ -25,85 +30,157 @@ class HousingNotation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\HousingNotationType")
-     * @ORM\JoinColumn(name="notation_type_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="AtypikHouseBundle\Entity\Reservation", inversedBy="review")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
      */
-    private $notationType;
+    private $reservation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\Housing", inversedBy="notations")
-     * @ORM\JoinColumn(name="housing_id", referencedColumnName="id")
-     */
-    private $housing;
-
-    /**
-     * @var int
+     * @Assert\Valid()
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingNotationValue", mappedBy="notation", cascade={"persist"}, fetch="EAGER")
      */
-    private $value;
+    private $values;
 
     /**
-     * Get id.
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * HousingNotation constructor.
+     */
+    public function __construct()
+    {
+        $this->values = new ArrayCollection();
+    }
+
+    /**
+     * Get a Id
      *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return HousingNotationType
-     */
-    public function getNotationType(): HousingNotationType
-    {
-        return $this->notationType;
-    }
-
-    /**
-     * @param HousingNotationType $notationType
+     * Set a Id
      *
-     * @return void
-     */
-    public function setNotationType(HousingNotationType $notationType): void
-    {
-        $this->notationType = $notationType;
-    }
-
-    /**
-     * @return Housing
-     */
-    public function getHousing(): Housing
-    {
-        return $this->housing;
-    }
-
-    /**
-     * @param Housing $housing
+     * @param int $id Set a new id
      *
-     * @return void
+     * @return HousingNotation
      */
-    public function setHousing(Housing $housing): void
+    public function setId(int $id): HousingNotation
     {
-        $this->housing = $housing;
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @return int
-     */
-    public function getValue(): int
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param int $value
+     * Get a Reservation
      *
-     * @return void
+     * @return Reservation
      */
-    public function setValue(int $value): void
+    public function getReservation(): ?Reservation
     {
-        $this->value = $value;
+        return $this->reservation;
+    }
+
+    /**
+     * Set a Reservation
+     *
+     * @param Reservation $reservation Set a new reservation
+     *
+     * @return HousingNotation
+     */
+    public function setReservation($reservation)
+    {
+        $this->reservation = $reservation;
+        $reservation->setReview($this);
+
+        return $this;
+    }
+
+    /**
+     * Get a Description
+     *
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set a Description
+     *
+     * @param string $description Set a new description
+     *
+     * @return HousingNotation
+     */
+    public function setDescription(string $description): HousingNotation
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get a Values
+     *
+     * @return ArrayCollection|HousingNotationValue[]
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    /**
+     * Set a Values
+     *
+     * @param ArrayCollection|HousingNotationValue[] $values Set a new values
+     *
+     * @return HousingNotation
+     */
+    public function setValues($values)
+    {
+        $this->values = $values;
+
+        return $this;
+    }
+
+    /**
+     * Add HousingNotationValue in array
+     *
+     * @param HousingNotationValue $housingNotationValue Add a HousingNotationValue
+     *
+     * @return HousingNotation
+     */
+    public function addValue(HousingNotationValue $housingNotationValue)
+    {
+        $this->values->add($housingNotationValue);
+        $housingNotationValue->setNotation($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove HousingNotationValue in array
+     *
+     * @param HousingNotationValue $housingNotationValue Remove a HousingNotationValue
+     *
+     * @return HousingNotation
+     */
+    public function removeValue(HousingNotationValue $housingNotationValue)
+    {
+        $this->values->removeElement($housingNotationValue);
+        $housingNotationValue->setNotation(null);
+
+        return $this;
     }
 }

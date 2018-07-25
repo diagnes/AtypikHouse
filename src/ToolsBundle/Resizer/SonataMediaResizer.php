@@ -1,0 +1,156 @@
+<?php
+
+namespace ToolsBundle\Resizer;
+
+use Gaufrette\Exception\FileNotFound;
+use Gaufrette\File;
+use Imagine\Exception\InvalidArgumentException;
+use Imagine\Exception\RuntimeException;
+use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
+use Imagine\Image\ImagineInterface;
+use Sonata\MediaBundle\Metadata\MetadataBuilderInterface;
+use Sonata\MediaBundle\Model\MediaInterface;
+use Sonata\MediaBundle\Resizer\ResizerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+class SonataMediaResizer implements ResizerInterface
+{
+    /**
+     * @var ImagineInterface
+     */
+    protected $adapter;
+
+    /**
+     * @var string
+     */
+    protected $mode;
+
+    /**
+     * @var MetadataBuilderInterface
+     */
+    protected $metadata;
+
+    /**
+     * @param ImagineInterface         $adapter  Get the adapter
+     * @param string                   $mode     Get the mode
+     * @param MetadataBuilderInterface $metadata Get the metaData
+     */
+    public function __construct(ImagineInterface $adapter, $mode, MetadataBuilderInterface $metadata)
+    {
+        $this->adapter = $adapter;
+        $this->mode = $mode;
+        $this->metadata = $metadata;
+    }
+
+    /**
+     * @param MediaInterface $media    Get the media
+     * @param File           $fileIn   Get the file in
+     * @param File           $fileOut  Get the file out
+     * @param string         $format   Get the format
+     * @param array          $settings Get the settings
+     *
+     * @return void
+     *
+     * @throws RuntimeException
+     * @throws FileNotFound
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     */
+    public function resize(MediaInterface $media, File $fileIn, File $fileOut, $format, array $settings)
+    {
+        $imagesExtensions = ['image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png', 'image/gif'];
+
+        /** @var UploadedFile $file */
+        $file = $media->getBinaryContent();
+
+        if (!empty($file) && in_array($file->getClientMimeType(), $imagesExtensions)) { // Avoiding
+            if (!(isset($settings['width']) && $settings['width'])) {
+                throw new \RuntimeException(
+                    sprintf(
+                        'Width parameter is missing in context "%s" for provider "%s"',
+                        $media->getContext(),
+                        $media->getProviderName()
+                    )
+                );
+            }
+
+            $image = $this->adapter->load($fileIn->getContent());
+
+            $content = $image
+                ->thumbnail($this->getBox($media, $settings), $this->mode)
+                ->get($format, ['quality' => $settings['quality']]);
+
+            $fileOut->setContent($content, $this->metadata->get($media, $fileOut->getName()));
+        }
+    }
+
+    /**
+     * @param MediaInterface $media    Get the media
+     * @param array          $settings Get the settings
+     *
+     * @return Box
+     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     */
+    public function getBox(MediaInterface $media, array $settings)
+    {
+        $size = $media->getBox();
+        $hasWidth = isset($settings['width']) && $settings['width'];
+        $hasHeight = isset($settings['height']) && $settings['height'];
+
+        if (!$hasWidth && !$hasHeight) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Width/Height parameter is missing in context "%s" for provider "%s". Please add at least one parameter.',
+                    $media->getContext(),
+                    $media->getProviderName()
+                )
+            );
+        }
+
+        if ($hasWidth && $hasHeight) {
+            return new Box($settings['width'], $settings['height']);
+        }
+
+        if (!$hasHeight) {
+            $settings['height'] = (int)($settings['width'] * $size->getHeight() / $size->getWidth());
+        }
+
+        if (!$hasWidth) {
+            $settings['width'] = (int)($settings['height'] * $size->getWidth() / $size->getHeight());
+        }
+
+        return $this->computeBox($media, $settings);
+    }
+
+    /**
+     * @param MediaInterface $media    Get the media
+     * @param array          $settings Get the settings
+     *
+     * @return Box
+     *
+     * @throws InvalidArgumentException
+     */
+    private function computeBox(MediaInterface $media, array $settings)
+    {
+        if ($this->mode !== ImageInterface::THUMBNAIL_INSET && $this->mode !== ImageInterface::THUMBNAIL_OUTBOUND) {
+            throw new InvalidArgumentException('Invalid mode specified');
+        }
+
+        $size = $media->getBox();
+
+        $ratios = [
+            $settings['width'] / $size->getWidth(),
+            $settings['height'] / $size->getHeight(),
+        ];
+
+        if ($this->mode === ImageInterface::THUMBNAIL_INSET) {
+            $ratio = min($ratios);
+        } else {
+            $ratio = max($ratios);
+        }
+
+        return $size->scale($ratio);
+    }
+}

@@ -4,8 +4,8 @@ atypikhouse_home:
 
 atypik_house_api_reservation:
     resource: "@AtypikHouseBundle/Resources/config/routing/reservation.yml"
-    prefix:   /api/reservation
+    prefix:   /reservation
 
 atypik_house_api_reservation_admin:
     resource: "@AtypikHouseBundle/Resources/config/routing/reservation_admin.yml"
-    prefix:   /api/reservation/admin
+    prefix:   /reservation/admin

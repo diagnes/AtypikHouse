@@ -30,7 +30,10 @@ class UserProfessionalFormAdminType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => User::class
+                'data_class' => User::class,
+                'attr' => [
+                    'class' => 'form-horizontal'
+                ]
             ]
         );
     }

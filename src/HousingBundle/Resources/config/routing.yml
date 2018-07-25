@@ -1,7 +1,13 @@
+#Atypikhouse Housing User part
 atypikhouse_housing:
     resource: "@HousingBundle/Resources/config/routing/housing.yml"
     prefix:   /housing
 
+atypikhouse_housing_notation:
+    resource: "@HousingBundle/Resources/config/routing/housing_notation.yml"
+    prefix:   /review
+
+#Atypikhouse Housing Admin part
 atypikhouse_admin_housing:
     resource: "@HousingBundle/Resources/config/routing/housing_admin.yml"
     prefix:   /admin/housing
@@ -13,6 +19,14 @@ atypikhouse_admin_housing_detail:
 atypikhouse_admin_housing_type:
     resource: "@HousingBundle/Resources/config/routing/housing_type.yml"
     prefix:   /admin/housing-type
+
+atypikhouse_admin_housing_notation_type:
+    resource: "@HousingBundle/Resources/config/routing/housing_notation_type.yml"
+    prefix:   /admin/housing-notation-type
+
+atypikhouse_admin_housing_notation:
+    resource: "@HousingBundle/Resources/config/routing/housing_notation_admin.yml"
+    prefix:   /admin/review
 
 #API Part
 atypikhouse_api_housing:

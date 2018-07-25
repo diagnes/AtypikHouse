@@ -8,7 +8,17 @@
 
 $(document).ready(function () {
 
+    $('[data-toggle="tooltip"]').tooltip();
 
+    $('.dataTables-example').each(function (idx,elt) {
+        $(elt).DataTable({
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy'},
+                {extend: 'csv'},
+            ]
+        })
+    });
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {
         $('body').addClass('body-small')

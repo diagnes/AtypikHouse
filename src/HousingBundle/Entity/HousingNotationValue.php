@@ -1,0 +1,154 @@
+<?php
+
+namespace HousingBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use ToolsBundle\DataTrait\DateTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * HousingNotation
+ *
+ * @ORM\Table(name="housing_notation_value")
+ * @ORM\Entity()
+ */
+class HousingNotationValue
+{
+    use DateTrait;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var HousingNotation
+     *
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\HousingNotation", inversedBy="values")
+     * @ORM\JoinColumn(name="notation_id", referencedColumnName="id")
+     */
+    private $notation;
+
+    /**
+     * @var HousingNotationType
+     *
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\HousingNotationType", inversedBy="notations")
+     * @ORM\JoinColumn(name="notation_type_id", referencedColumnName="id")
+     */
+    private $notationType;
+
+    /**
+     * @var int
+     *
+     * @Assert\Valid()
+     * @Assert\Range(
+     *     min = 1,
+     *     max = 5,
+     *     minMessage = "Review score must be greater than {{ limit }}",
+     *     maxMessage = "Review score must be less than {{ limit }}"
+     * )
+     *
+     * @ORM\Column(name="value", type="integer")
+     */
+    private $value;
+
+    /**
+     * Get a Id
+     *
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set a Id
+     *
+     * @param int $id Set a new id
+     *
+     * @return HousingNotationValue
+     */
+    public function setId(int $id): HousingNotationValue
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get a Notation
+     *
+     * @return HousingNotation
+     */
+    public function getNotation(): ?HousingNotation
+    {
+        return $this->notation;
+    }
+
+    /**
+     * Set a Notation
+     *
+     * @param HousingNotation $notation Set a new notation
+     *
+     * @return HousingNotationValue
+     */
+    public function setNotation(HousingNotation $notation): HousingNotationValue
+    {
+        $this->notation = $notation;
+
+        return $this;
+    }
+
+    /**
+     * Get a NotationType
+     *
+     * @return HousingNotationType
+     */
+    public function getNotationType(): ?HousingNotationType
+    {
+        return $this->notationType;
+    }
+
+    /**
+     * Set a NotationType
+     *
+     * @param HousingNotationType $notationType Set a new notationType
+     *
+     * @return HousingNotationValue
+     */
+    public function setNotationType(HousingNotationType $notationType): HousingNotationValue
+    {
+        $this->notationType = $notationType;
+
+        return $this;
+    }
+
+    /**
+     * Get a Value
+     *
+     * @return int
+     */
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set a Value
+     *
+     * @param int $value Set a new value
+     *
+     * @return HousingNotationValue
+     */
+    public function setValue(int $value): HousingNotationValue
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+}

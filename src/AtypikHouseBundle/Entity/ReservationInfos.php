@@ -31,14 +31,14 @@ class ReservationInfos
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startDate", type="datetime")
+     * @ORM\Column(name="startDate", type="date")
      */
     private $startDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="endDate", type="datetime")
+     * @ORM\Column(name="endDate", type="date")
      */
     private $endDate;
 
@@ -50,7 +50,7 @@ class ReservationInfos
     private $message;
 
     /**
-     * @ORM\OneToOne(targetEntity="AtypikHouseBundle\Entity\Reservation", inversedBy="reservationInfos")
+     * @ORM\OneToOne(targetEntity="AtypikHouseBundle\Entity\Reservation", inversedBy="reservationInfos", cascade={"persist"})
      * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
      */
     private $reservation;
@@ -164,7 +164,7 @@ class ReservationInfos
     /**
      * Get a reservation
      *
-     * @return mixed
+     * @return Reservation
      */
     public function getReservation()
     {
@@ -174,7 +174,7 @@ class ReservationInfos
     /**
      * Get a reservation
      *
-     * @param mixed $reservation Set the reservation for ReservationInfos
+     * @param Reservation $reservation Set the reservation for ReservationInfos
      *
      * @return void
      */

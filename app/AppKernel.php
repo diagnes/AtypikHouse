@@ -20,8 +20,9 @@ class AppKernel extends Kernel
             #Assetic Bundle
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 
-            #User Bundles
+            #Set all fos utility
             new FOS\UserBundle\FOSUserBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
 
             #Media Manager Bundle
             new Sonata\MediaBundle\SonataMediaBundle(),
@@ -51,6 +52,12 @@ class AppKernel extends Kernel
             new PaymentBundle\PaymentBundle(),
             new AtypikHouseBundle\AtypikHouseBundle(),
             new AdminBundle\AdminBundle(),
+
+            #WYSIWIG
+            new KMS\FroalaEditorBundle\KMSFroalaEditorBundle(),
+
+            #PaypalBundle
+            new Payum\Bundle\PayumBundle\PayumBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

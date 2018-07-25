@@ -34,6 +34,11 @@
         <div class="ibox-content">
             <div class="row">
                 <div class="col-lg-12">
+                    {{ form_errors(form.username) }}
+                    {{ form_errors(form.email) }}
+                    {{ form_errors(form.roles) }}
+                </div>
+                <div class="col-lg-12">
                     {{ form_start(form) }}
                     <div class="form-group">
                         <label class="col-sm-2 control-label">{{ form_label(form.username) }}</label>
@@ -50,14 +55,14 @@
                         </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">{{ form_label(form.password.pass) }}</label>
+                        <label class="col-sm-2 control-label">{{ form_label(form.plainPassword.pass) }}</label>
                         <div class="col-sm-10">
-                            {{ form_widget(form.password.pass) }}
+                            {{ form_widget(form.plainPassword.pass) }}
                         </div>
                         <br/>
-                        <label class="col-sm-2 control-label">{{ form_label(form.password.confirm) }}</label>
+                        <label class="col-sm-2 control-label">{{ form_label(form.plainPassword.confirm) }}</label>
                         <div class="col-sm-10">
-                            {{ form_widget(form.password.confirm) }}
+                            {{ form_widget(form.plainPassword.confirm) }}
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>

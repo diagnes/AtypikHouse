@@ -28,59 +28,60 @@ class UserInfoFormType extends AbstractType
                 'username',
                 TextType::class,
                 [
-                'label' => 'Username',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
+                    'label' => 'Username',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
                 ]
             )
             ->add(
                 'email',
                 EmailType::class,
                 [
-                'label' => 'Email',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
+                    'label' => 'Email',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
                 ]
             )
             ->add(
                 'roles',
                 ChoiceType::class,
                 [
-                'label' => 'Roles',
-                'multiple' => true,
-                'attr' => [
-                    'class' => 'chosen-select',
-                    'data-placeholder' => 'Choose Role'
-                ],
-                'choices'  => UserRoleEnum::toAssoc(),
+                    'label' => 'Roles',
+                    'multiple' => true,
+                    'attr' => [
+                        'class' => 'chosen-select',
+                        'data-placeholder' => 'Choose Role'
+                    ],
+                    'choices'  => UserRoleEnum::toAssoc(),
                 ]
             )
             ->add(
-                'password',
+                'plainPassword',
                 RepeatedType::class,
                 [
-                'required' => false,
-                'type' => PasswordType::class,
-                'first_name' => 'pass',
-                'second_name' => 'confirm',
-                'first_options' => [
-                    'label' => 'Password',
-                    'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'margin-bottom: 15px',
-                    ]
-                ],
-                'second_options' => [
-                    'label' => 'Confirm assword',
-                    'attr' => [
-                        'class' => 'form-control'
-                    ]
-                ],
-                'invalid_message' => 'fos_user.password.mismatch',
+                    'required' => false,
+                    'type' => PasswordType::class,
+                    'first_name' => 'pass',
+                    'second_name' => 'confirm',
+                    'first_options' => [
+                        'label' => 'Password',
+                        'attr' => [
+                            'class' => 'form-control',
+                            'style' => 'margin-bottom: 15px'
+                        ]
+                    ],
+                    'second_options' => [
+                        'label' => 'Repeat Password',
+                        'attr' => [
+                            'class' => 'form-control',
+                        ]
+                    ],
+                    'invalid_message' => 'fos_user.password.mismatch',
                 ]
             );
+        ;
     }
 
     /**
@@ -92,10 +93,10 @@ class UserInfoFormType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => User::class,
-            'attr' => [
-                'class' => 'form-horizontal'
-            ]
+                'data_class' => User::class,
+                'attr' => [
+                    'class' => 'form-horizontal'
+                ]
             ]
         );
     }

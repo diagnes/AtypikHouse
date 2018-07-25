@@ -7,7 +7,7 @@ use ToolsBundle\Enum\AbstractEnum;
 class PaymentStateEnum extends AbstractEnum
 {
     public const CREATED = 'created';
-    public const VALIDATED = 'validated';
+    public const COMPLETED = 'completed';
     public const REFUSED = 'refused';
 
     /**
@@ -16,9 +16,9 @@ class PaymentStateEnum extends AbstractEnum
     public static function toAssoc(): array
     {
         return [
-            self::CREATED => 'Créer',
-            self::VALIDATED => 'Validée',
-            self::REFUSED => 'Refusée',
+            self::CREATED => 'Create',
+            self::COMPLETED => 'Completed',
+            self::REFUSED => 'Refused',
         ];
     }
 }

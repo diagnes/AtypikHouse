@@ -1,0 +1,133 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} {{ (reservation.id) ? "Reservation" ~ reservation.id : "New reservation" }} {% endblock %}
+
+{% set menu_level = 'reservation_admin' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/chosen/chosen.css'
+    '@AdminBundle/Resources/public/css/plugins/daterangepicker/daterangepicker.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@AdminBundle/Resources/public/js/plugins/fullcalendar/moment.min.js'
+    '@AdminBundle/Resources/public/js/plugins/daterangepicker/daterangepicker.js'
+    '@AdminBundle/Resources/public/js/form.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2>{{ (reservation.id) ? "Edit reservation" : "New reservation" }}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('admin_homepage') }}">Home</a>
+                </li>
+                <li>
+                    <a href="{{ path('atypikhouse_reservation_admin_all') }}">Reservation</a>
+                </li>
+                <li class="active">
+                    <strong>{{ (reservation.id) ? reservation.id : "New reservation" }}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12 m-b-md">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Reservation infos <small>This part inform admin about details for a reservation</small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{ form_start(form) }}
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-xs-12">
+                                        <label class="control-label">{{ form_label(form.user) }}</label>
+                                        <div>
+                                            {{ form_widget(form.user) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <label class="control-label">{{ form_label(form.housing) }}</label>
+                                        <div>
+                                            {{ form_widget(form.housing) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if reservation.housing %}
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <div class="col-sm-6 col-xs-12">
+                                            <label class="control-label">{{ form_label(form.state) }}</label>
+                                            <div>
+                                                {{ form_widget(form.state) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-12">
+                                            <label class="control-label">{{ form_label(form.reservationInfos.resident) }}</label>
+                                            <div>
+                                                {{ form_widget(form.reservationInfos.resident) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <label class="control-label" style="margin-bottom: 15px">Reservation Period <small>Click on a calendar for display calendar</small></label>
+                                            <div class="alert alert-danger date-range-picker-error" style="display: none"></div>
+                                            <div class="input-group date">
+                                            <span class="date-range-picker input-group-addon" data-error=".date-range-picker-error" data-unavailablehouse="{{ reservation.housing.slug }}" data-startdate="date-picker-start" data-enddate="date-picker-end">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                                {{ form_widget(form.reservationInfos.startDate) }}
+                                                {{ form_widget(form.reservationInfos.endDate) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <label class="control-label">{{ form_label(form.reservationInfos.message) }}</label>
+                                            <div>
+                                                {{ form_widget(form.reservationInfos.message) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary" type="submit">Save changes</button>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace HousingBundle\Form;
 
 use HousingBundle\Entity\HousingDetail;
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,6 +29,16 @@ class HousingDetailType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                ]
+            )
+            ->add(
+                'icon',
+                MediaType::class,
+                [
+                    'label' => 'Upload an image',
+                    'provider' => 'sonata.media.provider.image',
+                    'required' => true,
+                    'context'  => 'icon'
                 ]
             )
             ->add(

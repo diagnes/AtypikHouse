@@ -4,35 +4,50 @@ namespace AtypikHouseBundle\Controller;
 
 use AtypikHouseBundle\Entity\Reservation;
 use AtypikHouseBundle\Enum\ReservationStateEnum;
+use AtypikHouseBundle\Form\ReservationAdminFormType;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use ToolsBundle\Service\DataResponseAdapter;
 
 /**
- * Reservation controller.
+ * Reservation Admin controller.
  *
- * @Security("has_role('ROLE_PROPRIETARY')")
+ * In this controller admin can manage all reservations
+ * Reservation Admin information
+ *
+ * PHP version 7.1
+ *
+ * @category  Controller
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
+ *
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class ReservationAdminController extends Controller
 {
     /**
      * Lists all reservation entities.
      *
-     * @return JsonResponse
+     * @return Response
+     *
+     * @throws AccessDeniedException
      */
     public function allAction()
     {
-        $dataResonseManager = $this->get('tools.data_response_manager');
-
         $reservations = $this->get('ah.reservation_manager')->getAllReservationEntity();
-        $data = [
-            'reservations' => new DataResponseAdapter($reservations, Reservation::class),
-        ];
 
-        return new JsonResponse($dataResonseManager->createAdaptedResponseData($data), 200);
+        return $this->render(
+            'AtypikHouseBundle:admin:list.html.twig',
+            [
+            'reservations' => $reservations
+            ]
+        );
     }
 
     /**
@@ -40,24 +55,25 @@ class ReservationAdminController extends Controller
      *
      * @param Request $request Get the request for this action
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request)
     {
-        $reservation = new Reservation();
-        $form = $this->createForm('AtypikHouseBundle\Form\ReservationType', $reservation);
+        $em = $this->getDoctrine()->getManager();
+        $reservationManager = $this->get('ah.reservation_manager');
+        $reservation = $reservationManager->createAdminReservation();
+        $form = $this->createForm(ReservationAdminFormType::class, $reservation, ['new' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush();
 
-            return $this->redirectToRoute('reservation_show', ['id' => $reservation->getId()]);
+            return $this->redirectToRoute('atypikhouse_reservation_admin_edit', ['id' => $reservation->getId()]);
         }
 
         return $this->render(
-            'reservation/new.html.twig',
+            'AtypikHouseBundle:admin:reservation-form.html.twig',
             [
             'reservation' => $reservation,
             'form' => $form->createView(),
@@ -71,26 +87,24 @@ class ReservationAdminController extends Controller
      * @param Request     $request     Get the request for this action
      * @param Reservation $reservation Get the reservation for this action
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Reservation $reservation)
     {
-        $deleteForm = $this->createDeleteForm($reservation);
-        $editForm = $this->createForm('AtypikHouseBundle\Form\ReservationType', $reservation);
-        $editForm->handleRequest($request);
+        $form = $this->createForm(ReservationAdminFormType::class, $reservation);
+        $form->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('reservation_edit', ['id' => $reservation->getId()]);
+            return $this->redirectToRoute('atypikhouse_reservation_admin_edit', ['id' => $reservation->getId()]);
         }
 
         return $this->render(
-            'reservation/edit.html.twig',
+            'AtypikHouseBundle:admin:reservation-form.html.twig',
             [
             'reservation' => $reservation,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form' => $form->createView(),
             ]
         );
     }
@@ -100,20 +114,20 @@ class ReservationAdminController extends Controller
      *
      * @param int $id This the reservation id
      *
-     * @return JsonResponse
+     * @return RedirectResponse
      */
-    public function validateAction(int $id)
+    public function validateAction(int $id): RedirectResponse
     {
         try {
             $reservation = $this->get('ah.reservation_manager')->getReservationEntity($id);
             $em = $this->getDoctrine()->getManager();
             $reservation->setState(ReservationStateEnum::VALIDATED);
-            $em->persist($reservation);
             $em->flush();
-            return new JsonResponse('Reservation has been validated', 201);
+            $this->get('session')->getFlashBag()->add('success', sprintf('The reservation %d has been validate', $reservation->getId()));
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 400);
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
+        return $this->redirectToRoute('atypikhouse_reservation_list_proprietary_reservation');
     }
 
     /**
@@ -121,9 +135,9 @@ class ReservationAdminController extends Controller
      *
      * @param int $id This the reservation id
      *
-     * @return JsonResponse
+     * @return RedirectResponse
      */
-    public function refusedAction(int $id)
+    public function refusedAction(int $id): RedirectResponse
     {
         try {
             $reservation = $this->get('ah.reservation_manager')->getReservationEntity($id);
@@ -131,10 +145,11 @@ class ReservationAdminController extends Controller
             $reservation->setState(ReservationStateEnum::REFUSED);
             $em->persist($reservation);
             $em->flush();
-            return new JsonResponse('Reservation has been refused', 201);
+            $this->get('session')->getFlashBag()->add('success', sprintf('The reservation %d has been validate', $reservation->getId()));
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 400);
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
+        return $this->redirectToRoute('atypikhouse_reservation_list_proprietary_reservation');
     }
 
     /**
@@ -142,21 +157,21 @@ class ReservationAdminController extends Controller
      *
      * @param int $id This the reservation id
      *
-     * @return JsonResponse
+     * @return RedirectResponse
      */
-    public function deleteAction(int $id): JsonResponse
+    public function deleteAction(int $id): RedirectResponse
     {
         try {
             $reservation = $this->get('ah.reservation_manager')->getReservationEntity($id);
             $em = $this->getDoctrine()->getManager();
             $reservation->setState(ReservationStateEnum::CANCELED);
             $reservation->setDeletedAt(new \DateTime());
-            $em->persist($reservation);
             $em->flush();
-            return new JsonResponse('Reservation has been deleted', 201);
+            $this->get('session')->getFlashBag()->add('success', sprintf('The reservation %d has been validate', $reservation->getId()));
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 400);
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
+        return $this->redirectToRoute('atypikhouse_reservation_list_proprietary_reservation');
     }
 
     /**
@@ -164,20 +179,20 @@ class ReservationAdminController extends Controller
      *
      * @param int $id This the reservation id
      *
-     * @return JsonResponse
+     * @return RedirectResponse
      */
-    public function undeleteAction(int $id): JsonResponse
+    public function undeleteAction(int $id): RedirectResponse
     {
         try {
             $reservation = $this->get('ah.reservation_manager')->getReservationEntity($id);
             $em = $this->getDoctrine()->getManager();
             $reservation->setState(ReservationStateEnum::CREATED);
             $reservation->setDeletedAt(null);
-            $em->persist($reservation);
             $em->flush();
-            return new JsonResponse('Reservation has been undeleted', 201);
+            $this->get('session')->getFlashBag()->add('success', sprintf('The reservation %d has been validate', $reservation->getId()));
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 400);
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
+        return $this->redirectToRoute('atypikhouse_reservation_list_proprietary_reservation');
     }
 }

@@ -1,0 +1,114 @@
+<?php
+
+namespace AtypikHouseBundle\Form;
+
+use AtypikHouseBundle\Enum\ReservationStateEnum;
+use Doctrine\ORM\EntityRepository;
+use HousingBundle\Entity\Housing;
+use HousingBundle\Enum\HousingStateEnum;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use AtypikHouseBundle\Entity\Reservation;
+use UserBundle\Entity\User;
+
+class ReservationAdminFormType extends AbstractType
+{
+    /**
+     * Builds the form.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     *
+     * @return void
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add(
+                'housing',
+                EntityType::class,
+                [
+                    'label' => 'Housing',
+                    'class' => Housing::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('h')
+                            ->where('h.deletedAt IS NULL')
+                            ->andWhere('h.state = :validate')
+                            ->setParameter('validate', HousingStateEnum::VALIDATED);
+                    },
+                    'choice_label' => 'title',
+                    'attr' => [
+                        'class' => 'chosen-select',
+                        'data-placeholder' => 'Choose House',
+                    ],
+                ]
+            )
+            ->add(
+                'user',
+                EntityType::class,
+                [
+                    'label' => 'Utilisateur',
+                    'class' => User::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.enabled = TRUE');
+                    },
+                    'choice_label' => 'username',
+                    'attr' => [
+                        'class' => 'chosen-select',
+                        'data-placeholder' => 'Choose User',
+                    ],
+                ]
+            );
+        if (!$options['new']) {
+            $builder
+                ->add(
+                    'state',
+                    ChoiceType::class,
+                    [
+                    'label' => 'State',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                    'choices' => array_flip(ReservationStateEnum::toAssoc())
+
+                        ]
+                )
+                ->add('reservationInfos', ReservationInfosAdminFormType::class);
+        }
+    }
+
+    /**
+     * Configures the options for this type.
+     *
+     * @param OptionsResolver $resolver The resolver for the options
+     *
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => Reservation::class,
+                'attr' => [
+                    'class' => 'form-horizontal',
+                ],
+                'new' => false,
+            ]
+        );
+    }
+
+    /**
+     * Returns the prefix of the template block name for this type.
+     *
+     * @return string The prefix of the template block name
+     */
+    public function getBlockPrefix()
+    {
+        return 'atypikhousebundle_reservation';
+    }
+}

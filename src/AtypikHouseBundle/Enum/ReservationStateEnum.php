@@ -22,14 +22,26 @@ class ReservationStateEnum extends AbstractEnum
     public static function toAssoc(): array
     {
         return [
-            self::CREATED => 'Créer',
-            self::PENDING => 'En cours',
-            self::VALIDATED => 'Validée',
-            self::REFUSED => 'Refusée',
-            self::VALIDATED_CLIENT => 'Validée par client',
-            self::REFUSED_CLIENT => 'Refusée par le client',
-            self::CANCELED => 'Annulé',
-            self::DONE => 'Terminé',
+            self::CREATED => 'Create',
+            self::PENDING => 'Pending',
+            self::VALIDATED => 'Validate',
+            self::REFUSED => 'Refused',
+            self::VALIDATED_CLIENT => 'Validated by customer',
+            self::REFUSED_CLIENT => 'Refused by customer',
+            self::CANCELED => 'Canceled',
+            self::DONE => 'Done',
         ];
+    }
+
+    /**
+     * @param string $state Get the state token
+     *
+     * @return array|string
+     */
+    public static function getLabels($state): string
+    {
+        $states = static::toAssoc();
+
+        return $states[$state];
     }
 }

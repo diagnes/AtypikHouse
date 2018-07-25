@@ -52,7 +52,7 @@
                     <li>
                         <span>Birth Date</span>
                         {% if app.user.personalInfos is not null and app.user.personalInfos.birthDate is not null %}
-                            {{ app.user.personalInfos.birthDate }}
+                            {{ app.user.personalInfos.birthDate | date('d/m/Y')}}
                         {% else %}
                             None
                         {% endif %}
@@ -76,7 +76,7 @@
                     <li>
                         <span>Nationality</span>
                         {% if app.user.personalInfos is not null and app.user.personalInfos.nationality is not null %}
-                            {{ app.user.personalInfos.nationality }}
+                            {{ app.user.personalInfos.nationality | natinality }}
                         {% else %}
                             None
                         {% endif %}
@@ -137,10 +137,13 @@
                 None
             {% endif %}
         </p>
-        <div class="check-box">
-            <input type="checkbox" id="newsletter">
-            <label for="my-profile__checkbox">Yes, I would like to receive Special Offers &amp; Promotions from Agoda</label>
-        </div>
+        <p>
+            {% if app.user.newsletter %}
+                You subscribe to our newsletter
+            {% else %}
+                You don't subscribe to our newsletter
+            {% endif %}
+        </p>
         <a href="{{ path('fos_user_profile_edit') }}" class="btn">Edit profile</a>
     </div>
 {% endblock %}

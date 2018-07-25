@@ -21,6 +21,7 @@
         }
     };
     a(document).ready(function() {
+        a('[data-toggle="tooltip"]').tooltip();
         function n() {
             a("#bars").on("click", function() {
                 return 0 == a(".navigation").hasClass("nav-active") && a(".navigation").addClass("nav-active"), a("body").css({
@@ -128,26 +129,11 @@
         }
 
         function u() {
-            a(".calendar-input,.caneldar").datepicker({
+            a(".calendar-input").datepicker({
                 showOtherMonths: !0,
                 selectOtherMonths: !0,
+                format: 'dd/mm/yyyy',
                 dayNamesMin: ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sta"]
-            }), a("#check-in").datepicker({
-                minDate: 0,
-                dateFormat: "yy-mm-dd",
-                numberOfMonths: 1,
-                onClose: function(e, n) {
-                    var t = new Date(Date.parse(e));
-                    t.setDate(maxDate.getDate() + 1), a("#check-out").datepicker("option", "minDate", t)
-                }
-            }), a("#check-out").datepicker({
-                minDate: "+1D",
-                dateFormat: "yy-mm-dd",
-                numberOfMonths: 1,
-                onClose: function(e, n) {
-                    var t = new Date(Date.parse(e));
-                    t.setDate(t.getDate() - 1), a("#check-in").datepicker("option", "maxDate", t)
-                }
             })
         }
 

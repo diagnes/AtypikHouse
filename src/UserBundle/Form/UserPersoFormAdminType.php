@@ -4,11 +4,15 @@ namespace UserBundle\Form;
 
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use UserBundle\Enum\UserGenderEnum;
+use UserBundle\Entity\UserPersonalInfos;
 
 /**
  * Class UserPersoFormAdminType
@@ -29,29 +33,30 @@ class UserPersoFormAdminType extends AbstractType
                 'image',
                 MediaType::class,
                 [
-                    'label' => 'Photo profil',
+                    'label' => 'Profile Picture',
                     'provider' => 'sonata.media.provider.image',
                     'required' => true,
-                    'context'  => 'default'
+                    'context'  => 'user',
                 ]
             )
             ->add(
                 'gender',
-                TextType::class,
+                ChoiceType::class,
                 [
                     'label' => 'Gender',
                     'attr' => [
                         'class' => 'form-control',
-                    ]
+                    ],
+                    'choices' => array_flip(UserGenderEnum::toAssoc())
                 ]
             )
             ->add(
                 'firstname',
                 TextType::class,
                 [
+                    'label' => 'Firstname',
                     'attr' => [
                         'class' => 'form-control',
-                        'label' => 'Firstname',
                     ]
                 ]
             )
@@ -69,10 +74,13 @@ class UserPersoFormAdminType extends AbstractType
                 'birthDate',
                 DateType::class,
                 [
+                    'widget' => 'single_text',
                     'label' => 'BirthDate',
                     'attr' => [
-                        'class' => 'form-control',
-                    ]
+                        'class' => 'date-picker form-control',
+                    ],
+                    'html5' => false,
+                    'format' =>'dd/MM/yyyy',
                 ]
             )
             ->add(
@@ -81,7 +89,8 @@ class UserPersoFormAdminType extends AbstractType
                 [
                     'label' => 'BirthLocation',
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control google-autocomplete',
+                        'data-types' => "['geocode']"
                     ]
                 ]
             )
@@ -89,7 +98,7 @@ class UserPersoFormAdminType extends AbstractType
                 'description',
                 TextareaType::class,
                 [
-                    'label' => 'Gender',
+                    'label' => 'Description',
                     'attr' => [
                         'class' => 'form-control',
                     ]
@@ -99,7 +108,7 @@ class UserPersoFormAdminType extends AbstractType
                 'phoneNumber',
                 TextType::class,
                 [
-                    'label' => 'Gender',
+                    'label' => 'Phone Number',
                     'attr' => [
                         'class' => 'form-control',
                     ]
@@ -109,7 +118,7 @@ class UserPersoFormAdminType extends AbstractType
                 'profession',
                 TextType::class,
                 [
-                    'label' => 'Gender',
+                    'label' => 'Profession',
                     'attr' => [
                         'class' => 'form-control',
                     ]
@@ -117,15 +126,22 @@ class UserPersoFormAdminType extends AbstractType
             )
             ->add(
                 'nationality',
-                TextType::class,
+                CountryType::class,
                 [
-                    'label' => 'Gender',
+                    'label' => 'Nationality',
                     'attr' => [
-                        'class' => 'form-control',
-                    ]
+                        'class' => 'chosen-select',
+                    ],
+                    'empty_data' => 'FR',
                 ]
             )
-            ->add('address', AddressType::class);
+            ->add(
+                'address',
+                AddressType::class,
+                [
+                'label' => 'Address'
+                ]
+            );
     }
 
     /**
@@ -137,7 +153,7 @@ class UserPersoFormAdminType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'UserBundle\Entity\UserPersonalInfos'
+                'data_class' => UserPersonalInfos::class
             ]
         );
     }

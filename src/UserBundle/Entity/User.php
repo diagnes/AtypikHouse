@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use HousingBundle\Entity\Housing;
 use ToolsBundle\DataTrait\DateTrait;
-use ToolsBundle\DataTrait\DeletedDateTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -22,11 +22,19 @@ class User extends BaseUser
     /**
      * @var int
      *
-     * @ORM\Column(name="id",               type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="newsletter", type="boolean", nullable=true)
+     */
+    private $newsletter;
+
 
     /**
      * @ORM\OneToMany(targetEntity="HousingBundle\Entity\Housing", mappedBy="proprietary")
@@ -39,27 +47,20 @@ class User extends BaseUser
     private $reservations;
 
     /**
+     * @Assert\Valid()
+     *
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserPersonalInfos", mappedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(name="personal_info",                             referencedColumnName="id")
+     * @ORM\JoinColumn(name="personal_info", referencedColumnName="id")
      */
     private $personalInfos;
 
     /**
+     * @Assert\Valid()
+     *
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserProfessionalInfos", mappedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(name="professional_info",                             referencedColumnName="id")
+     * @ORM\JoinColumn(name="professional_info", referencedColumnName="id")
      */
     private $professionalInfos;
-
-    /**
-     * @ORM\OneToOne(targetEntity="UserBundle\Entity\UserScoreCard", mappedBy="user")
-     * @ORM\JoinColumn(name="score_card",                            referencedColumnName="id")
-     */
-    private $scoreCard;
-
-    /**
-     * @ORM\OneToMany(targetEntity="UserBundle\Entity\UserWishlist", mappedBy="user")
-     */
-    private $wichlists;
 
     /**
      * @ORM\OneToMany(targetEntity="UserBundle\Entity\UserNotification", mappedBy="user")
@@ -115,6 +116,26 @@ class User extends BaseUser
     }
 
     /**
+     * @return bool
+     */
+    public function isNewsletter()
+    {
+        return $this->newsletter;
+    }
+
+    /**
+     * @param bool $newsletter Set if want newsletter
+     *
+     * @return User
+     */
+    public function setNewsletter($newsletter)
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    /**
      * @return ArrayCollection|Housing[]
      */
     public function getHousings()
@@ -159,13 +180,14 @@ class User extends BaseUser
     }
 
     /**
-     * @param mixed $personalInfos Set the personnalInfos for User
+     * @param UserPersonalInfos $personalInfos Set the personnalInfos for User
      *
      * @return void
      */
     public function setPersonalInfos($personalInfos): void
     {
         $this->personalInfos = $personalInfos;
+        $personalInfos->setUser($this);
     }
 
     /**
@@ -177,49 +199,14 @@ class User extends BaseUser
     }
 
     /**
-     * @param mixed $professionalInfos Set the professionalInfos for User
+     * @param UserProfessionalInfos $professionalInfos Set the professionalInfos for User
      *
      * @return void
      */
     public function setProfessionalInfos(UserProfessionalInfos $professionalInfos): void
     {
         $this->professionalInfos = $professionalInfos;
-    }
-
-    /**
-     * @return UserScoreCard
-     */
-    public function getScoreCard(): UserScoreCard
-    {
-        return $this->scoreCard;
-    }
-
-    /**
-     * @param UserScoreCard $scoreCard Set the score for User
-     *
-     * @return void
-     */
-    public function setScoreCard(UserScoreCard $scoreCard): void
-    {
-        $this->scoreCard = $scoreCard;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWichlists()
-    {
-        return $this->wichlists;
-    }
-
-    /**
-     * @param mixed $wichlists Set the wicshlist for User
-     *
-     * @return void
-     */
-    public function setWichlists($wichlists): void
-    {
-        $this->wichlists = $wichlists;
+        $professionalInfos->setUser($this);
     }
 
     /**

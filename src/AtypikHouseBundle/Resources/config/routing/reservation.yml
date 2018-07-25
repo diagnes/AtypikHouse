@@ -1,29 +1,37 @@
-atypikhouse_reservation_index:
-    path:     /
-    defaults: { _controller: "AtypikHouseBundle:Reservation:index" }
-    methods:  GET
+atypikhouse_reservation_all_undisponibility:
+    path:     /all-undisponibility/{slug}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:getAllUndisponibility" }
+    options:
+        expose: true
+
+atypikhouse_reservation_start:
+    path:     /housing/{slug}/start-reservation
+    defaults: { _controller: "AtypikHouseBundle:Reservation:startReservation" }
+
+atypikhouse_reservation_step_two:
+    path:     /housing/{slug}/waiting-validation/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:stepTwoReservation" }
+
+atypikhouse_reservation_step_three:
+    path:     /housing/{slug}/payment-part/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:stepThreeReservation" }
+
+atypikhouse_reservation_step_four:
+    path:     /housing/{slug}/booking-complete/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:stepFourReservation" }
+
+atypikhouse_reservation_step_error:
+    path:     /housing/{slug}/booking-error/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:stepErrorReservation" }
+
+atypikhouse_reservation_refused:
+    path:     /refused-reservation/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:refusedReservation" }
+
+atypikhouse_reservation_cancel:
+    path:     /canceled-reservation/{id}
+    defaults: { _controller: "AtypikHouseBundle:Reservation:cancelReservation" }
 
 atypikhouse_reservation_list_proprietary_reservation:
     path:     /admin/proprietary/reservation
     defaults: { _controller: "AtypikHouseBundle:Reservation:listProprietaryReservation" }
-    methods:  GET
-
-atypikhouse_reservation_show:
-    path:     /{id}/show
-    defaults: { _controller: "AtypikHouseBundle:Reservation:show" }
-    methods:  GET
-
-atypikhouse_reservation_new:
-    path:     /new
-    defaults: { _controller: "AtypikHouseBundle:Reservation:new" }
-    methods:  [GET, POST]
-
-atypikhouse_reservation_edit:
-    path:     /{id}/edit
-    defaults: { _controller: "AtypikHouseBundle:Reservation:edit" }
-    methods:  [GET, POST]
-
-atypikhouse_reservation_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "AtypikHouseBundle:Reservation:delete" }
-    methods:  DELETE

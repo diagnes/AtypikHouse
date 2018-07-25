@@ -2,6 +2,7 @@
 
 namespace HousingBundle\Entity;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -32,6 +33,13 @@ class HousingDetail
      * @ORM\Column(name="name", type="string", length=45)
      */
     private $name;
+
+    /**
+     * @var Media
+     *
+     * @ORM\OneToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="EAGER")
+     */
+    private $icon;
 
     /**
      * @var string
@@ -86,6 +94,26 @@ class HousingDetail
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getIcon(): ?Media
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param Media $icon Set a new icon
+     *
+     * @return HousingDetail
+     */
+    public function setIcon(?Media $icon): HousingDetail
+    {
+        $this->icon = $icon;
 
         return $this;
     }

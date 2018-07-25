@@ -1,0 +1,77 @@
+{% extends 'AtypikHouseBundle:reservation:reservation-wizard.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/daterangepicker/daterangepicker.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/fullcalendar/moment.min.js'
+    '@AdminBundle/Resources/public/js/plugins/daterangepicker/daterangepicker.js'
+    '@AdminBundle/Resources/public/js/form.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% set step = 4 %}
+{% block wizard_content %}
+    <div class="reservation-form">
+        {{ form_start(form) }}
+        <div class="row form">
+            <div class="col-md-6">
+                <h2>Your reservation stay infos</h2>
+                <div class="form-field">
+                    {{ form_widget(form.reservationInfos.resident) }}
+                </div>
+                <div class="alert alert-danger date-range-picker-error" style="display: none"></div>
+                <div class="form-field check-stay">
+                    <span class="date-range-picker" style="cursor: pointer;" data-error=".date-range-picker-error" data-unavailablehouse="{{ reservation.housing.slug }}" data-startdate="date-picker-start" data-enddate="date-picker-end"><i class="fa fa-calendar"></i></span>
+                    {{ form_widget(form.reservationInfos.startDate) }}
+                    {{ form_widget(form.reservationInfos.endDate) }}
+                </div>
+                <div class="form-field">
+                    {{ form_widget(form.reservationInfos.message) }}
+                </div>
+                <div class="form-field">
+                    {{ form_widget(form.reservationInfos.resident) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2>Your house reservation details</h2>
+                <div class="payment-price">
+                    <figure>
+                        {% if housing.images and housing.images.first and housing.images.first.file %}
+                            {% media housing.images.first.file, 'small' %}
+                        {% else %}
+                            <img src="{{ asset('bundles/atypikhouse/images/empty-photo.jpg') }}" alt="">
+                        {% endif %}
+                    </figure>
+                    <div class="total-trip">
+                        <h3>{{ housing.title }}</h3>
+                        <span class="star-room"><i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i></span>
+                        <ul>
+                            <li><span>Location:</span> {{ housing.address.city ~ ', ' ~ housing.address.country }}</li>
+                            <li><span>Max resident:</span> {{ housing.maxResident }}</li>
+                            <li><span>Proprietary:</span> {{ housing.proprietary.personalInfos.firstname }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="submit text-center">
+            <p>By selecting to complete this booking I acknowledge that I have read and accept the <span>rules &amp; restrictions terms &amp; conditions</span> , and <span>privacy policy</span>.</p>
+            <button type="submit" class="awe-btn awe-btn-1 awe-btn-lager">Book now</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

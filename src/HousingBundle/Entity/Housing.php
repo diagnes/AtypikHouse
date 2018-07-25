@@ -108,27 +108,22 @@ class Housing
     private $undisponibility;
 
     /**
-     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingDetailValue", mappedBy="housing", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingDetailValue", mappedBy="housing", cascade={"all"}, fetch="EAGER")
      */
     private $details;
 
     /**
-     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingNotation", mappedBy="housing", cascade={"persist"})
-     */
-    private $notations;
-
-    /**
-     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingDocument", mappedBy="housing", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingDocument", mappedBy="housing", cascade={"persist"}, fetch="EAGER")
      */
     private $documents;
 
     /**
-     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingImages", mappedBy="housing", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingImages", mappedBy="housing", cascade={"persist"}, fetch="EAGER")
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="AtypikHouseBundle\Entity\Reservation", mappedBy="housing")
+     * @ORM\OneToMany(targetEntity="AtypikHouseBundle\Entity\Reservation", mappedBy="housing", fetch="EAGER")
      */
     private $reservations;
 
@@ -139,7 +134,6 @@ class Housing
     {
         $this->undisponibility = new ArrayCollection();
         $this->details = new ArrayCollection();
-        $this->notations = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->reservations = new ArrayCollection();
@@ -461,26 +455,6 @@ class Housing
     /**
      * @return mixed
      */
-    public function getNotations()
-    {
-        return $this->notations;
-    }
-
-    /**
-     * @param mixed $notations SetNoations
-     *
-     * @return Housing
-     */
-    public function setNotations($notations)
-    {
-        $this->notations = $notations;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getDocuments()
     {
         return $this->documents;
@@ -525,7 +499,7 @@ class Housing
     }
 
     /**
-     * @return ArrayCollection|HousingImages[]
+     * @return HousingImages[]|ArrayCollection
      */
     public function getImages()
     {

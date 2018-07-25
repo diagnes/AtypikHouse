@@ -3,6 +3,7 @@
 namespace UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,50 +24,86 @@ class AddressType extends AbstractType
                 'streetNumber',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'StreetNumber',
-                ]
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'placeholder' => 'StreetNumber',
+                        'data-entry' => 'street_number',
+                    ]
                 ]
             )
             ->add(
                 'address',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Address',
-                ]
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'placeholder' => 'Address',
+                        'data-entry' => 'route',
+                    ]
                 ]
             )
             ->add(
                 'city',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'City',
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'placeholder' => 'City',
+                        'data-entry' => 'locality',
+                    ]
                 ]
+            )
+            ->add(
+                'state',
+                TextType::class,
+                [
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'placeholder' => 'State',
+                        'data-entry' => 'administrative_area_level_2',
+                    ]
                 ]
             )
             ->add(
                 'postalcode',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Postal Code',
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'placeholder' => 'Postal Code',
+                        'data-entry' => 'postal_code',
+                    ]
                 ]
+            )
+            ->add(
+                'latitude',
+                HiddenType::class,
+                [
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'data-entry' => 'lat',
+                    ]
+                ]
+            )
+            ->add(
+                'longitude',
+                HiddenType::class,
+                [
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'data-entry' => 'lng',
+                    ]
                 ]
             )
             ->add(
                 'country',
                 TextType::class,
                 [
-                'attr' => [
-                    'class' => 'input-text',
-                    'placeholder' => 'Country',
-                ]
+                    'attr' => [
+                        'class' => $options['class-input'],
+                        'placeholder' => 'Country',
+                        'data-entry' => 'country',
+                    ]
                 ]
             );
     }
@@ -80,7 +117,8 @@ class AddressType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Address::class
+                'data_class' => Address::class,
+                'class-input' => true
             ]
         );
     }

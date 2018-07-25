@@ -1,6 +1,17 @@
 sonata_media:
     db_driver: doctrine_orm
     default_context: default
+    providers:
+        file:
+            service: sonata.media.provider.file
+            resizer: false
+            allowed_extensions: ['pdf', 'txt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pttx', 'odt', 'odg', 'odp', 'ods', 'odc', 'odf', 'odb', 'csv', 'jpg', 'png', 'jpeg', 'gif']
+            allowed_mime_types: ['application/pdf', 'application/x-pdf', 'application/rtf', 'text/html', 'text/rtf', 'text/plain', 'image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png', 'image/gif']
+        image:
+            service: sonata.media.provider.image
+            resizer: sonata.media.resizer.custom
+            allowed_extensions: ['pdf', 'jpg', 'png', 'jpeg', 'gif']
+            allowed_mime_types: ['application/pdf', 'application/x-pdf', 'image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png', 'image/gif']
     contexts:
         default:
             providers:
@@ -9,11 +20,32 @@ sonata_media:
                 - sonata.media.provider.image
                 - sonata.media.provider.file
                 - sonata.media.provider.vimeo
-
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
+        user:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                small: { width: 80 , height: 80 , quality: 90}
+                big:   { width: 500 , quality: 90}
 
+        icon:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                small: { width: 20 , height: 20 , quality: 90}
+                big:   { width: 80 , height: 80 , quality: 90}
+
+        teaser:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                vsmall: { width: 100 , height: 64 , quality: 80 }
+                small: { width: 250 , quality: 80 }
+                big: { width: 300 , height: 210, quality: 80 }
+                background: { width: 1000 , quality: 90 }
+                widget: { width: 300 , height: 220 , quality: 90 }
     cdn:
         server:
             path: /uploads/media

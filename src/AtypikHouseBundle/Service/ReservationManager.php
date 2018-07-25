@@ -3,10 +3,11 @@
 namespace AtypikHouseBundle\Service;
 
 use AtypikHouseBundle\Entity\Reservation;
+use AtypikHouseBundle\Entity\ReservationInfos;
 use AtypikHouseBundle\Enum\ReservationStateEnum;
 use Doctrine\ORM\EntityManager;
+use HousingBundle\Entity\Housing;
 use JMS\Serializer\Serializer;
-use PaymentBundle\Entity\MoneyMovement;
 use PaymentBundle\Entity\PaymentInfos;
 use PaymentBundle\Enum\MoneyMovementStateEnum;
 use PaymentBundle\Enum\PaymentStateEnum;
@@ -103,6 +104,7 @@ class ReservationManager
      */
     public function getReservationEntity(int $id)
     {
+        $this->em->getFilters()->enable('deleted');
         if ($this->security->isGranted('ROLE_ADMIN')) {
             $this->em->getFilters()->disable('deleted');
         }
@@ -119,6 +121,32 @@ class ReservationManager
     }
 
     /**
+     * Return All reserservations of an user
+     *
+     * @return Reservation[]
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
+    public function getUserReservations()
+    {
+        $this->em->getFilters()->enable('deleted');
+        return $this->em->getRepository('AtypikHouseBundle:Reservation')->findBy(['user' => $this->security->getUser()]);
+    }
+
+    /**
+     * Return All reserservations of an user
+     *
+     * @param Housing $housing Get the housing targeted
+     *
+     * @return Reservation
+     */
+    public function getUserHousingReservation(Housing $housing)
+    {
+        $this->em->getFilters()->enable('deleted');
+        return $this->em->getRepository('AtypikHouseBundle:Reservation')->findOneBy(['user' => $this->security->getUser(), 'housing' => $housing]);
+    }
+
+    /**
      * Made some check and return All reserservation for action
      *
      * @return Reservation[]
@@ -128,15 +156,13 @@ class ReservationManager
     public function getAllReservationEntity()
     {
         $filter = [];
+        $this->em->getFilters()->enable('deleted');
         if ($this->security->isGranted('ROLE_ADMIN')) {
             $this->em->getFilters()->disable('deleted');
             return $this->em->getRepository('AtypikHouseBundle:Reservation')->findAll();
         }
         if (!$this->security->isGranted('ROLE_ADMIN') && $this->security->isGranted('ROLE_PROPRIETARY')) {
-            /**
-             *
- * @var User $user
-*/
+            /** @var User $user */
             $user = $this->security->getUser();
             foreach ($user->getHousings() as $housing) {
                 $filter['housing'][] = $housing->getId();
@@ -233,5 +259,164 @@ class ReservationManager
                 throw new \ErrorException(sprintf('Housing is not available'));
             }
         }
+    }
+
+    /**
+     * Return the price for a stay depending on reservation info
+     *
+     * @param Reservation $reservation Get the reservation
+     *
+     * @return float
+     */
+    public function getPriceForStay(Reservation $reservation)
+    {
+        return $reservation->getHousing()->getPrice() * $reservation->getReservationInfos()->getInterval();
+    }
+
+    /**
+     * Return the price for a stay depending on reservation info
+     *
+     * @param Reservation $reservation Get the reservation
+     *
+     * @return float
+     */
+    public function getTotalPriceForStay(Reservation $reservation)
+    {
+        return $this->getPriceForStay($reservation) + $this->getTaxForStay($reservation);
+    }
+
+    /**
+     * Return the price for a stay depending on reservation info
+     *
+     * @param Reservation $reservation Get the reservation
+     *
+     * @return float
+     */
+    public function getTotalPriceForStayPaypal(Reservation $reservation)
+    {
+        return $this->getTotalPriceForStay($reservation) * 100;
+    }
+
+    /**
+     * Return the tax for a stay depending on reservation info
+     *
+     * @param Reservation $reservation Get the reservation
+     *
+     * @return float
+     */
+    public function getTaxForStay(Reservation $reservation)
+    {
+        return $this->getPriceForStay($reservation) * ($this->fees / 100);
+    }
+
+
+    /**
+     * Get interval between start and en date
+     *
+     * @param ReservationInfos $reservationInfos Targeted reservation Info
+     *
+     * @return array
+     */
+    public function getIntervalArrayDate(ReservationInfos $reservationInfos)
+    {
+        $dates = [];
+        while ($reservationInfos->getStartDate()->diff($reservationInfos->getEndDate())->d) {
+            $dates[] = $reservationInfos->getStartDate()->format('d/m/Y');
+            $reservationInfos->getStartDate()->add(new \DateInterval('P1D'));
+        }
+        $dates[] = $reservationInfos->getStartDate()->format('d/m/Y');
+        return $dates;
+    }
+
+    /**
+     * Create an new reservation for an user
+     *
+     * @return Reservation
+     */
+    public function createAdminReservation()
+    {
+        $reservation = new Reservation();
+        $reservation->setState(ReservationStateEnum::CREATED);
+        return $reservation;
+    }
+
+    /**
+     * Create an new reservation for an user
+     *
+     * @param Housing $housing Get the targeted housing for reservation
+     *
+     * @return Reservation
+     */
+    public function createReservation(Housing $housing)
+    {
+        $reservation = new Reservation();
+        $reservation->setState(ReservationStateEnum::CREATED);
+        $reservation->setHousing($housing);
+        $reservation->setUser($this->security->getUser());
+        return $reservation;
+    }
+
+    /**
+     * Return All reservations for a proprietary for action
+     *
+     * @return Housing[]
+     */
+    public function getAllReservationProprietaryEntity()
+    {
+        /** @var User $user */
+        $user = $this->security->getUser();
+        $this->em->getFilters()->enable('deleted');
+
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            $this->em->getFilters()->disable('deleted');
+        }
+
+        return $this->em->getRepository(Reservation::class)->getProprietaryReservation($user->getId());
+    }
+
+    /**
+     * Init first payment infos
+     *
+     * @param Reservation $reservation Get the targeted reservation
+     *
+     * @return PaymentInfos
+     */
+    public function createPaymentInfos(Reservation $reservation)
+    {
+        $paymentInfos = new PaymentInfos();
+        $paymentInfos->setReservation($reservation);
+        $paymentInfos->setPrice($this->getTotalPriceForStay($reservation));
+
+        return $paymentInfos;
+    }
+
+    /**
+     * Get all unavailability of an housing cause of calendar and reservation
+     *
+     * @param Housing     $housing     Get the targeted Housing
+     * @param Reservation $reservation Get the targeted reservation if set
+     *
+     * @return array
+     */
+    public function getUndisponibility(Housing $housing, Reservation $reservation = null)
+    {
+        $unavailability = [];
+        $houseUnavailability = $housing->getUndisponibility();
+        foreach ($houseUnavailability as $undisponibility) {
+            if ($undisponibility->getStartDate()) {
+                $unavailability[] = $undisponibility->getStartDate()->format('d/m/Y');
+            }
+        }
+
+        $reservations = $housing->getReservations();
+        foreach ($reservations as $item) {
+            if ($reservation && $item->getId() === $reservation->getId()) {
+                continue;
+            }
+            if ($item->getReservationInfos()) {
+                $unavailability = array_merge($unavailability, $this->getIntervalArrayDate($item->getReservationInfos()));
+            }
+        }
+        return $unavailability;
     }
 }

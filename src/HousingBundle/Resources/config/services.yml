@@ -7,6 +7,10 @@ services:
         class: HousingBundle\Service\HousingTypeManager
         arguments: ['@jms_serializer.serializer', '@doctrine.orm.entity_manager', '@security.helper', '@ah.housing_manager']
 
+    ah.housing_notation_manager:
+        class: HousingBundle\Service\HousingNotationManager
+        arguments: ['@doctrine.orm.entity_manager', '@security.helper', '@ah.housing_manager', '@ah.reservation_manager']
+
     ah.housing_listener:
         class: HousingBundle\Listener\HousingListener
         arguments: ['@ah.housing_manager', '@ah.housing_type_manager']

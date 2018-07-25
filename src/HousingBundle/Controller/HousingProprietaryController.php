@@ -17,7 +17,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Housing controller.
+ * Housing Proprietary controller.
+ *
+ * In this controller Proprietary can manage all his houses
+ *
+ * PHP version 7.1
+ *
+ * @category  Controller
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
  *
  * @Security("has_role('ROLE_PROPRIETARY')")
  */
@@ -199,6 +207,7 @@ class HousingProprietaryController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $housingManager->isValidHousing($housing);
+            $housingManager->editHousingValidation($housing);
             $em->flush();
             return $this->redirectToRoute($this->getRedirectForFormType($formClass), ['slug' => $housing->getSlug()]);
         }

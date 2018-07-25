@@ -2,16 +2,18 @@
 
 {% block title %}{{ parent() }} {{ (housing.title) ? housing.title : "New Housing" }} {% endblock %}
 
+{% set menu_level = 'housings_admin' %}
+
 {% block content %}
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
             <h2>Edit Housing</h2>
             <ol class="breadcrumb">
                 <li>
-                    <a href="i{{ path('admin_homepage') }}">Home</a>
+                    <a href="{{ path('admin_homepage') }}">Home</a>
                 </li>
                 <li>
-                    <a href="i{{ path('atyipikhouse_admin_housing_index') }}">Housing</a>
+                    <a href="{{ path('atyipikhouse_admin_housing_index') }}">Housing</a>
                 </li>
                 <li class="active">
                     <strong>{{ (housing.title) ? housing.title : "New Housing" }}</strong>

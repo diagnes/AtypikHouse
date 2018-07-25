@@ -26,7 +26,7 @@ class HousingImagesType extends AbstractType
                 'label' => 'Upload an image',
                 'provider' => 'sonata.media.provider.image',
                 'required' => true,
-                'context'  => 'default'
+                'context'  => 'teaser'
                 ]
             );
     }

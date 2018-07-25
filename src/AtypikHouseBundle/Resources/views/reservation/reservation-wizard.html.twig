@@ -1,0 +1,36 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="{{ path('atypikhouse_home') }}" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
+    </section>
+    <div class="main">
+        <div class="container">
+            <div class="main-cn bg-white clearfix">
+                <div class="step">
+                    <ul class="payment-step text-center clearfix">
+                        <li class="{% if step > 1 %}step-select{% endif %}">
+                            <span>1</span>
+                            <p>Start Your reservation</p>
+                        </li>
+                        <li class="{% if step > 2 %}step-select{% elseif step > 1 %}step-part{% endif %}">
+                            <span>2</span>
+                            <p>Waiting validation</p>
+                        </li>
+                        <li class="{% if step > 3 %}step-select{% elseif step > 2 %}step-part{% endif %}">
+                            <span>3</span>
+                            <p>Payment Infos</p>
+                        </li>
+                        <li class="{% if step == 4 %}step-select{% elseif step == 3 %}step-part{% endif %}">
+                            <span>4</span>
+                            <p>Booking Completed!</p>
+                        </li>
+                    </ul>
+                </div>
+                {% block wizard_content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

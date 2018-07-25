@@ -6,6 +6,7 @@
     {{ parent() }}
     {% stylesheets
     '@AdminBundle/Resources/public/css/plugins/chosen/chosen.css'
+    '@AdminBundle/Resources/public/css/plugins/datapicker/datepicker3.css'
     %}
     <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -13,9 +14,12 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACTrxtDIHmqjGy8AX2IC1-FVxHwY-8eew&libraries=places&callback=initAutocomplete" async defer></script>
     {% javascripts
     '@AdminBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@AdminBundle/Resources/public/js/plugins/datapicker/bootstrap-datepicker.js'
     '@AdminBundle/Resources/public/js/form.js'
+    '@AdminBundle/Resources/public/js/autocomplete.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -36,40 +40,139 @@
                 <div class="col-lg-12">
                     {{ form_start(form) }}
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">{{ form_label(form.username) }}</label>
-                        <div class="col-sm-10">
-                            {{ form_widget(form.username) }}
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">{{ form_label(form.email) }}</label>
-                            <div class="col-sm-10">
-                                {{ form_widget(form.email) }}
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.gender) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.gender) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.gender) }}
                             </div>
                         </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">{{ form_label(form.password.pass) }}</label>
-                        <div class="col-sm-10">
-                            {{ form_widget(form.password.pass) }}
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.firstname) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.firstname) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.firstname) }}
+                            </div>
                         </div>
-                        <br/>
-                        <label class="col-sm-2 control-label">{{ form_label(form.password.confirm) }}</label>
-                        <div class="col-sm-10">
-                            {{ form_widget(form.password.confirm) }}
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">{{ form_label(form.roles) }}</label>
-                        <div class="col-sm-10">
-                            {{ form_widget(form.roles) }}
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.lastname) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.lastname) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.lastname) }}
+                            </div>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <div class="col-sm-4 col-sm-offset-2">
+                        <div class="col-sm-4 col-xs-12">
+                            {% if form.personalInfos.image.vars.value.id %}
+                            {% thumbnail form.personalInfos.image.vars.value.id, 'small' %}
+                            {% endif %}
+                            {% do form.personalInfos.image.unlink.setRendered %}
+                            {{ form_errors(form.personalInfos.image) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.image) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.image.binaryContent, {'attr': {'accept':'.png, .jpg, .jpeg'}} ) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.birthDate) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.birthDate) }}</label>
+                            <div>
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>{{ form_widget(form.personalInfos.birthDate) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.birthLocation) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.birthLocation) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.birthLocation) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.phoneNumber) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.phoneNumber) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.phoneNumber) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.profession) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.profession) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.profession) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            {{ form_errors(form.personalInfos.nationality) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.nationality) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.nationality) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12 col-xs-12">
+                            {{ form_errors(form.personalInfos.description) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.description) }}</label>
+                            <div>
+                                {{ form_widget(form.personalInfos.description) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12 col-xs-12">
+                            {{ form_errors(form.personalInfos.address.streetNumber) }}
+                            {{ form_errors(form.personalInfos.address.address) }}
+                            {{ form_errors(form.personalInfos.address.city) }}
+                            {{ form_errors(form.personalInfos.address.postalcode) }}
+                            {{ form_errors(form.personalInfos.address.state) }}
+                            {{ form_errors(form.personalInfos.address.country) }}
+                            <label class="control-label">{{ form_label(form.personalInfos.address) }}</label>
+                            <div>
+                                <input id="autocomp-one" value="{{ form.personalInfos.address.vars.value }}" type="text" data-types="['geocode']" data-target="address-info" class="form-control google-autocomplete" placeholder="Enter your address">
+                            </div>
+                            <div style="margin: 15px 0" >
+                                <a href="javascript:void(0)" class="show-address-block" data-target="address-info">Display full address</a>
+                            </div>
+                            <div class="address-info" style="display: none">
+                                {{ form_widget(form.address.latitude) }}
+                                {{ form_widget(form.address.longitude) }}
+                                <div class="row">
+                                    <div class="col-sm-2 col-xs-12">
+                                        {{ form_widget(form.personalInfos.address.streetNumber) }}
+                                    </div>
+                                    <div class="col-sm-10 col-xs-12">
+                                        {{ form_widget(form.personalInfos.address.address) }}
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 15px">
+                                    <div class="col-sm-3 col-xs-12">
+                                        {{ form_widget(form.personalInfos.address.city) }}
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12">
+                                        {{ form_widget(form.personalInfos.address.postalcode) }}
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12">
+                                        {{ form_widget(form.personalInfos.address.state) }}
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12">
+                                        {{ form_widget(form.personalInfos.address.country) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
                             <button class="btn btn-primary" type="submit">Save changes</button>
                         </div>
                     </div>

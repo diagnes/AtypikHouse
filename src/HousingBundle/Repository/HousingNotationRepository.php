@@ -2,6 +2,8 @@
 
 namespace HousingBundle\Repository;
 
+use HousingBundle\Entity\HousingNotation;
+
 /**
  * HousingNotationRepository
  *
@@ -10,4 +12,23 @@ namespace HousingBundle\Repository;
  */
 class HousingNotationRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Get the reservation of the proprietary
+     *
+     * @param int $id Get the proprietary user id
+     *
+     * @return HousingNotation[]
+     */
+    public function getUserNotation(int $id)
+    {
+        $qb = $this->createQueryBuilder('hn');
+
+        $qb
+            ->innerJoin('hn.reservation', 'r')
+            ->innerJoin('r.user', 'u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $id);
+
+        return $qb->getQuery()->getResult();
+    }
 }

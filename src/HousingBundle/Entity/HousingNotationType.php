@@ -2,8 +2,10 @@
 
 namespace HousingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use ToolsBundle\DataTrait\DateTrait;
+use ToolsBundle\DataTrait\DeletedDateTrait;
 
 /**
  * HousingNotationType
@@ -14,6 +16,7 @@ use ToolsBundle\DataTrait\DateTrait;
 class HousingNotationType
 {
     use DateTrait;
+    use DeletedDateTrait;
 
     /**
      * @var int
@@ -38,50 +41,88 @@ class HousingNotationType
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingNotationValue", mappedBy="notationType", cascade={"all"}, fetch="EAGER")
+     */
+    private $notations;
 
     /**
-     * Get id.
+     * HousingNotationType constructor.
+     */
+    public function __construct()
+    {
+        $this->notations = new ArrayCollection();
+    }
+
+    /**
+     * Get a Id
      *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
+     * Set a Id
+     *
+     * @param int $id Set a new id
+     *
+     * @return HousingNotationType
+     */
+    public function setId(int $id): HousingNotationType
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get a Name
+     *
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * Set a Name
      *
-     * @return void
+     * @param string $name Set a new name
+     *
+     * @return HousingNotationType
      */
-    public function setName(string $name): void
+    public function setName(string $name): HousingNotationType
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
+     * Get a Description
+     *
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * Set a Description
      *
-     * @return void
+     * @param string $description Set a new description
+     *
+     * @return HousingNotationType
      */
-    public function setDescription(string $description): void
+    public function setDescription(string $description): HousingNotationType
     {
         $this->description = $description;
+
+        return $this;
     }
 }

@@ -4,6 +4,7 @@ namespace UserBundle\Form;
 
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -28,6 +29,7 @@ class UserProfileType extends AbstractType
                 'username',
                 TextType::class,
                 [
+                    'label' => 'Username',
                     'attr' => [
                         'class' => 'input-text',
                         'placeholder' => 'Username',
@@ -38,13 +40,21 @@ class UserProfileType extends AbstractType
                 'email',
                 EmailType::class,
                 [
+                    'label' => 'Email',
                     'attr' => [
                         'class' => 'input-text',
                         'placeholder' => 'Email',
                     ]
                 ]
             )
-            ->add('personalInfo', UserPersonalInfosType::class);
+            ->add(
+                'newsletter',
+                CheckboxType::class,
+                [
+                'required' => false,
+                ]
+            )
+            ->add('personalInfos', UserPersonalInfosType::class);
     }
 
     /**

@@ -5,22 +5,28 @@
 {% block inner_profile %}
     <h2 class="user-profile__title">Notations</h2>
     <div class="user-review">
-        <div class="row review-item">
-            <div class="col-xs-12">
-                <div class="review-header">
-                    <span class="date">3/2/ 2014</span>
-                    <h4>Grand Plaza Serviced Apartments <span class="star"><i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i> <i class="glyphicon glyphicon-star"></i></span></h4>
-                    <a href="user-review.html#" class="btn">See detail</a>
+        {% for notation in notations %}
+            <div class="row review-item">
+                <div class="col-xs-12">
+                    <div class="review-header">
+                        <span class="date">{{ notation.createdAt | date('d/m/Y') }}</span>
+                        <h4>{{ notation.reservation.housing.title }}
+                            {{ notation | averageScore | scoreToStars | raw }}
+                        </h4>
+                        <a href="{{ path('atyipikhouse_housing_notation_edit', {'id' : notation.reservation.id}) }}" class="btn">Edit</a>
+                    </div>
+                </div>
+                <div class="col-xs-3 review-number"><ins>{{ notation | averageScore | scoreFormat }}</ins></div>
+                <div class="col-xs-9 review-text">
+                    <ul>
+                        <li><span class="icon fa fa-plus"></span>{{ notation | bestPart }}</li>
+                        <li><span class="icon icon-minus fa fa-minus"></span>{{ notation | nastyPart }}</li>
+                    </ul>
+                    <p>
+                        {{ notation.description }}
+                    </p>
                 </div>
             </div>
-            <div class="col-xs-3 review-number"><ins>5.6</ins></div>
-            <div class="col-xs-9 review-text">
-                <ul>
-                    <li><span class="icon fa fa-plus"></span>Location, warmth, cleanliness</li>
-                    <li><span class="icon icon-minus fa fa-minus"></span>Noisy, expensive</li>
-                </ul>
-                <p>Our stay was pleasant and joyful. We stayed in an apartment meant for 3 adults. First and foremost, close proximity to tube station was the reason of choosing this hotel. The cleaning services were fantastic. The support services were prompt...</p>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 {% endblock %}

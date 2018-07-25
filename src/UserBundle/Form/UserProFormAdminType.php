@@ -3,13 +3,10 @@
 namespace UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use UserBundle\Entity\User;
+use UserBundle\Entity\UserProfessionalInfos;
 
 class UserProFormAdminType extends AbstractType
 {
@@ -24,50 +21,35 @@ class UserProFormAdminType extends AbstractType
 
         $builder
             ->add(
-                'email',
-                EmailType::class,
-                [
-                    'label' => 'E-mail',
-                    'attr' => [
-                        'class' => 'form-control',
-                        'label' => 'Email',
-                    ]
-                ]
-            )
-            ->add(
-                'username',
+                'siret',
                 TextType::class,
                 [
-                'label' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'label' => 'Username',
-                ]
+                    'label' => 'Siret',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ]
                 ]
             )
             ->add(
-                'plainPassword',
-                RepeatedType::class,
+                'workNumber',
+                TextType::class,
                 [
-                'type' => PasswordType::class,
-                'first_name' => 'pass',
-                'second_name' => 'confirm',
-                'first_options' => [
-                    'label' => 'Password',
+                    'label' => 'WorkNumber',
                     'attr' => [
                         'class' => 'form-control',
                     ]
-                ],
-                'second_options' => [
-                    'label' => 'Repeat Password',
-                    'attr' => [
-                        'class' => 'form-control',
-                    ]
-                ],
-                'invalid_message' => 'fos_user.password.mismatch',
                 ]
             )
-            ->add('professionalInfos', RegistrationProfessionalType::class, []);
+            ->add(
+                'entreprise',
+                TextType::class,
+                [
+                    'label' => 'Enterprise',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ]
+                ]
+            );
     }
 
     /**
@@ -79,7 +61,7 @@ class UserProFormAdminType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => User::class
+                'data_class' => UserProfessionalInfos::class
             ]
         );
     }

@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AtypikHouseBundle\Entity\ReservationInfos;
 
 class ReservationInfosType extends AbstractType
 {
@@ -24,16 +25,52 @@ class ReservationInfosType extends AbstractType
                 'resident',
                 IntegerType::class,
                 [
-                'label' => 'Number of Resident'
+                    'attr' => [
+                        'min' => 1,
+                        'max' => $options['maxResident'],
+                        'class' => 'field-input',
+                        'placeholder' => 'Number of Resident',
+                    ],
                 ]
             )
-            ->add('startDate', DateType::class)
-            ->add('endDate', DateType::class)
+            ->add(
+                'startDate',
+                DateType::class,
+                [
+                'widget' => 'single_text',
+                'label' => false,
+                'html5' => false,
+                'format' =>'dd/MM/yyyy',
+                'attr' => [
+                    'class' => 'date-picker-start field-input',
+                    'placeholder' => 'Check-in',
+                    'readonly' => 'readonly',
+                ],
+                ]
+            )
+            ->add(
+                'endDate',
+                DateType::class,
+                [
+                'widget' => 'single_text',
+                'label' => false,
+                'html5' => false,
+                'format' =>'dd/MM/yyyy',
+                'attr' => [
+                    'class' => 'date-picker-end field-input',
+                    'placeholder' => 'Check-out',
+                    'readonly' => 'readonly',
+                ],
+                ]
+            )
             ->add(
                 'message',
                 TextareaType::class,
                 [
-                'label' => 'You can send little message to your host'
+                'attr' => [
+                    'class' => 'field-input',
+                    'placeholder' => 'Message to the host',
+                ],
                 ]
             );
     }
@@ -47,7 +84,8 @@ class ReservationInfosType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => 'AtypikHouseBundle\Entity\ReservationInfos'
+                'data_class' => ReservationInfos::class,
+                'maxResident' => false,
             ]
         );
     }

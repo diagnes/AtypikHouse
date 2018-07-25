@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use UserBundle\Entity\User;
 use UserBundle\Enum\UserRoleEnum;
+use UserBundle\Form\AddressType;
 
 class HousingTeaserFormType extends AbstractType
 {
@@ -32,32 +33,35 @@ class HousingTeaserFormType extends AbstractType
                 'description',
                 TextareaType::class,
                 [
-                'label' => 'Description',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
+                    'label' => 'Description',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                ]
+            )->add(
+                'address',
+                AddressType::class,
+                [
+                'label' => 'Address'
                 ]
             )
             ->add(
                 'visible',
                 CheckboxType::class,
                 [
-                'label' => 'Visible',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                ],
+                    'label' => 'Visible',
+                    'required' => false,
                 ]
             )
             ->add(
                 'images',
                 CollectionType::class,
                 [
-                'label' => false,
-                'entry_type' => HousingImagesType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
+                    'label' => false,
+                    'entry_type' => HousingImagesType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
                 ]
             );
     }
@@ -71,10 +75,10 @@ class HousingTeaserFormType extends AbstractType
     {
         $resolver->setDefaults(
             [
-            'data_class' => Housing::class,
-            'attr' => [
-                'class' => 'form-horizontal',
-            ],
+                'data_class' => Housing::class,
+                'attr' => [
+                    'class' => 'form-horizontal',
+                ],
             ]
         );
     }

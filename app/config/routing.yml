@@ -16,7 +16,7 @@ atypik_house:
 
 payment:
     resource: "@PaymentBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /payment
 
 housing:
     resource: "@HousingBundle/Resources/config/routing.yml"
@@ -47,6 +47,14 @@ api_login_check:
 fos_user:
     resource: "@UserBundle/Resources/config/routing/all.xml"
 
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+#KMS Froala
+kms_froala_editor:
+  resource: "@KMSFroalaEditorBundle/Resources/config/routing.yml"
+  prefix:   /froalaeditor
+
 #HWI OAUTH
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
@@ -68,3 +76,7 @@ linkedin_login:
 
 google_login:
     path: /login/check-google
+
+#Payum Routing
+payum_all:
+    resource: "@PayumBundle/Resources/config/routing/all.xml"

@@ -2,10 +2,12 @@
 
 {% block title %}{{ parent() }} {{ (user.id) ? 'User-' ~ user.id : "New User" }} {% endblock %}
 
+{% set menu_level = 'user_admin' %}
+
 {% block content %}
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-8">
-            <h2>Edit Housing</h2>
+            <h2>Edit User</h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="i{{ path('admin_homepage') }}">Home</a>
@@ -19,8 +21,12 @@
             </ol>
         </div>
         <div class="col-lg-4 text-right">
-            <button class="btn btn-success dim" type="button"><i class="fa fa-flash"></i></button>
-            <button class="btn btn-danger dim " type="button"><i class="fa fa-lock"></i></button>
+            <a class="btn btn-success dim" href="{{ path('atypikhouse_home', {'_switch_user': user.username }) }}"><i class="fa fa-flash"></i></a>
+            {% if user.enabled %}
+                <a class="btn btn-danger dim " href="{{ path('atypikhouse_user_admin_deleted', { 'id' : user.id }) }}"><i class="fa fa-lock"></i></a>
+            {% else %}
+                <a class="btn btn-primary dim " href="{{ path('atypikhouse_user_admin_undeleted', { 'id' : user.id }) }}"><i class="fa fa-unlock"></i></a>
+            {% endif %}
         </div>
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">

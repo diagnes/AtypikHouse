@@ -5,6 +5,7 @@ namespace UserBundle\Controller;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
+use HousingBundle\Entity\HousingNotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -63,7 +64,6 @@ class ProfileController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
             $em->flush();
 
             return $this->redirectToRoute('fos_user_profile_show');
@@ -85,7 +85,15 @@ class ProfileController extends Controller
      */
     public function showReservationAction(): Response
     {
-        return $this->render('UserBundle:profile:reservations.html.twig');
+        $reservationManager = $this->get('ah.reservation_manager');
+        $reservations = $reservationManager->getUserReservations();
+
+        return $this->render(
+            'UserBundle:profile:reservations.html.twig',
+            [
+            'reservations' => $reservations
+            ]
+        );
     }
 
     /**
@@ -105,7 +113,17 @@ class ProfileController extends Controller
      */
     public function showNotationListAction(): Response
     {
-        return $this->render('UserBundle:profile:notation.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        /** @var User $connectedUser */
+        $connectedUser = $this->getUser();
+        $notations = $em->getRepository(HousingNotation::class)->getUserNotation($connectedUser->getId());
+
+        return $this->render(
+            'UserBundle:profile:notation.html.twig',
+            [
+            'notations' => $notations,
+            ]
+        );
     }
 
     /**

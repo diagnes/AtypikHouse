@@ -16,7 +16,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Housing controller.
+ * Housing Admin controller.
+ *
+ * In this controller admin can manage all houses
+ *
+ * PHP version 7.1
+ *
+ * @category  Controller
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
  *
  * @Security("has_role('ROLE_ADMIN')")
  */
@@ -33,7 +41,8 @@ class HousingAdminController extends Controller
         return $this->render(
             'HousingBundle:housing:list.html.twig',
             [
-            'housings' => $housings,
+                'housings' => $housings,
+                'menu_level' => 'housings_admin'
             ]
         );
     }
@@ -50,7 +59,7 @@ class HousingAdminController extends Controller
         return $this->render(
             'HousingBundle:housing:list-waiting.html.twig',
             [
-            'housings' => $housings,
+                'housings' => $housings,
             ]
         );
     }
@@ -74,7 +83,7 @@ class HousingAdminController extends Controller
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
-        return $this->redirectToRoute('atyipikhouse_admin_housing_index');
+        return $this->redirectToRoute('atyipikhouse_admin_housing_waiting');
     }
 
     /**
@@ -95,7 +104,7 @@ class HousingAdminController extends Controller
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
-        return $this->redirectToRoute('atyipikhouse_admin_housing_index');
+        return $this->redirectToRoute('atyipikhouse_admin_housing_waiting');
     }
 
     /**

@@ -1,0 +1,15 @@
+atypikhouse_payment_user_prepare:
+    path:     /reservation/{id}/prepare
+    defaults: { _controller: "PaymentBundle:Payment:prepare" }
+
+atypikhouse_payment_user_done:
+    path:     /reservation/done
+    defaults: { _controller: "PaymentBundle:Payment:done" }
+
+atypikhouse_payment_list_proprietary:
+    path:     /admin/proprietary/payment
+    defaults: { _controller: "PaymentBundle:Payment:allProprietaryPayment" }
+
+atypikhouse_payment_admin_list:
+    path:     /admin/payment/list
+    defaults: { _controller: "PaymentBundle:PaymentAdmin:all" }

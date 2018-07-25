@@ -1,0 +1,46 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="{{ path('atypikhouse_home') }}" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
+    </section>
+    <div class="main">
+        <div class="container">
+            <div class="main-cn bg-white clearfix">
+                <div class="reviews-title text-center">
+                    <h2>Reviews for {{ notation.reservation.housing.title }}</h2>
+                </div>
+                <div class="review-form reservation-form">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        {% for formVal in form.values %}
+                            <div class="col-md-4">
+                                <div class="field-input">
+                                    {{ form_errors(formVal.value) }}
+                                    <label class="m-b-10">
+                                        {{ formVal.vars.value.notationType.name }}
+                                        <a data-toggle="tooltip" data-placement="top" title="{{ formVal.vars.value.notationType.description }}">
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+                                    </label>
+                                    {{ form_widget(formVal.value) }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="col-md-12">
+                            <h2>Your global description for the stay</h2>
+                            <div class="field-input">
+                                {{ form_widget(form.description) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-t-10 text-center">
+                        <button type="submit" class="awe-btn awe-btn-1 awe-btn-lager">Submit Review</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

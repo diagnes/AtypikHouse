@@ -152,18 +152,8 @@ class HousingListener
     {
         $this->housingManager->setTypeValueHousing($entity);
         $this->housingManager->removeUnusedValueHousing($entity);
-        $this->housingManager->editHousingValidation($entity);
         $classMetadata = $em->getClassMetadata(\get_class($entity));
         $em->getUnitOfWork()->computeChangeSet($classMetadata, $entity);
         $em->persist($entity);
-    }
-
-    /**
-     * @param Housing $entity Get listener entity Housing
-     *
-     * @return void
-     */
-    private function actionHousingChangeType(Housing $entity)
-    {
     }
 }

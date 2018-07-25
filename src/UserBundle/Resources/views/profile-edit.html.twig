@@ -1,16 +1,130 @@
 {% extends 'UserBundle::layout-user.html.twig' %}
 
-{% block title %} {{ parent() }} | Profil {% endblock %}
+{% block title %} {{ parent() }} | Profil Edit {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACTrxtDIHmqjGy8AX2IC1-FVxHwY-8eew&libraries=places&callback=initAutocomplete" async defer></script>
+    {% javascripts
+    '@AdminBundle/Resources/public/js/form.js'
+    '@AdminBundle/Resources/public/js/autocomplete.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
 
 {% block inner_profile %}
-    <h2 class="user-profile__title">Edit Profil</h2>
+    <h2 class="user-profile__title">Profil</h2>
     <div class="my-profile">
+        {{ form_start(form) }}
         <div class="row">
-            <div class="col-md-12">
-                {{ form_start(form()) }}
-                {{ form_row(form()) }}
-                {{ form_end(form()) }}
+            <div class="col-md-6">
+                <h4 class="my-profile__title">Edit Personal Information</h4>
+                <div class="field-input">
+                    {% do form.personalInfos.image.unlink.setRendered %}
+                    <label>Profile picture</label>
+                    {{ form_widget(form.personalInfos.image) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.username) }}
+                    {{ form_widget(form.username) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.gender) }}
+                    {{ form_widget(form.personalInfos.gender) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.firstname) }}
+                    {{ form_widget(form.personalInfos.firstname) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.lastname) }}
+                    {{ form_widget(form.personalInfos.lastname) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.birthDate) }}
+                    {{ form_widget(form.personalInfos.birthDate) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.birthLocation) }}
+                    {{ form_widget(form.personalInfos.birthLocation) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.phoneNumber) }}
+                    {{ form_widget(form.personalInfos.phoneNumber) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.profession) }}
+                    {{ form_widget(form.personalInfos.profession) }}
+                </div>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.nationality) }}
+                    {{ form_widget(form.personalInfos.nationality) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4 class="my-profile__title">Location</h4>
+                {{ form_errors(form.personalInfos.address.streetNumber) }}
+                {{ form_errors(form.personalInfos.address.address) }}
+                {{ form_errors(form.personalInfos.address.city) }}
+                {{ form_errors(form.personalInfos.address.postalcode) }}
+                {{ form_errors(form.personalInfos.address.state) }}
+                {{ form_errors(form.personalInfos.address.country) }}
+                <div class="field-input">
+                    <label>{{ form_label(form.personalInfos.address) }}</label>
+                    <input id="autocomp-one" value="{{ form.personalInfos.address.vars.value }}" type="text" data-types="['geocode']" data-target="address-info" class="input-text google-autocomplete" placeholder="Enter your address">
+                </div>
+                <div style="margin: 15px 0" >
+                    <a href="javascript:void(0)" class="show-address-block" data-target="address-info">Display full address</a>
+                </div>
+                <div class="address-info" style="display: none">
+                    {{ form_widget(form.personalInfos.address.latitude) }}
+                    {{ form_widget(form.personalInfos.address.longitude) }}
+                    <div class="field-input">
+                        {{ form_label(form.personalInfos.address.streetNumber) }}
+                        {{ form_widget(form.personalInfos.address.streetNumber) }}
+                    </div>
+                    <div class="field-input">
+                        {{ form_label(form.personalInfos.address.address) }}
+                        {{ form_widget(form.personalInfos.address.address) }}
+                    </div>
+                    <div class="field-input">
+                        {{ form_label(form.personalInfos.address.city) }}
+                        {{ form_widget(form.personalInfos.address.city) }}
+                    </div>
+                    <div class="field-input">
+                        {{ form_label(form.personalInfos.address.postalcode) }}
+                        {{ form_widget(form.personalInfos.address.postalcode) }}
+                    </div>
+                    <div class="field-input">
+                        {{ form_label(form.personalInfos.address.state) }}
+                        {{ form_widget(form.personalInfos.address.state) }}
+                    </div>
+                    <div class="field-input">
+                        {{ form_label(form.personalInfos.address.country) }}
+                        {{ form_widget(form.personalInfos.address.country) }}
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="my-profile__title">Edit your description</h4>
+                <div class="field-input">
+                    {{ form_label(form.personalInfos.description) }}
+                    {{ form_widget(form.personalInfos.description) }}
+                </div>
+            </div>
+        </div>
+        <div class="field-input">
+            {{ form_widget(form.newsletter) }}
+            <label for="my-profile__checkbox">Yes, I would like to receive Special Offers &amp; Promotions from Atypikhouse</label>
+        </div>
+        <button type="submit" class="btn">Edit profile</button>
+        {{ form_end(form) }}
     </div>
 {% endblock %}

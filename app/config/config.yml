@@ -6,9 +6,9 @@ imports:
 #Others config file
     - { resource: config/fos_user.yml }
     - { resource: config/sonata_media.yml }
-#    - { resource: config/lexik_jwt_authentication.yml }
     - { resource: config/stof_doctrine_extensions.yml }
     - { resource: config/hwi_oauth.yml }
+    - { resource: config/payum.yml }
 
 #Bundles config file
     - { resource: "@ToolsBundle/Resources/config/services.yml" }
@@ -77,7 +77,7 @@ doctrine:
                 connection: default
                 filters:
                     deleted:
-                        class: 'ToolsBundle\Filter\DeletedFilter'
+                        class: ToolsBundle\Filter\DeletedFilter
                         enabled: true
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: true
@@ -114,8 +114,17 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
                         alias: GedmoTree # (optional) it will default to the name set for the mapping
                         is_bundle: false
+                    payum:
+                        is_bundle: false
+                        type: xml
+                        dir: %kernel.root_dir%/../vendor/payum/core/Payum/Core/Bridge/Doctrine/Resources/mapping
+                        prefix: Payum\Core\Model
             db_dev:
                 connection: db_dev
+                filters:
+                    deleted:
+                        class: 'ToolsBundle\Filter\DeletedFilter'
+                        enabled: true
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 mappings:
                     UserBundle: ~
@@ -150,6 +159,15 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
                         alias: GedmoTree # (optional) it will default to the name set for the mapping
                         is_bundle: false
+                    payum:
+                        is_bundle: false
+                        type: xml
+                        dir: %kernel.root_dir%/../vendor/payum/core/Payum/Core/Bridge/Doctrine/Resources/mapping
+                        prefix: Payum\Core\Model
+
+kms_froala_editor:
+    language: "nl"
+
 # Twig Configuration
 twig:
     debug: '%kernel.debug%'
