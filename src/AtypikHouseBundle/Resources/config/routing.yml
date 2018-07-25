@@ -2,6 +2,10 @@ atypikhouse_home:
     path:     /
     defaults: { _controller: "AtypikHouseBundle:Index:index" }
 
+atypikhouse_static_page:
+    path:     /page/{slug}
+    defaults: { _controller: "AtypikHouseBundle:StaticPage:index" }
+
 atypik_house_api_reservation:
     resource: "@AtypikHouseBundle/Resources/config/routing/reservation.yml"
     prefix:   /reservation
@@ -9,3 +13,7 @@ atypik_house_api_reservation:
 atypik_house_api_reservation_admin:
     resource: "@AtypikHouseBundle/Resources/config/routing/reservation_admin.yml"
     prefix:   /reservation/admin
+
+atypik_house_staticpage_admin:
+    resource: "@AtypikHouseBundle/Resources/config/routing/staticpage.yml"
+    prefix:   /admin/staticpage

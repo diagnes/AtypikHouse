@@ -1,0 +1,129 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} {{ (staticpage.id) ? "Static Page" ~ staticpage.name : "New staticpage" }} {% endblock %}
+
+{% set menu_level = 'topic' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/chosen/chosen.css'
+    '@AdminBundle/Resources/public/css/plugins/daterangepicker/daterangepicker.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/froala_editor.min.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/froala_style.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/plugins/code_view.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/plugins/colors.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/plugins/image.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/plugins/video.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/plugins/table.css'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/css/plugins/quick_insert.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/chosen/chosen.jquery.js'
+    '@AdminBundle/Resources/public/js/plugins/fullcalendar/moment.min.js'
+    '@AdminBundle/Resources/public/js/plugins/daterangepicker/daterangepicker.js'
+    '@AdminBundle/Resources/public/js/form.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/froala_editor.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/image.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/video.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/font_family.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/image_manager.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/link.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/table.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/align.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/font_size.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/code_beautifier.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/colors.min.js'
+    '@KMSFroalaEditorBundle/Resources/public/froala_editor_2.8.4/js/plugins/quick_insert.min.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2>{{ (staticpage.id) ? "Edit " ~ staticpage.name : "New staticpage" }}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('admin_homepage') }}">Home</a>
+                </li>
+                <li>
+                    <a href="{{ path('atypikhouse_admin_staticpage_index') }}">Static Page</a>
+                </li>
+                <li class="active">
+                    <strong>{{ (staticpage.name) ? staticpage.name : "New staticpage" }}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12 m-b-md">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Static Page infos <small>This part inform admin about details for a static page</small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{ form_start(form) }}
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-xs-12">
+                                        <label class="control-label">{{ form_label(form.name) }}</label>
+                                        <div>
+                                            {{ form_widget(form.name) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                            {{ form_widget(form.enabled) }}
+                                            <label class="control-label">{{ form_label(form.enabled) }}</label>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label class="control-label">{{ form_label(form.description) }}</label>
+                                        <div>
+                                            {{ form_widget(form.description) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label class="control-label">{{ form_label(form.content) }}</label>
+                                        <div>
+                                            {{ form_widget(form.content) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary" type="submit">Save changes</button>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

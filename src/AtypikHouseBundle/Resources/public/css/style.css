@@ -74,6 +74,9 @@ img {
     background-color: #fff;
     z-index: 999999999
 }
+section.static-page {
+    padding: 30px 80px;
+}
 
 #page-loading p {
     text-align: center;

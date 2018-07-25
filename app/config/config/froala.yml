@@ -1,0 +1,8 @@
+kms_froala_editor:
+    language: 'fr'
+    imageUploadFolder: '/uploads/froala/image'
+    fileUploadFolder: '/uploads/froala/file'
+    videoUploadFolder: '/uploads/froala/video'
+    includeJS: true
+    includeCSS: true
+    saveInterval: 0

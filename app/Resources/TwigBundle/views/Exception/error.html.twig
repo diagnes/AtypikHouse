@@ -1,0 +1,26 @@
+{% extends '::layout-error.html.twig' %}
+
+{% block title %} {{ parent() }} {{ exception.statusCode }}{% endblock %}
+
+{% block content %}
+    <section class="page-not-found">
+        <div class="bg-parallax bg-1"></div>
+        <div class="container">
+            <div class="logo-page text-center">
+                <a href="{{ path('atypikhouse_home') }}" title="Atypikhouse"><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
+            <div class="page-body text-center">
+                <div class="item-content">
+                    <div class="image-wrap"><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></div>
+                    <h4>We’re really sorry!</h4>
+                    <p>{{ exception.message }},<br>Please try one of these instead</p>
+                </div>
+                <div class="item-footer">
+                    <a href="{{ path('atypikhouse_home') }}" class="awe-btn awe-btn-5 arrow-right awe-btn-small text-uppercase">GO home</a>
+                    {% if app.request.headers.get('referer') is not null %}
+                        <a href="{{ app.request.headers.get('referer') }}" class="awe-btn awe-btn-5 arrow-right awe-btn-small text-uppercase">GO previous page</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

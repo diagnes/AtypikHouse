@@ -16,7 +16,7 @@
                             <li {% if (app.request.attributes.get('_route') == 'atypikhouse_home') %} class="current-menu-parent" {% endif %}><a href="{{ path('atypikhouse_home') }}" title="">Home</a></li>
                             <li><a href="{{ path('atypikhouse_housing_index') }}" title="House">House</a></li>
                             {% if is_granted('ROLE_PROPRIETARY') %}
-                                <li><a href="{{ path('atypikhouse_home') }}" title="Become Host">My Houses</a></li>
+                                <li><a href="{{ path('atypikhouse_housing_list_proprietary_housing') }}" title="Become Host">My Houses</a></li>
                             {% else %}
                                 <li><a href="{{ path('atypikhouse_home') }}" title="Become Host">Become Host</a></li>
                             {% endif %}

@@ -22,7 +22,8 @@
                              </span>
                                 <span class="text-muted text-xs block">Back-office <b class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="javascript:void(0)">Profil</a></li>
+                        <li><a href="{{ path('atypikhouse_home') }}">Home</a></li>
+                        <li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
                         <li class="divider"></li>
                         {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                             <li><a href="{{ path('atypikhouse_home', {'_switch_user': '_exit'}) }}">Logout</a></li>
@@ -112,6 +113,13 @@
                             <ul class="nav nav-third-level">
                                 <li><a href="javascript:void(0)">List</a></li>
                                 <li><a href="javascript:void(0)">Edit</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">Static Pages<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li><a href="{{ path('atypikhouse_admin_staticpage_index') }}">List</a></li>
+                                <li><a href="{{ path('atypikhouse_admin_staticpage_new') }}">Edit</a></li>
                             </ul>
                         </li>
                     </ul>

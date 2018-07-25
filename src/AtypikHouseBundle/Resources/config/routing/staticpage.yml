@@ -1,0 +1,19 @@
+atypikhouse_admin_staticpage_index:
+    path:     /list
+    defaults: { _controller: "AtypikHouseBundle:StaticPageAdmin:index" }
+
+atypikhouse_admin_staticpage_new:
+    path:     /new
+    defaults: { _controller: "AtypikHouseBundle:StaticPageAdmin:new" }
+
+atypikhouse_admin_staticpage_edit:
+    path:     /{slug}/edit
+    defaults: { _controller: "AtypikHouseBundle:StaticPageAdmin:edit" }
+
+atypikhouse_admin_staticpage_delete:
+    path:     /{slug}/delete
+    defaults: { _controller: "AtypikHouseBundle:StaticPageAdmin:delete" }
+
+atypikhouse_admin_staticpage_undelete:
+    path:     /{slug}/undelete
+    defaults: { _controller: "AtypikHouseBundle:StaticPageAdmin:undelete" }

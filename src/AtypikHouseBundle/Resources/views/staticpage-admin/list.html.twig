@@ -1,0 +1,137 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} | Static Page List{% endblock %}
+
+{% set menu_level = 'topic' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@AdminBundle/Resources/public/css/plugins/dataTables/datatables.min.css'
+    %}
+    <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Static Pages List</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="i{{ path('admin_homepage') }}">Home</a>
+                </li>
+                <li>
+                    <a>Static Pages</a>
+                </li>
+                <li class="active">
+                    <strong>List</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>List Static Page</h5>
+                        <div class="ibox-tools">
+                            <a href="{{ path('atypikhouse_admin_staticpage_new') }}" class="btn btn-primary btn-xs">Add staticpage</a>
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        {% if staticpages %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Slug (last part of Url)</th>
+                                        <th>Url</th>
+                                        <th>Name</th>
+                                        <th>Enabled</th>
+                                        <th>Created At</th>
+                                        <th>Last update</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for staticpage in staticpages %}
+                                        <tr>
+                                            <td>{{ staticpage.id }}</td>
+                                            <td>{{ staticpage.slug }}</td>
+                                            <td><a href="/page/{{ staticpage.slug }}">/page/{{ staticpage.slug }}</a></td>
+                                            <td>{{ staticpage.name }}</td>
+                                            <td>{% if staticpage.enabled %}Yes{% else %}No{% endif %}</td>
+                                            <td>{{ staticpage.createdAt | date('d/m/Y H:i:s') }}</td>
+                                            <td>{{ staticpage.updatedAt | date('d/m/Y H:i:s') }}</td>
+                                            <td>
+                                                <a class="btn btn-success dim" href="{{ path('atypikhouse_admin_staticpage_edit', { 'slug': staticpage.slug }) }}" title="Edit"><i class="fa fa-pencil"></i></a>
+                                                {% if staticpage.deletedAt %}
+                                                    <a class="btn btn-primary dim" href="{{ path('atypikhouse_admin_staticpage_undelete', { 'slug': staticpage.slug }) }}" title="Unelete"><i class="fa fa-refresh"></i></a>
+                                                {% else %}
+                                                    <a class="btn btn-danger dim" href="{{ path('atypikhouse_admin_staticpage_delete', { 'slug': staticpage.slug }) }}" title="Delete"><i class="fa fa-times"></i></a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <a href="{{ path('atypikhouse_admin_staticpage_new') }}" class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-plus"></i></a>
+                                    <div>No Static Page available</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AdminBundle/Resources/public/js/plugins/dataTables/datatables.min.js'
+    '@AdminBundle/Resources/public/js/plugins/jeditable/jquery.jeditable.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+    <h1>Staticpages list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Slug</th>
+                <th>Name</th>
+                <th>Content</th>
+                <th>Type</th>
+                <th>Enabled</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for staticpage in staticpages %}
+            <tr>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

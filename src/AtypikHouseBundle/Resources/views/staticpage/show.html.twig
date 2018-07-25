@@ -1,0 +1,22 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="about.html" title=""><img src="images/logo-banner.png" alt=""></a></div>
+    </section>
+    <div class="main">
+        <div class="container">
+            <div class="main-cn about-page bg-white clearfix">
+                <section class="breakcrumb-sc">
+                    <ul class="breadcrumb arrow">
+                        <li><a href="{{ path('atypikhouse_home') }}"><i class="fa fa-home"></i></a></li>
+                        <li>{{ staticPage.name }}</li>
+                    </ul>
+                </section>
+                <section class="static-page">
+                    {{ staticPage.content | raw }}
+                </section>
+            </div>
+        </div>
+    </div>{% endblock %}

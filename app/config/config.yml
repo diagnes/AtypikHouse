@@ -9,6 +9,7 @@ imports:
     - { resource: config/stof_doctrine_extensions.yml }
     - { resource: config/hwi_oauth.yml }
     - { resource: config/payum.yml }
+    - { resource: config/froala.yml }
 
 #Bundles config file
     - { resource: "@ToolsBundle/Resources/config/services.yml" }
@@ -164,9 +165,6 @@ doctrine:
                         type: xml
                         dir: %kernel.root_dir%/../vendor/payum/core/Payum/Core/Bridge/Doctrine/Resources/mapping
                         prefix: Payum\Core\Model
-
-kms_froala_editor:
-    language: "nl"
 
 # Twig Configuration
 twig:

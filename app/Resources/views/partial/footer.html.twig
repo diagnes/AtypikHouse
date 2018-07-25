@@ -8,7 +8,7 @@
             <div class="col-xs-6 col-sm-3 col-md-2">
                 <div class="ul-ft">
                     <ul>
-                        <li><a href="{{ path('atypikhouse_home') }}" title="About">About</a></li>
+                        <li><a href="{{ path('atypikhouse_static_page', {'slug' : 'about-us'}) }}" title="About">About</a></li>
                         <li><a href="{{ path('atypikhouse_home') }}" title="News">News</a></li>
                         <li><a href="{{ path('atypikhouse_home') }}" title="Blog">Blog</a></li>
                     </ul>
@@ -17,10 +17,8 @@
             <div class="col-xs-6 col-sm-3 col-md-2">
                 <div class="ul-ft">
                     <ul>
-                        <li><a href="{{ path('atypikhouse_home') }}" title="">Contact Us</a></li>
-                        <li><a href="{{ path('atypikhouse_home') }}" title="">Privacy Policy</a></li>
-                        <li><a href="{{ path('atypikhouse_home') }}" title="">Term of Service</a></li>
-                        <li><a href="{{ path('atypikhouse_home') }}" title="">Security</a></li>
+                        <li><a href="{{ path('atypikhouse_static_page', {'slug' : 'privacy-policy'}) }}" title="">Privacy Policy</a></li>
+                        <li><a href="{{ path('atypikhouse_static_page', {'slug' : 'term-of-service'}) }}" title="">Term of Service</a></li>
                     </ul>
                 </div>
             </div>

@@ -1,3 +1,7 @@
+atypik_house_static_page:
+    resource: "@AtypikHouseBundle/Controller/StaticPageController.php"
+    type:     annotation
+
 atypik_house_reservation:
     resource: "@AtypikHouseBundle/Controller/ReservationController.php"
     type:     annotation

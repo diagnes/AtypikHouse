@@ -67,33 +67,33 @@
                                 <tbody>
                                 {% for reservation in reservations %}
                                     <tr>
-                                        <th>{{ reservation.id }}</th>
-                                        <th>
+                                        <td>{{ reservation.id }}</td>
+                                        <td>
                                             <a href="{{ path('atypikhouse_user_admin_edit', {'id' : reservation.user.id }) }}">
                                                 {{ reservation.user.username }}
                                             </a>
-                                        </th>
-                                        <th>
+                                        </td>
+                                        <td>
                                             <a href="{{ path('atyipikhouse_admin_housing_edit', {'slug' : reservation.housing.slug }) }}">
                                                 {{ reservation.housing.title }}
                                             </a>
-                                        </th>
-                                        <th>
+                                        </td>
+                                        <td>
                                             {{ reservation.housing.price | number_format(2, '.') }} €
-                                        </th>
-                                        <th>{{ reservation.state }}</th>
-                                        <th>{{ reservation.reservationInfos.resident }}</th>
-                                        <th>{{ reservation.reservationInfos.startDate | date('d-m-Y') }}</th>
-                                        <th>{{ reservation.reservationInfos.endDate | date('d-m-Y') }}</th>
-                                        <th>{{ reservation | priceStay | number_format(2, '.') }} €</th>
-                                        <th>
+                                        </td>
+                                        <td>{{ reservation.state }}</td>
+                                        <td>{{ reservation.reservationInfos.resident }}</td>
+                                        <td>{{ reservation.reservationInfos.startDate | date('d-m-Y') }}</td>
+                                        <td>{{ reservation.reservationInfos.endDate | date('d-m-Y') }}</td>
+                                        <td>{{ reservation | priceStay | number_format(2, '.') }} €</td>
+                                        <td>
                                             <a class="btn btn-success dim" href="{{ path('atypikhouse_reservation_admin_edit', { 'id': reservation.id }) }}" title="Edit"><i class="fa fa-pencil"></i></a>
                                             {% if reservation.deletedAt %}
                                                 <a class="btn btn-danger dim" href="{{ path('atypikhouse_reservation_admin_undeleted', { 'id': reservation.id }) }}" title="Unelete"><i class="fa fa-refresh"></i></a>
                                             {% else %}
                                                 <a class="btn btn-danger dim" href="{{ path('atypikhouse_reservation_admin_deleted', { 'id': reservation.id }) }}" title="Delete"><i class="fa fa-times"></i></a>
                                             {% endif %}
-                                        </th>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %} AtypikHouse | Error{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400%7COpen+Sans:300,400,600" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="/favicon.ico">
+    {% block stylesheets %}
+        {% stylesheets
+        '@AtypikHouseBundle/Resources/public/css/library/bootstrap.min.css'
+        '@AtypikHouseBundle/Resources/public/css/library/font-awesome.min.css'
+        '@AtypikHouseBundle/Resources/public/css/library/jquery-ui.min.css'
+        '@AtypikHouseBundle/Resources/public/css/library/jquery.mb.YTPlayer.min.css'
+        '@AtypikHouseBundle/Resources/public/css/library/owl.carousel.css'
+        '@AtypikHouseBundle/Resources/public/css/style.css'
+        %}
+        <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body>
+{% block loader %}
+<div id="preloader">
+    <div class="tb-cell">
+        <div id="page-loading">
+            <div></div>
+            <p>Loading</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<div id="wrap">
+    {% block content %}
+    {% endblock %}
+</div>
+
+{% block javascripts %}
+    {% javascripts
+    "@AtypikHouseBundle/Resources/public/js/library/jquery-1.11.0.min.js"
+    "@AtypikHouseBundle/Resources/public/js/library/jquery-ui.min.js"
+    "@AtypikHouseBundle/Resources/public/js/library/bootstrap.min.js"
+    '@AdminBundle/Resources/public/js/plugins/datapicker/bootstrap-datepicker.js'
+    "@AtypikHouseBundle/Resources/public/js/library/owl.carousel.min.js"
+    "@AtypikHouseBundle/Resources/public/js/library/parallax.min.js"
+    "@AtypikHouseBundle/Resources/public/js/library/jquery.nicescroll.js"
+    "@AtypikHouseBundle/Resources/public/js/library/jquery.ui.touch-punch.min.js"
+    "@AtypikHouseBundle/Resources/public/js/library/SmoothScroll.js"
+    "@AtypikHouseBundle/Resources/public/js/script.js"
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+</body>
+</html>
