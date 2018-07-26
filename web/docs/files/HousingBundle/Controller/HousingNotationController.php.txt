@@ -1,0 +1,124 @@
+<?php
+
+namespace HousingBundle\Controller;
+
+use HousingBundle\Entity\HousingNotation;
+use HousingBundle\Entity\HousingType;
+use HousingBundle\Form\HousingNotationType;
+use HousingBundle\Form\HousingTypeType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Housing Notation controller.
+ *
+ * In this controller the user can add, edit and delete his own reviews
+ * Housing Notation information
+ *
+ * PHP version 7.1
+ *
+ * @category  Controller
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
+ *
+ * @Security("has_role('ROLE_USER')")
+ */
+class HousingNotationController extends Controller
+{
+    /**
+     * Allowed the connected user to submit comment about the house
+     *
+     * @param Request $request Get the targeted request
+     * @param string  $slug    Get the Housing targeted by the review
+     *
+     * @return Response
+     *
+     * @throws \ErrorException
+     */
+    public function addNotationAction(Request $request, string $slug)
+    {
+        $notationManager = $this->get('ah.housing_notation_manager');
+        $notation = $notationManager->getHousingNotationUser($slug);
+
+        return $this->returnReviewManageResponse($request, $notation);
+    }
+
+    /**
+     * Allowed the connected user to submit comment about the house
+     *
+     * @param Request $request Get the targeted request
+     * @param int     $id      Get the reservation id
+     *
+     * @return Response
+     */
+    public function editNotationAction(Request $request, int $id)
+    {
+        $reservationManager = $this->get('ah.reservation_manager');
+        $reservation = $reservationManager->getReservationEntity($id);
+        if (null === $reservation->getReview()) {
+            return $this->redirectToRoute(
+                'atyipikhouse_housing_notation_add',
+                [
+                'slug' => $reservation->getHousing()->getSlug()
+                ]
+            );
+        }
+        return $this->returnReviewManageResponse($request, $reservation->getReview());
+    }
+
+
+    /**
+     * Delete housing Notation
+     *
+     * @param int $id Get slug for retrieve right HousingType
+     *
+     * @return RedirectResponse
+     *
+     * @throws \LogicException
+     */
+    public function deleteAction(int $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        try {
+            $reservationManager = $this->get('ah.reservation_manager');
+            $reservation = $reservationManager->getReservationEntity($id);
+            $review = $reservation->getReview();
+            $review->setDeletedAt(new \DateTime());
+            $em->flush();
+        } catch (\Exception $e) {
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
+        }
+        return $this->redirectToRoute('fos_user_profile_notation');
+    }
+
+    /**
+     * @param Request         $request  Get the targeted request
+     * @param HousingNotation $notation Get the targeted review
+     *
+     * @return RedirectResponse|Response
+     */
+    private function returnReviewManageResponse(Request $request, HousingNotation $notation)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(HousingNotationType::class, $notation, []);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($notation);
+            $em->flush();
+            return $this->redirectToRoute('fos_user_profile_notation');
+        }
+
+        return $this->render(
+            'HousingBundle:front-housing:reviews-form.html.twig',
+            [
+                'form' => $form->createView(),
+                'notation' => $notation
+            ]
+        );
+    }
+}
+

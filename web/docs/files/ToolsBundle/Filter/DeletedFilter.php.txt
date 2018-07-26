@@ -1,0 +1,24 @@
+<?php
+namespace ToolsBundle\Filter;
+
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query\Filter\SQLFilter;
+
+/**
+ * Class DeletedFilter
+ */
+class DeletedFilter extends SQLFilter
+{
+    /**
+     * Add filter constraint for deleted
+     *
+     * @param ClassMetadata $targetEntity     Get the entity for filter
+     * @param string        $targetTableAlias Get the target table
+     *
+     * @return string
+     */
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    {
+        return $targetEntity->hasField('deletedAt') ? $targetTableAlias. '.deleted_at IS NULL' : '';
+    }
+}

@@ -14,3 +14,6 @@ php bin/console doctrine:migrations:migrate --db=db_dev;
 
 ## Insertion de donné factise dans la base de donnée de Production
 php bin/console doctrine:fixtures:load --fixtures=src/ToolsBundle/DataFixtures/ORM/ProdFixtures.php;
+
+# Generate doc informations
+sudo php phpDocumentor.phar -d src -t web/docs/;

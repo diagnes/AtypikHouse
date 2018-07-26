@@ -1,0 +1,215 @@
+<?php
+
+namespace AtypikHouseBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use HousingBundle\Entity\Housing;
+use HousingBundle\Entity\HousingNotation;
+use PaymentBundle\Entity\PaymentInfos;
+use ToolsBundle\DataTrait\DateTrait;
+use ToolsBundle\DataTrait\DeletedDateTrait;
+use UserBundle\Entity\User;
+
+/**
+ * Reservation
+ *
+ * @ORM\Table(name="reservation")
+ * @ORM\Entity(repositoryClass="AtypikHouseBundle\Repository\ReservationRepository")
+ */
+class Reservation
+{
+    use DateTrait;
+    use DeletedDateTrait;
+
+    /**
+     *
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\Housing", inversedBy="reservations")
+     * @ORM\JoinColumn(name="housing_id", referencedColumnName="id")
+     */
+    private $housing;
+
+    /**
+     *
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="reservations")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=45)
+     */
+    private $state;
+
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="PaymentBundle\Entity\PaymentInfos", mappedBy="reservation")
+     */
+    private $paymentInfo;
+
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="HousingBundle\Entity\HousingNotation", mappedBy="reservation")
+     * @ORM\JoinColumn(name="review_id", referencedColumnName="id")
+     */
+    private $review;
+
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="AtypikHouseBundle\Entity\ReservationInfos", mappedBy="reservation", cascade={"persist"})
+     * @ORM\JoinColumn(name="reservation_infos", referencedColumnName="id")
+     */
+    private $reservationInfos;
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     *
+     * @return Housing
+     */
+    public function getHousing()
+    {
+        return $this->housing;
+    }
+
+    /**
+     *
+     * @param mixed $housing Set the housing for reservation
+     *
+     * @return void
+     */
+    public function setHousing($housing)
+    {
+        $this->housing = $housing;
+    }
+
+    /**
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     *
+     * @param User $user Set the user for reservation
+     *
+     * @return void
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     *
+     * @param string $state Set the state for reservation
+     *
+     * @return void
+     */
+    public function setState(string $state)
+    {
+        $this->state = $state;
+    }
+
+    /**
+     *
+     * @return null|PaymentInfos
+     */
+    public function getPaymentInfo()
+    {
+        return $this->paymentInfo;
+    }
+
+    /**
+     *
+     * @param null|PaymentInfos $paymentInfo Set the paymentInfos for reservation
+     *
+     * @return Reservation
+     */
+    public function setPaymentInfo(?PaymentInfos $paymentInfo)
+    {
+        $this->paymentInfo = $paymentInfo;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return ReservationInfos
+     */
+    public function getReservationInfos()
+    {
+        return $this->reservationInfos;
+    }
+
+    /**
+     *
+     * @param ReservationInfos $reservationInfos Set the reservationInfos for reservation
+     *
+     * @return void
+     */
+    public function setReservationInfos($reservationInfos)
+    {
+        $this->reservationInfos = $reservationInfos;
+        $reservationInfos->setReservation($this);
+    }
+
+    /**
+     * Get a Review
+     *
+     * @return HousingNotation
+     */
+    public function getReview()
+    {
+        return $this->review;
+    }
+
+    /**
+     * Set a Review
+     *
+     * @param HousingNotation $review Set a new review
+     *
+     * @return Reservation
+     */
+    public function setReview($review)
+    {
+        $this->review = $review;
+
+        return $this;
+    }
+}
+

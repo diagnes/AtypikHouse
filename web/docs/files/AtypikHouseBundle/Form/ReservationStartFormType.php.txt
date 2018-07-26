@@ -1,0 +1,67 @@
+<?php
+
+namespace AtypikHouseBundle\Form;
+
+use AtypikHouseBundle\Enum\ReservationStateEnum;
+use Doctrine\ORM\EntityRepository;
+use HousingBundle\Entity\Housing;
+use HousingBundle\Enum\HousingStateEnum;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use AtypikHouseBundle\Entity\Reservation;
+use UserBundle\Entity\User;
+
+class ReservationStartFormType extends AbstractType
+{
+    /**
+     * Builds the form.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     *
+     * @return void
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add(
+                'reservationInfos',
+                ReservationInfosType::class,
+                [
+                'maxResident' => $options['maxResident']
+                ]
+            );
+    }
+
+    /**
+     * Configures the options for this type.
+     *
+     * @param OptionsResolver $resolver The resolver for the options
+     *
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => Reservation::class,
+                'maxResident' => false,
+            ]
+        );
+    }
+
+    /**
+     * Returns the prefix of the template block name for this type.
+     *
+     * @return string The prefix of the template block name
+     */
+    public function getBlockPrefix()
+    {
+        return 'atypikhousebundle_reservation';
+    }
+}
+

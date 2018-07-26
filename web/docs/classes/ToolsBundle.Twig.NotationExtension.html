@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/AdminBundle.html">\AdminBundle</a></li>
+                                                        <li><a href="../namespaces/Application.html">\Application</a></li>
+                                                        <li><a href="../namespaces/AtypikHouseBundle.html">\AtypikHouseBundle</a></li>
+                                                        <li><a href="../namespaces/HousingBundle.html">\HousingBundle</a></li>
+                                                        <li><a href="../namespaces/PaymentBundle.html">\PaymentBundle</a></li>
+                                                        <li><a href="../namespaces/ToolsBundle.html">\ToolsBundle</a></li>
+                                                        <li><a href="../namespaces/UserBundle.html">\UserBundle</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">405</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-578492220"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-578492220" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2080773589"></a>
+                                <a href="../namespaces/AdminBundle.html" style="margin-left: 30px; padding-left: 0">AdminBundle</a>
+            </div>
+            <div id="namespace-2080773589" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-993353075"></a>
+                                <a href="../namespaces/AdminBundle.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-993353075" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AdminBundle.Controller.DashboardController.html">DashboardController</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AdminBundle.AdminBundle.html">AdminBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1724891797"></a>
+                                <a href="../namespaces/Application.html" style="margin-left: 30px; padding-left: 0">Application</a>
+            </div>
+            <div id="namespace-1724891797" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1101449896"></a>
+                                <a href="../namespaces/Application.Sonata.html" style="margin-left: 30px; padding-left: 0">Sonata</a>
+            </div>
+            <div id="namespace-1101449896" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-466106640"></a>
+                                <a href="../namespaces/Application.Sonata.MediaBundle.html" style="margin-left: 30px; padding-left: 0">MediaBundle</a>
+            </div>
+            <div id="namespace-466106640" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1182212728"></a>
+                                <a href="../namespaces/Application.Sonata.MediaBundle.Document.html" style="margin-left: 30px; padding-left: 0">Document</a>
+            </div>
+            <div id="namespace-1182212728" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.Document.Gallery.html">Gallery</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.Document.Media.html">Media</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1285130130"></a>
+                                <a href="../namespaces/Application.Sonata.MediaBundle.Entity.html" style="margin-left: 30px; padding-left: 0">Entity</a>
+            </div>
+            <div id="namespace-1285130130" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.Entity.Gallery.html">Gallery</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.Entity.GalleryHasMedia.html">GalleryHasMedia</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.Entity.Media.html">Media</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1872918497"></a>
+                                <a href="../namespaces/Application.Sonata.MediaBundle.PHPCR.html" style="margin-left: 30px; padding-left: 0">PHPCR</a>
+            </div>
+            <div id="namespace-1872918497" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.PHPCR.Gallery.html">Gallery</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.PHPCR.GalleryHasMedia.html">GalleryHasMedia</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.PHPCR.GalleryHasMediaRepository.html">GalleryHasMediaRepository</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.PHPCR.GalleryRepository.html">GalleryRepository</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.PHPCR.Media.html">Media</a></li>
+                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.PHPCR.MediaRepository.html">MediaRepository</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Application.Sonata.MediaBundle.ApplicationSonataMediaBundle.html">ApplicationSonataMediaBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1661901248"></a>
+                                <a href="../namespaces/AtypikHouseBundle.html" style="margin-left: 30px; padding-left: 0">AtypikHouseBundle</a>
+            </div>
+            <div id="namespace-1661901248" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-806270678"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-806270678" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Controller.BlogAdminController.html">BlogAdminController</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Controller.BlogController.html">BlogController</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Controller.IndexController.html">IndexController</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Controller.ReservationAdminController.html">ReservationAdminController</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Controller.ReservationController.html">ReservationController</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Controller.StaticPageAdminController.html">StaticPageAdminController</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Controller.StaticPageController.html">StaticPageController</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1681993049"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Entity.html" style="margin-left: 30px; padding-left: 0">Entity</a>
+            </div>
+            <div id="namespace-1681993049" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Entity.ReservationInfos.html">ReservationInfos</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1911549500"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Form.html" style="margin-left: 30px; padding-left: 0">Form</a>
+            </div>
+            <div id="namespace-1911549500" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.BlogType.html">BlogType</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.ReservationAdminFormType.html">ReservationAdminFormType</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.ReservationInfosAdminFormType.html">ReservationInfosAdminFormType</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.ReservationInfosType.html">ReservationInfosType</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.ReservationStartFormType.html">ReservationStartFormType</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.ReservationType.html">ReservationType</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.SearchHouseFormType.html">SearchHouseFormType</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Form.StaticPageType.html">StaticPageType</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-917724752"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Listener.html" style="margin-left: 30px; padding-left: 0">Listener</a>
+            </div>
+            <div id="namespace-917724752" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Listener.ReservationListener.html">ReservationListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1751745297"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Repository.html" style="margin-left: 30px; padding-left: 0">Repository</a>
+            </div>
+            <div id="namespace-1751745297" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Repository.BlogRepository.html">BlogRepository</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Repository.ReservationInfosRepository.html">ReservationInfosRepository</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Repository.ReservationRepository.html">ReservationRepository</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Repository.StaticPageRepository.html">StaticPageRepository</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2073861907"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Service.html" style="margin-left: 30px; padding-left: 0">Service</a>
+            </div>
+            <div id="namespace-2073861907" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Service.ReservationManager.html">ReservationManager</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1973858076"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Tests.html" style="margin-left: 30px; padding-left: 0">Tests</a>
+            </div>
+            <div id="namespace-1973858076" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-560958307"></a>
+                                <a href="../namespaces/AtypikHouseBundle.Tests.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-560958307" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Tests.Controller.ArticleControllerTest.html">ArticleControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Tests.Controller.ReservationAdminControllerTest.html">ReservationAdminControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Tests.Controller.ReservationControllerTest.html">ReservationControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/AtypikHouseBundle.Tests.Controller.StaticPageControllerTest.html">StaticPageControllerTest</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/AtypikHouseBundle.AtypikHouseBundle.html">AtypikHouseBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-961256677"></a>
+                                <a href="../namespaces/HousingBundle.html" style="margin-left: 30px; padding-left: 0">HousingBundle</a>
+            </div>
+            <div id="namespace-961256677" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-238147510"></a>
+                                <a href="../namespaces/HousingBundle.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-238147510" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingAdminController.html">HousingAdminController</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingApiController.html">HousingApiController</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingController.html">HousingController</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingNotationAdminController.html">HousingNotationAdminController</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingNotationController.html">HousingNotationController</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingNotationTypeController.html">HousingNotationTypeController</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingProprietaryController.html">HousingProprietaryController</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Controller.HousingTypeController.html">HousingTypeController</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-807425452"></a>
+                                <a href="../namespaces/HousingBundle.Form.html" style="margin-left: 30px; padding-left: 0">Form</a>
+            </div>
+            <div id="namespace-807425452" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingDetailFormType.html">HousingDetailFormType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingDetailType.html">HousingDetailType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingDetailValueType.html">HousingDetailValueType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingDocumentsFormType.html">HousingDocumentsFormType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingDocumentType.html">HousingDocumentType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingFirstFormType.html">HousingFirstFormType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingImagesType.html">HousingImagesType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingNotationType.html">HousingNotationType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingNotationTypeType.html">HousingNotationTypeType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingNotationValueType.html">HousingNotationValueType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingTeaserFormType.html">HousingTeaserFormType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingTypeType.html">HousingTypeType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingUnavailabilityFormType.html">HousingUnavailabilityFormType</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Form.HousingUndisponibilityType.html">HousingUndisponibilityType</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1179464581"></a>
+                                <a href="../namespaces/HousingBundle.Listener.html" style="margin-left: 30px; padding-left: 0">Listener</a>
+            </div>
+            <div id="namespace-1179464581" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/HousingBundle.Listener.HousingListener.html">HousingListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-739634863"></a>
+                                <a href="../namespaces/HousingBundle.Repository.html" style="margin-left: 30px; padding-left: 0">Repository</a>
+            </div>
+            <div id="namespace-739634863" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingDetailRepository.html">HousingDetailRepository</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingDetailValueRepository.html">HousingDetailValueRepository</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingDocumentRepository.html">HousingDocumentRepository</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingImagesRepository.html">HousingImagesRepository</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingNotationRepository.html">HousingNotationRepository</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingNotationTypeRepository.html">HousingNotationTypeRepository</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingRepository.html">HousingRepository</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Repository.HousingTypeRepository.html">HousingTypeRepository</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1172994500"></a>
+                                <a href="../namespaces/HousingBundle.Service.html" style="margin-left: 30px; padding-left: 0">Service</a>
+            </div>
+            <div id="namespace-1172994500" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/HousingBundle.Service.HousingDetailManager.html">HousingDetailManager</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Service.HousingManager.html">HousingManager</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Service.HousingNotationManager.html">HousingNotationManager</a></li>
+                                                    <li class="class"><a href="../classes/HousingBundle.Service.HousingTypeManager.html">HousingTypeManager</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-351234442"></a>
+                                <a href="../namespaces/HousingBundle.Tests.html" style="margin-left: 30px; padding-left: 0">Tests</a>
+            </div>
+            <div id="namespace-351234442" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-245124652"></a>
+                                <a href="../namespaces/HousingBundle.Tests.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-245124652" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/HousingBundle.Tests.Controller.HousingControllerTest.html">HousingControllerTest</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/HousingBundle.HousingBundle.html">HousingBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1799383693"></a>
+                                <a href="../namespaces/PaymentBundle.html" style="margin-left: 30px; padding-left: 0">PaymentBundle</a>
+            </div>
+            <div id="namespace-1799383693" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1238558532"></a>
+                                <a href="../namespaces/PaymentBundle.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-1238558532" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PaymentBundle.Controller.PaymentAdminController.html">PaymentAdminController</a></li>
+                                                    <li class="class"><a href="../classes/PaymentBundle.Controller.PaymentController.html">PaymentController</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-238374155"></a>
+                                <a href="../namespaces/PaymentBundle.Entity.html" style="margin-left: 30px; padding-left: 0">Entity</a>
+            </div>
+            <div id="namespace-238374155" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PaymentBundle.Entity.PaymentInfos.html">PaymentInfos</a></li>
+                                                    <li class="class"><a href="../classes/PaymentBundle.Entity.PaymentToken.html">PaymentToken</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1100046611"></a>
+                                <a href="../namespaces/PaymentBundle.Repository.html" style="margin-left: 30px; padding-left: 0">Repository</a>
+            </div>
+            <div id="namespace-1100046611" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PaymentBundle.Repository.MoneyMovementRepository.html">MoneyMovementRepository</a></li>
+                                                    <li class="class"><a href="../classes/PaymentBundle.Repository.PaymentInfosRepository.html">PaymentInfosRepository</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PaymentBundle.PaymentBundle.html">PaymentBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-407131572"></a>
+                                <a href="../namespaces/ToolsBundle.html" style="margin-left: 30px; padding-left: 0">ToolsBundle</a>
+            </div>
+            <div id="namespace-407131572" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-513918612"></a>
+                                <a href="../namespaces/ToolsBundle.DataFixtures.html" style="margin-left: 30px; padding-left: 0">DataFixtures</a>
+            </div>
+            <div id="namespace-513918612" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-632885010"></a>
+                                <a href="../namespaces/ToolsBundle.DataFixtures.ORM.html" style="margin-left: 30px; padding-left: 0">ORM</a>
+            </div>
+            <div id="namespace-632885010" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.DataFixtures.ORM.AdminFixtures.html">AdminFixtures</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.DataFixtures.ORM.ClientFixtures.html">ClientFixtures</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.DataFixtures.ORM.Fixtures.html">Fixtures</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.DataFixtures.ORM.HousingFixtures.html">HousingFixtures</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.DataFixtures.ORM.LoadReservationData.html">LoadReservationData</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.DataFixtures.ORM.ProdFixtures.html">ProdFixtures</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1644532156"></a>
+                                <a href="../namespaces/ToolsBundle.Filter.html" style="margin-left: 30px; padding-left: 0">Filter</a>
+            </div>
+            <div id="namespace-1644532156" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.Filter.DeletedFilter.html">DeletedFilter</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-742644875"></a>
+                                <a href="../namespaces/ToolsBundle.Listener.html" style="margin-left: 30px; padding-left: 0">Listener</a>
+            </div>
+            <div id="namespace-742644875" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.Listener.DoctrineListener.html">DoctrineListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-46962021"></a>
+                                <a href="../namespaces/ToolsBundle.Resizer.html" style="margin-left: 30px; padding-left: 0">Resizer</a>
+            </div>
+            <div id="namespace-46962021" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.Resizer.SonataMediaResizer.html">SonataMediaResizer</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-782415649"></a>
+                                <a href="../namespaces/ToolsBundle.Security.html" style="margin-left: 30px; padding-left: 0">Security</a>
+            </div>
+            <div id="namespace-782415649" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.Security.CustomUserProvider.html">CustomUserProvider</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.Security.UserInfos.html">UserInfos</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1409998032"></a>
+                                <a href="../namespaces/ToolsBundle.Service.html" style="margin-left: 30px; padding-left: 0">Service</a>
+            </div>
+            <div id="namespace-1409998032" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.Service.DataResponseAdapter.html">DataResponseAdapter</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.Service.DataResponseManager.html">DataResponseManager</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1722476408"></a>
+                                <a href="../namespaces/ToolsBundle.Test.html" style="margin-left: 30px; padding-left: 0">Test</a>
+            </div>
+            <div id="namespace-1722476408" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.Test.CustomTestCase.html">CustomTestCase</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1633574356"></a>
+                                <a href="../namespaces/ToolsBundle.Twig.html" style="margin-left: 30px; padding-left: 0">Twig</a>
+            </div>
+            <div id="namespace-1633574356" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.Twig.NotationExtension.html">NotationExtension</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.Twig.ReservationExtension.html">ReservationExtension</a></li>
+                                                    <li class="class"><a href="../classes/ToolsBundle.Twig.UserExtension.html">UserExtension</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/ToolsBundle.ToolsBundle.html">ToolsBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1197756776"></a>
+                                <a href="../namespaces/UserBundle.html" style="margin-left: 30px; padding-left: 0">UserBundle</a>
+            </div>
+            <div id="namespace-1197756776" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-543616044"></a>
+                                <a href="../namespaces/UserBundle.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-543616044" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/UserBundle.Controller.ProfileController.html">ProfileController</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Controller.RegistrationController.html">RegistrationController</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Controller.ResettingController.html">ResettingController</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Controller.SecurityController.html">SecurityController</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Controller.SocialNetworkController.html">SocialNetworkController</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Controller.UserAdminController.html">UserAdminController</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1404198864"></a>
+                                <a href="../namespaces/UserBundle.Entity.html" style="margin-left: 30px; padding-left: 0">Entity</a>
+            </div>
+            <div id="namespace-1404198864" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/UserBundle.Entity.UserNotification.html">UserNotification</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-229369911"></a>
+                                <a href="../namespaces/UserBundle.Form.html" style="margin-left: 30px; padding-left: 0">Form</a>
+            </div>
+            <div id="namespace-229369911" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/UserBundle.Form.AddressType.html">AddressType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.RegistrationProfessionalType.html">RegistrationProfessionalType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.RegistrationProType.html">RegistrationProType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.RegistrationType.html">RegistrationType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.UserInfoFormType.html">UserInfoFormType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.UserPersoFormAdminType.html">UserPersoFormAdminType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.UserPersonalFormAdminType.html">UserPersonalFormAdminType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.UserPersonalInfosType.html">UserPersonalInfosType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.UserProfessionalFormAdminType.html">UserProfessionalFormAdminType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.UserProfileType.html">UserProfileType</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Form.UserProFormAdminType.html">UserProFormAdminType</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-336904631"></a>
+                                <a href="../namespaces/UserBundle.Listener.html" style="margin-left: 30px; padding-left: 0">Listener</a>
+            </div>
+            <div id="namespace-336904631" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/UserBundle.Listener.UserListener.html">UserListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1048393208"></a>
+                                <a href="../namespaces/UserBundle.Repository.html" style="margin-left: 30px; padding-left: 0">Repository</a>
+            </div>
+            <div id="namespace-1048393208" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/UserBundle.Repository.AddressRepository.html">AddressRepository</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Repository.UserNotificationRepository.html">UserNotificationRepository</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Repository.UserPersonalInfosRepository.html">UserPersonalInfosRepository</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Repository.UserProfessionalInfosRepository.html">UserProfessionalInfosRepository</a></li>
+                                                    <li class="class"><a href="../classes/UserBundle.Repository.UserRepository.html">UserRepository</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/UserBundle.UserBundle.html">UserBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/ToolsBundle.Twig.html">\ToolsBundle\Twig</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\ToolsBundle\Twig</small>NotationExtension</h1>
+                    <p><em>Twig Extension ReservationExtension</em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_getFilters" class="">getFilters()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_getFunctions" class="">getFunctions()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_translateScoreFilter" class="">translateScoreFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_scoreFormatFilter" class="">scoreFormatFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_averageScoreFilter" class="">averageScoreFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_housingScoreFilter" class="">housingScoreFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_bestNotationFilter" class="">bestNotationFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_scoreToStarFilter" class="">scoreToStarFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_bestPartFilter" class="">bestPartFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_nastyPartFilter" class="">nastyPartFilter()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_getName" class="">getName()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_initRuntime" class="">initRuntime()</a><br />
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#method_getGlobals" class="">getGlobals()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/ToolsBundle.Twig.NotationExtension.html#property_notationManager" class="">$notationManager</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/ToolsBundle.Twig.NotationExtension.html"><div class="path-wrapper">ToolsBundle/Twig/NotationExtension.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper">\Twig_Extension</div>
+                                                                                                    <div class="namespace-wrapper">\ToolsBundle\Twig\NotationExtension</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_notationManager" name="property_notationManager" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$notationManager</h3>
+                <pre class="signature">$notationManager : \HousingBundle\Service\HousingNotationManager</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/HousingBundle.Service.HousingNotationManager.html">\HousingBundle\Service\HousingNotationManager</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\HousingBundle\Service\HousingNotationManager  <span class="argument">$notationManager</span>) </pre>
+                <p><em>NotationExtension constructor.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/HousingBundle.Service.HousingNotationManager.html">\HousingBundle\Service\HousingNotationManager</a></td>
+                                <td>$notationManager </td>
+                                <td><p>Get the housing notation manager</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getFilters" name="method_getFilters" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getFilters()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getFilters() : array</pre>
+                <p><em>Create list of filters for reservation</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getFunctions" name="method_getFunctions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getFunctions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getFunctions() : array</pre>
+                <p><em>Create list of function for reservation</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_translateScoreFilter" name="method_translateScoreFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">translateScoreFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">translateScoreFilter(float  <span class="argument">$score</span>) : string</pre>
+                <p><em>Filter for translate score to string</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>float</td>
+                                <td>$score </td>
+                                <td><p>Score to convert</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_scoreFormatFilter" name="method_scoreFormatFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">scoreFormatFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">scoreFormatFilter(float  <span class="argument">$amount</span>) : float</pre>
+                <p><em>Filter for transform float to amoutn format</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>float</td>
+                                <td>$amount </td>
+                                <td><p>Float to convert</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_averageScoreFilter" name="method_averageScoreFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">averageScoreFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">averageScoreFilter(\HousingBundle\Entity\HousingNotation  <span class="argument">$notation</span>) : float</pre>
+                <p><em>Filter allowed us to get average score for a notation</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\HousingBundle\Entity\HousingNotation</td>
+                                <td>$notation </td>
+                                <td><p>Get the notation to filtered</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_housingScoreFilter" name="method_housingScoreFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">housingScoreFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">housingScoreFilter(\HousingBundle\Entity\Housing  <span class="argument">$housing</span>) : float</pre>
+                <p><em>Filter allowed us to get average score for a notation</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\HousingBundle\Entity\Housing</td>
+                                <td>$housing </td>
+                                <td><p>Get the housing targeted for average score</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_bestNotationFilter" name="method_bestNotationFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">bestNotationFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">bestNotationFilter(\HousingBundle\Entity\Housing  <span class="argument">$housing</span>) : string</pre>
+                <p><em>Filter allowed us to get best notation for house</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\HousingBundle\Entity\Housing</td>
+                                <td>$housing </td>
+                                <td><p>Get the housing targeted for average score</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_scoreToStarFilter" name="method_scoreToStarFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">scoreToStarFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">scoreToStarFilter(float  <span class="argument">$score</span>) : float</pre>
+                <p><em>Filter allowed us to get average score for a notation</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>float</td>
+                                <td>$score </td>
+                                <td><p>Score to transform</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_bestPartFilter" name="method_bestPartFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">bestPartFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">bestPartFilter(\HousingBundle\Entity\HousingNotation  <span class="argument">$notation</span>) : float</pre>
+                <p><em>Filter allowed us to get name of the best part</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\HousingBundle\Entity\HousingNotation</td>
+                                <td>$notation </td>
+                                <td><p>Get the notation to filtered</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_nastyPartFilter" name="method_nastyPartFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">nastyPartFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">nastyPartFilter(\HousingBundle\Entity\HousingNotation  <span class="argument">$notation</span>) : float</pre>
+                <p><em>Filter allowed us to get name of the worst part</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\HousingBundle\Entity\HousingNotation</td>
+                                <td>$notation </td>
+                                <td><p>Get the notation to filtered</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getName" name="method_getName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getName() : string</pre>
+                <p><em>Returns the name of the extension.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The extension name</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_initRuntime" name="method_initRuntime" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">initRuntime()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">initRuntime(\Twig_Environment  <span class="argument">$environment</span>) : void</pre>
+                <p><em>Initializes the runtime environment.</em></p>
+                <p>This is where you can load some file that contains filter functions for instance.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\Twig_Environment</td>
+                                <td>$environment </td>
+                                <td><p>The current Twig_Environment instance</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getGlobals" name="method_getGlobals" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getGlobals()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getGlobals() : array</pre>
+                <p><em>Returns a list of global variables to add to the existing list.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>An array of global variables</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">NotationExtension.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/ToolsBundle/Twig/NotationExtension.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/AdminBundle.html">\AdminBundle</a></li>
+                                                                            <li><a href="../namespaces/Application.html">\Application</a></li>
+                                                                            <li><a href="../namespaces/AtypikHouseBundle.html">\AtypikHouseBundle</a></li>
+                                                                            <li><a href="../namespaces/HousingBundle.html">\HousingBundle</a></li>
+                                                                            <li><a href="../namespaces/PaymentBundle.html">\PaymentBundle</a></li>
+                                                                            <li><a href="../namespaces/ToolsBundle.html">\ToolsBundle</a></li>
+                                                                            <li><a href="../namespaces/UserBundle.html">\UserBundle</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on July 26th, 2018 at 16:06.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

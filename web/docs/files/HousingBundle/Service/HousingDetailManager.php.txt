@@ -1,0 +1,90 @@
+<?php
+
+namespace HousingBundle\Service;
+
+use Doctrine\ORM\EntityManager;
+use HousingBundle\Entity\HousingType;
+use JMS\Serializer\Serializer;
+use Symfony\Component\Security\Core\Security;
+use UserBundle\Entity\User;
+
+/**
+ * Housing Manager Service
+ */
+class HousingDetailManager
+{
+    /**
+     *
+     * @var Serializer $serializer
+     */
+    private $serializer;
+    /**
+     *
+     * @var EntityManager $em
+     */
+    private $em;
+    /**
+     *
+     * @var Security
+     */
+    private $security;
+
+    /**
+     * HousingManager constructor.
+     *
+     * @param Serializer    $serializer Tools for serialize object
+     * @param EntityManager $em         Entity manager argument
+     * @param Security      $security   Security context
+     */
+    public function __construct(Serializer $serializer, EntityManager $em, Security $security)
+    {
+        $this->serializer = $serializer;
+        $this->em = $em;
+        $this->security = $security;
+    }
+
+    /**
+     * Made some check and return the housing for action
+     *
+     * @param int $id Get the id housing
+     *
+     * @return HousingType
+     *
+     * @throws   \ErrorException
+     * @internal param User $user Get the connected User
+     */
+    public function getHousingTypeEntity(int $id)
+    {
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            $this->em->getFilters()->disable('deleted');
+        }
+        $housingType = $this->em->getRepository(HousingType::class)->findOneBy(['id' => $id]);
+
+        if ($housingType === null) {
+            throw new \ErrorException(sprintf('This housingType id:%d does not exist or has been deleted', $id));
+        }
+
+        return $housingType;
+    }
+
+    /**
+     * Made some check and return All Housings for action
+     *
+     * @return HousingType[]
+     *
+     */
+    public function getAllHousingTypeEntity()
+    {
+        $filter = [];
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            $this->em->getFilters()->disable('deleted');
+            return $this->em->getRepository(HousingType::class)->findAll();
+        }
+        /**
+         * @var User $user
+         */
+        return $this->em->getRepository(HousingType::class)->findAll($filter);
+    }
+
+}
+

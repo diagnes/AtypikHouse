@@ -1,0 +1,187 @@
+<?php
+
+namespace HousingBundle\Entity;
+
+use AtypikHouseBundle\Entity\Reservation;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use ToolsBundle\DataTrait\DateTrait;
+use Symfony\Component\Validator\Constraints as Assert;
+use ToolsBundle\DataTrait\DeletedDateTrait;
+
+/**
+ * HousingNotation
+ *
+ * @ORM\Table(name="housing_notation")
+ * @ORM\Entity(repositoryClass="HousingBundle\Repository\HousingNotationRepository")
+ */
+class HousingNotation
+{
+    use DateTrait;
+    use DeletedDateTrait;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AtypikHouseBundle\Entity\Reservation", inversedBy="review")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
+     */
+    private $reservation;
+
+    /**
+     * @Assert\Valid()
+     *
+     * @ORM\OneToMany(targetEntity="HousingBundle\Entity\HousingNotationValue", mappedBy="notation", cascade={"persist"}, fetch="EAGER")
+     */
+    private $values;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * HousingNotation constructor.
+     */
+    public function __construct()
+    {
+        $this->values = new ArrayCollection();
+    }
+
+    /**
+     * Get a Id
+     *
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set a Id
+     *
+     * @param int $id Set a new id
+     *
+     * @return HousingNotation
+     */
+    public function setId(int $id): HousingNotation
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get a Reservation
+     *
+     * @return Reservation
+     */
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    /**
+     * Set a Reservation
+     *
+     * @param Reservation $reservation Set a new reservation
+     *
+     * @return HousingNotation
+     */
+    public function setReservation($reservation)
+    {
+        $this->reservation = $reservation;
+        $reservation->setReview($this);
+
+        return $this;
+    }
+
+    /**
+     * Get a Description
+     *
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set a Description
+     *
+     * @param string $description Set a new description
+     *
+     * @return HousingNotation
+     */
+    public function setDescription(string $description): HousingNotation
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get a Values
+     *
+     * @return ArrayCollection|HousingNotationValue[]
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    /**
+     * Set a Values
+     *
+     * @param ArrayCollection|HousingNotationValue[] $values Set a new values
+     *
+     * @return HousingNotation
+     */
+    public function setValues($values)
+    {
+        $this->values = $values;
+
+        return $this;
+    }
+
+    /**
+     * Add HousingNotationValue in array
+     *
+     * @param HousingNotationValue $housingNotationValue Add a HousingNotationValue
+     *
+     * @return HousingNotation
+     */
+    public function addValue(HousingNotationValue $housingNotationValue)
+    {
+        $this->values->add($housingNotationValue);
+        $housingNotationValue->setNotation($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove HousingNotationValue in array
+     *
+     * @param HousingNotationValue $housingNotationValue Remove a HousingNotationValue
+     *
+     * @return HousingNotation
+     */
+    public function removeValue(HousingNotationValue $housingNotationValue)
+    {
+        $this->values->removeElement($housingNotationValue);
+        $housingNotationValue->setNotation(null);
+
+        return $this;
+    }
+}
+

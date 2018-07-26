@@ -1,0 +1,52 @@
+<?php
+
+namespace ToolsBundle\DataFixtures\ORM;
+
+use AtypikHouseBundle\Entity\Reservation;
+use AtypikHouseBundle\Enum\ReservationStateEnum;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use HousingBundle\Entity\Housing;
+use HousingBundle\Entity\HousingType;
+use UserBundle\Entity\Address;
+use UserBundle\Entity\User;
+use UserBundle\Entity\UserPersonalInfos;
+use UserBundle\Enum\UserGenderEnum;
+
+class HousingFixtures implements FixtureInterface
+{
+    /**
+     * @param ObjectManager $manager Get the object manager
+     *
+     * @return void
+     */
+    public function load(ObjectManager $manager): void
+    {
+        $userAdmin = $manager->getRepository(User::class)->findOneBy(['email' => 'admin@atipikhouse.com']);
+
+        $address = new Address();
+        $address->setAddress('Rue saint Foy');
+        $address->setCity('Paris');
+        $address->setCountry('France');
+        $address->setPostalCode('75002');
+        $address->setStreetNumber('18');
+        $address->setState('Ile de France');
+
+        $housingType = new HousingType();
+        $housingType->setName('Building');
+        $housingType->setDescription("C'est un trés grand batiment");
+        $manager->persist($housingType);
+
+        $housing = new Housing();
+        $housing->setAddress($address);
+        $housing->setPrice(1000);
+        $housing->setType($housingType);
+        $housing->setProprietary($userAdmin);
+        $housing->setTitle('La casa de papel parisien');
+        $manager->persist($housing);
+
+        $manager->persist($userAdmin);
+
+        $manager->flush();
+    }
+}

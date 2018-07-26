@@ -1,0 +1,238 @@
+<?php
+
+namespace ToolsBundle\Twig;
+
+use AtypikHouseBundle\Entity\Reservation;
+use AtypikHouseBundle\Enum\ReservationStateEnum;
+use AtypikHouseBundle\Service\ReservationAdminManager;
+use AtypikHouseBundle\Service\ReservationManager;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Twig_Environment;
+
+/**
+ * Twig Extension ReservationExtension
+ */
+class ReservationExtension extends \Twig_Extension
+{
+
+    /**
+     * @var ReservationManager $reservationManager
+     */
+    private $reservationManager;
+    /**
+     * @var Router
+     */
+    private $router;
+
+    /**
+     * ReservationExtension constructor.
+     *
+     * @param ReservationManager $reservationManager Get the reservation manager
+     * @param Router             $router             Get the router
+     */
+    public function __construct(ReservationManager $reservationManager, Router $router)
+    {
+        $this->reservationManager = $reservationManager;
+        $this->router = $router;
+    }
+
+    /**
+     * Create list of filters for reservation
+     *
+     * @return array
+     */
+    public function getFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('amountFormat', [$this, 'amountFormatFilter']),
+            new \Twig_SimpleFilter('priceStay', [$this, 'priceStayFilter']),
+            new \Twig_SimpleFilter('pricePaidOnPaypal', [$this, 'pricePaidOnPaypalFilter']),
+            new \Twig_SimpleFilter('reservationState', [$this, 'reservationStateFilter']),
+            new \Twig_SimpleFilter('priceTripStay', [$this, 'priceTripStayFilter']),
+            new \Twig_SimpleFilter('taxAtypikhouse', [$this, 'taxAtypikhouseFilter']),
+            new \Twig_SimpleFilter('unavailable', [$this, 'unavailableFilter']),
+            new \Twig_SimpleFilter('userAction', [$this, 'userActionFilter']),
+        ];
+    }
+
+    /**
+     * Create list of function for reservation
+     *
+     * @return array
+     */
+    public function getFunctions()
+    {
+        return [
+        ];
+    }
+
+    /**
+     * Filter for transform float to amoutn format
+     *
+     * @param float $amount Float to convert
+     *
+     * @return float
+     */
+    public function amountFormatFilter(float $amount)
+    {
+        return number_format($amount, 2, ',', ' ').' €';
+    }
+
+
+    /**
+     * Filter for compute the total priceStay for a reservation
+     *
+     * @param Reservation $reservation Get the reservatino
+     *
+     * @return float
+     */
+    public function priceStayFilter(Reservation $reservation)
+    {
+        return $this->reservationManager->getTotalPriceForStay($reservation);
+    }
+
+    /**
+     * Filter for compute the total priceStay on paypal for a reservation
+     *
+     * @param int $amount Price paid on paypal
+     *
+     * @return float
+     */
+    public function pricePaidOnPaypalFilter($amount)
+    {
+        return $amount / 100;
+    }
+
+    /**
+     * Filter for compute the priceStay for a reservation
+     *
+     * @param Reservation $reservation Get the reservatino
+     *
+     * @return float
+     */
+    public function priceTripStayFilter(Reservation $reservation)
+    {
+        return $this->reservationManager->getPriceForStay($reservation);
+    }
+
+    /**
+     * Filter for compute the tax priceStay for a reservation
+     *
+     * @param Reservation $reservation Get the reservatino
+     *
+     * @return float
+     */
+    public function taxAtypikhouseFilter(Reservation $reservation)
+    {
+        return $this->reservationManager->getTaxForStay($reservation);
+    }
+
+    /**
+     * Filter for get state for a reservation
+     *
+     * @param Reservation $reservation Get the reservatino
+     *
+     * @return float
+     */
+    public function reservationStateFilter(Reservation $reservation)
+    {
+        return ReservationStateEnum::getLabels($reservation->getState());
+    }
+
+    /**
+     * Filter for get action user on
+     *
+     * @param Reservation $reservation Get the reservatino
+     *
+     * @return string
+     */
+    public function userActionFilter(Reservation $reservation)
+    {
+        switch ($reservation->getState()) {
+            case ReservationStateEnum::DONE:
+                $today = new \DateTime();
+                if (null === $reservation->getReview() && $reservation->getReservationInfos()->getEndDate()->getTimestamp() <= $today->getTimestamp()) {
+                    $path = $this->router->generate(
+                        'atyipikhouse_housing_notation_add',
+                        [
+                            'slug' => $reservation->getHousing()->getSlug()
+                        ]
+                    );
+
+                    return '<a class="btn" href="'.$path.'">Review</a>';
+                }
+
+                return '';
+            case ReservationStateEnum::VALIDATED:
+                $path = $this->router->generate(
+                    'atypikhouse_reservation_step_three',
+                    [
+                        'id' => $reservation->getId(),
+                        'slug' => $reservation->getHousing()->getSlug()
+                    ]
+                );
+                $pathRefused = $this->router->generate(
+                    'atypikhouse_reservation_refused',
+                    [
+                        'id' => $reservation->getId()
+                    ]
+                );
+
+                return '<a class="btn" href="'.$pathRefused.'">Refused</a><a class="btn m-r-10" href="'.$path.'">Validate</a>';
+            default:
+                $path = $this->router->generate(
+                    'atypikhouse_reservation_cancel',
+                    [
+                        'id' => $reservation->getId()
+                    ]
+                );
+
+                return '<a class="btn" href="'.$path.'">Cancel</a>';
+        }
+    }
+
+    /**
+     * Filter for get array string of the total priceStay for a reservation
+     *
+     * @param Reservation $reservation Get the reservatino
+     *
+     * @return string
+     */
+    public function unavailableFilter(Reservation $reservation)
+    {
+        return json_encode($this->reservationManager->getUndisponibility($reservation->getHousing(), $reservation));
+    }
+
+    /**
+     * Returns the name of the extension.
+     *
+     * @return string The extension name
+     */
+    public function getName()
+    {
+        return 'atypikhouse_reservation_extension';
+    }
+
+    /**
+     * Initializes the runtime environment.
+     *
+     * This is where you can load some file that contains filter functions for instance.
+     *
+     * @param Twig_Environment $environment The current Twig_Environment instance
+     *
+     * @return void
+     */
+    public function initRuntime(Twig_Environment $environment)
+    {
+    }
+
+    /**
+     * Returns a list of global variables to add to the existing list.
+     *
+     * @return array An array of global variables
+     */
+    public function getGlobals()
+    {
+        return [];
+    }
+}

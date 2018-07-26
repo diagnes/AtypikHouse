@@ -1,0 +1,29 @@
+<?php
+
+namespace HousingBundle\Enum;
+
+use ToolsBundle\Enum\AbstractEnum;
+
+class HousingStateEnum extends AbstractEnum
+{
+    public const CREATED = 'created';
+    public const VALIDATION_ASK = 'validation_ask';
+    public const VALIDATED = 'validated';
+    public const REFUSED = 'refused';
+    public const CANCELED = 'canceled';
+
+    /**
+     *
+     * @return array
+     */
+    public static function toAssoc(): array
+    {
+        return [
+            self::CREATED => 'Create',
+            self::VALIDATION_ASK => 'Ask for validation',
+            self::VALIDATED => 'validated',
+            self::REFUSED => 'refused',
+            self::CANCELED => 'canceled',
+        ];
+    }
+}

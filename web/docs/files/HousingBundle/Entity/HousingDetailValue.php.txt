@@ -1,0 +1,117 @@
+<?php
+
+namespace HousingBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use ToolsBundle\DataTrait\DateTrait;
+
+/**
+ * HousingDetailValue
+ *
+ * @ORM\Table(name="housing_detail_value")
+ * @ORM\Entity(repositoryClass="HousingBundle\Repository\HousingDetailValueRepository")
+ */
+class HousingDetailValue
+{
+    use DateTrait;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\HousingDetail", inversedBy="values", cascade={"persist"})
+     * @ORM\JoinColumn(name="detail_id", referencedColumnName="id")
+     */
+    private $detail;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="HousingBundle\Entity\Housing", inversedBy="details", cascade={"persist"})
+     * @ORM\JoinColumn(name="housing_id", referencedColumnName="id")
+     */
+    private $housing;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value", type="text", nullable=true)
+     */
+    private $value;
+
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return HousingDetail
+     */
+    public function getDetail()
+    {
+        return $this->detail;
+    }
+
+    /**
+     * @param HousingDetail $detail Set Housing detail
+     *
+     * @return HousingDetailValue
+     */
+    public function setDetail(?HousingDetail $detail): HousingDetailValue
+    {
+        $this->detail = $detail;
+
+        return $this;
+    }
+
+    /**
+     * @return Housing
+     */
+    public function getHousing()
+    {
+        return $this->housing;
+    }
+
+    /**
+     * @param Housing $housing Set an housing
+     *
+     * @return HousingDetailValue
+     */
+    public function setHousing(?Housing $housing): HousingDetailValue
+    {
+        $this->housing = $housing;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param string $value Set a value
+     *
+     * @return HousingDetailValue
+     */
+    public function setValue(string $value): HousingDetailValue
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+}
+

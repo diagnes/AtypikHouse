@@ -1,0 +1,216 @@
+<?php
+namespace ToolsBundle\Test;
+
+use Doctrine\ORM\EntityManager;
+use HousingBundle\Entity\Housing;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use UserBundle\Entity\User;
+
+/**
+ * Class CustomTestCase
+ */
+class CustomTestCase extends WebTestCase
+{
+    /**
+     * @var  Application $application
+     */
+    protected static $application;
+
+    /**
+     * @var  Client $client
+     */
+    protected $client;
+
+    /**
+     * @var  Client $client
+     */
+    protected $admin;
+
+    /**
+     * @var  ContainerInterface $container
+     */
+    protected $container;
+
+    /**
+     * @var  EntityManager $em
+     */
+    protected $em;
+
+    /**
+     * Set all information before all test
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        $em = static::createClient()->getContainer()->get('doctrine.orm.entity_manager');
+
+        self::loadUserAdmin($em);
+        self::loadClient($em);
+        self::loadHousing($em);
+    }
+
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
+    /**
+     * @return void
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    /**
+     * @param EntityManager $em Entity manager params
+     *
+     * @return User
+     */
+    private static function loadUserAdmin(EntityManager $em): User
+    {
+        if (null === $em->getRepository(User::class)->findOneBy(['email' => 'admin@atipikhouse.com'])) {
+            fwrite(STDERR, "First creation of an admin...\r\n");
+            self::runCommand('doctrine:fixtures:load --append --fixtures=src/ToolsBundle/DataFixtures/ORM/AdminFixtures.php');
+            fwrite(STDERR, "Admin Load Success  \r\n");
+        } else {
+            fwrite(STDERR, "AtypikHouse Admin is ready...\r\n");
+        }
+
+        return $em->getRepository(User::class)->findOneBy(['email' => 'admin@atipikhouse.com']);
+    }
+
+    /**
+     * @param EntityManager $em Entity manager params
+     *
+     * @return User
+     */
+    private static function loadClient(EntityManager $em): User
+    {
+        if (null === $em->getRepository(User::class)->findOneBy(['email' => 'john-doe@gmail.com'])) {
+            fwrite(STDERR, "First creation John Doe Client...\r\n");
+            self::runCommand('doctrine:fixtures:load --append --fixtures=src/ToolsBundle/DataFixtures/ORM/ClientFixtures.php');
+            fwrite(STDERR, "John Doe Client Load Success  \r\n");
+        } else {
+            fwrite(STDERR, "John Doe is Ready...\r\n");
+        }
+
+        return $em->getRepository(User::class)->findOneBy(['email' => 'john-doe@gmail.com']);
+    }
+
+    /**
+     * @param EntityManager $em Entity manager params
+     *
+     * @return Housing
+     */
+    private static function loadHousing(EntityManager $em): Housing
+    {
+        if (null === $em->getRepository(Housing::class)->findOneBy(['slug' => 'la-casa-de-papel-parisien'])) {
+            fwrite(STDERR, "First creation Main Housing...\r\n");
+            self::runCommand('doctrine:fixtures:load --append --fixtures=src/ToolsBundle/DataFixtures/ORM/HousingFixtures.php');
+            fwrite(STDERR, "Main Housing Load Success  \r\n");
+        } else {
+            fwrite(STDERR, "Main Housing is Ready...\r\n");
+        }
+        return $em->getRepository(Housing::class)->findOneBy(['slug' => 'la-casa-de-papel-parisien']);
+    }
+
+    /* AUTHENTIFCATION PART */
+
+    /**
+     * Get the authenticated admin for unit test
+     *
+     * @return Client
+     */
+    protected function logInAsAdmin()
+    {
+        return $this->logInUser('admin');
+    }
+
+    /**
+     * Get the authenticated client for unit test
+     *
+     * @return Client
+     */
+    protected function logInAsClient()
+    {
+        return $this->logInUser('john');
+    }
+
+    /**
+     * @param string $username Username of the user to logIn
+     *
+     * @return Client
+     */
+    private function logInUser(string $username)
+    {
+        $client = static::createClient();
+        $client->request('GET', '/logout');
+
+        $container = $client->getContainer();
+
+        $session = $container->get('session');
+        $userManager = $container->get('doctrine.orm.entity_manager');
+        $loginManager = $container->get('fos_user.security.login_manager');
+        $firewallName = $container->getParameter('fos_user.firewall_name');
+
+        $user = $userManager->getRepository(User::class)->findOneBy(['username' => $username]);
+        $loginManager->loginUser($firewallName, $user);
+
+        // save the login token into the session and put it in a cookie
+        $container->get('session')->set(
+            '_security_' . $firewallName,
+            serialize($container->get('security.token_storage')->getToken())
+        );
+        $container->get('session')->save();
+        $client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
+
+        return $client;
+    }
+
+    /* COMMAND EXECUTER PART */
+    /**
+     * Execute command in terminal
+     *
+     * @param string $command Choose the command
+     *
+     * @return int
+     */
+    protected static function runCommand($command)
+    {
+        $command = sprintf('%s --quiet', $command);
+
+        return self::getApplication()->run(new StringInput($command));
+    }
+
+    /**
+     * Get an new application for
+     *
+     * @return Application
+     */
+    protected static function getApplication()
+    {
+        if (null === self::$application) {
+            $client = static::createClient();
+
+            self::$application = new Application($client->getKernel());
+            self::$application->setAutoExit(false);
+        }
+
+        return self::$application;
+    }
+}
