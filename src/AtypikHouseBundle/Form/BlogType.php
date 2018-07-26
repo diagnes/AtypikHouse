@@ -2,17 +2,18 @@
 
 namespace AtypikHouseBundle\Form;
 
+use AtypikHouseBundle\Entity\Blog;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AtypikHouseBundle\Entity\StaticPage;
 
-class StaticPageType extends AbstractType
+class BlogType extends AbstractType
 {
     /**
      * Builds the form.
@@ -26,7 +27,7 @@ class StaticPageType extends AbstractType
     {
         $builder
             ->add(
-                'name',
+                'title',
                 TextType::class,
                 [
                     'label' => 'Page name',
@@ -36,7 +37,7 @@ class StaticPageType extends AbstractType
                 ]
             )
             ->add(
-                'enabled',
+                'visible',
                 CheckboxType::class,
                 [
                     'label' => 'Visible',
@@ -44,13 +45,39 @@ class StaticPageType extends AbstractType
                 ]
             )
             ->add(
+                'image',
+                MediaType::class,
+                [
+                    'label' => 'Picture cover',
+                    'provider' => 'sonata.media.provider.image',
+                    'required' => true,
+                    'context'  => 'blog',
+                ]
+            )
+            ->add(
+                'createdAt',
+                DateType::class,
+                [
+                    'widget' => 'single_text',
+                    'required' => false,
+                    'label' => 'Created At',
+                    'attr' => [
+                        'class' => 'date-picker form-control',
+                        'max' => date('Y-m-d'),
+                    ],
+                    'html5' => false,
+                    'format' =>'dd/MM/yyyy',
+                ]
+            )
+            ->add(
                 'description',
                 TextareaType::class,
                 [
-                    'label' => 'Page Description',
-                    'attr' => [
-                        'class' => 'form-control',
-                    ],
+                'label' => 'Description (max : 255 character)',
+                'attr' => [
+                    'class' => 'form-control',
+                    'maxlength' => 255,
+                ],
                 ]
             )
             ->add('content', FroalaEditorType::class);
@@ -67,10 +94,10 @@ class StaticPageType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => StaticPage::class,
-                'attr' => [
-                    'class' => 'form-horizontal',
-                ],
+            'data_class' => Blog::class,
+            'attr' => [
+                'class' => 'form-horizontal',
+            ],
             ]
         );
     }
@@ -80,6 +107,6 @@ class StaticPageType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'atypikhousebundle_staticpage';
+        return 'atypikhousebundle_article';
     }
 }

@@ -1,0 +1,59 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <section class="sub-banner">
+        <div class="bg-parallax bg-1"></div>
+        <div class="logo-banner text-center"><a href="{{ path('atypikhouse_home') }}" title=""><img src="{{ asset('bundles/atypikhouse/images/logo.png') }}" alt=""></a></div>
+    </section>
+    <div class="main">
+        <div class="container">
+            <div class="main-cn bg-white clearfix">
+                <section class="breakcrumb-sc">
+                    <ul class="breadcrumb arrow">
+                        <li><a href="{{ path('atypikhouse_home') }}"><i class="fa fa-home"></i></a></li>
+                        <li>Blogs</li>
+                    </ul>
+                </section>
+                <section class="blog-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="post-cn">
+                                <!-- Post Photo -->
+                                {% for blog in blogs %}
+                                    <div class="post">
+                                        <div class="post-media">
+                                            <div class="image-wrap">
+                                                {% media blog.image, 'big' %}
+                                            </div>
+                                        </div>
+                                        <div class="post-text row">
+                                            <div class="col-sm-6">
+                                                <div class="author-date">
+                                                    {{ blog.author.username }}
+                                                    <small>///</small>
+                                                    <span>{{ blog.createdAt | date('d.m.Y') }}</span>
+                                                </div>
+                                                <h2><a href="{{ path('atypikhouse_blog_show',{'slug' : blog.slug}) }}">{{ blog.title }}</a></h2>
+                                                <div class="post-share">
+                                                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ absolute_url(path('atypikhouse_blog_show',{'slug' : blog.slug})) }}" title=""><i class="fa fa-facebook"></i></a>
+                                                    <a target="_blank" href="https://twitter.com/home?status={{ absolute_url(path('atypikhouse_blog_show',{'slug' : blog.slug})) }}" title=""><i class="fa fa-twitter"></i></a>
+                                                    <a target="_blank" href="https://plus.google.com/share?url={{ absolute_url(path('atypikhouse_blog_show',{'slug' : blog.slug})) }}" title=""><i class="fa fa-google-plus"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    {{ blog.description | truncate(150) }}
+                                                    <a href="{{ path('atypikhouse_blog_show',{'slug' : blog.slug}) }}">(More...)</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

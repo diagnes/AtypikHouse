@@ -2,20 +2,20 @@
 
 namespace AtypikHouseBundle\Controller;
 
-use AtypikHouseBundle\Entity\StaticPage;
+use AtypikHouseBundle\Entity\Blog;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use AtypikHouseBundle\Form\StaticPageType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
+use AtypikHouseBundle\Form\BlogType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Static Page Admin Controller.
+ * Blog Admin controller.
  *
- * In this controller admin can manage all static page
+ * In this controller admin can manage all blog
  *
  * PHP version 7.1
  *
@@ -25,10 +25,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  *
  * @Security("has_role('ROLE_ADMIN')")
  */
-class StaticPageAdminController extends Controller
+class BlogAdminController extends Controller
 {
     /**
-     * Lists all staticPage entities.
+     * Lists all blog entities.
      *
      * @return Response
      */
@@ -37,18 +37,19 @@ class StaticPageAdminController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $em->getFilters()->disable('deleted');
-        $staticpages = $em->getRepository('AtypikHouseBundle:StaticPage')->findAll();
+        
+        $blogs = $em->getRepository('AtypikHouseBundle:Blog')->findAll();
 
         return $this->render(
-            'AtypikHouseBundle:staticpage-admin:list.html.twig',
+            'AtypikHouseBundle:blog-admin:list.html.twig',
             [
-            'staticpages' => $staticpages,
+            'blogs' => $blogs,
             ]
         );
     }
 
     /**
-     * Creates a new staticPage entity.
+     * Creates a new blog entity.
      *
      * @param Request $request Get the request
      *
@@ -56,64 +57,70 @@ class StaticPageAdminController extends Controller
      */
     public function newAction(Request $request)
     {
-        $staticPage = new Staticpage();
-        $form = $this->createForm(StaticPageType::class, $staticPage);
+        $blog = new Blog();
+        $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($staticPage);
+            $blog->setAuthor($this->getUser());
+            $em->persist($blog);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', sprintf('The Static Page %s has been created', $staticPage->getSlug()));
-            return $this->redirectToRoute('atypikhouse_admin_staticpage_edit', ['slug' => $staticPage->getSlug()]);
+            $this->get('session')->getFlashBag()->add('success', sprintf('The Blog %s has been created', $blog->getSlug()));
+            return $this->redirectToRoute('atypikhouse_blog_admin_edit', ['slug' => $blog->getSlug()]);
         }
 
         return $this->render(
-            'AtypikHouseBundle:staticpage-admin:form.html.twig',
+            'AtypikHouseBundle:blog-admin:form.html.twig',
             [
-            'staticpage' => $staticPage,
+            'blog' => $blog,
             'form' => $form->createView(),
             ]
         );
     }
 
     /**
-     * Displays a form to edit an existing staticPage entity.
+     * Displays a form to edit an existing blog entity.
      *
      * @param Request $request Get the request
-     * @param string  $slug    Get the static Page slug
+     * @param string  $slug    Get the targeted blog
      *
-     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function editAction(Request $request, string $slug)
     {
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $staticPage = $em->getRepository(StaticPage::class)->findOneBy(['slug' => $slug]);
-        if (null === $staticPage) {
-            throw new NotFoundHttpException('La page'.$slug.' demander n\'éxiste pas');
+        $em->getFilters()->disable('deleted');
+
+        $blog = $em->getRepository(Blog::class)->findOneBy(['slug' => $slug]);
+        if (null === $blog) {
+            throw new NotFoundHttpException('The page '.$slug.' does\'t exist');
         }
-        $form = $this->createForm(StaticPageType::class, $staticPage);
+        $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->getDoctrine()->getManager()->flush();
+            $this->get('session')->getFlashBag()->add('success', sprintf('The blog %s has been edited', $blog->getSlug()));
 
-            $this->get('session')->getFlashBag()->add('success', sprintf('The Static Page %s has been edited', $staticPage->getSlug()));
-            return $this->redirectToRoute('atypikhouse_admin_staticpage_edit', ['slug' => $staticPage->getSlug()]);
+            return $this->redirectToRoute('atypikhouse_blog_admin_edit', ['slug' => $blog->getSlug()]);
         }
 
         return $this->render(
-            'AtypikHouseBundle:staticpage-admin:form.html.twig',
+            'AtypikHouseBundle:blog-admin:form.html.twig',
             [
-            'staticpage' => $staticPage,
+            'blog' => $blog,
             'form' => $form->createView(),
             ]
         );
     }
 
     /**
-     * Deletes a staticpage entity.
+     * Deletes a blog entity.
      *
      * @param string $slug Get the static Page slug
      *
@@ -123,21 +130,21 @@ class StaticPageAdminController extends Controller
     {
         try {
             $em = $this->getDoctrine()->getManager();
-            $staticpage = $em->getRepository(StaticPage::class)->findOneBy(['slug' => $slug]);
-            if (null === $staticpage) {
+            $blog = $em->getRepository(Blog::class)->findOneBy(['slug' => $slug]);
+            if (null === $blog) {
                 throw new NotFoundHttpException('The page '.$slug.' does\'t exist');
             }
-            $staticpage->setDeletedAt(new \DateTime());
+            $blog->setDeletedAt(new \DateTime());
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', sprintf('The Static Page %s has been deleted', $staticpage->getSlug()));
+            $this->get('session')->getFlashBag()->add('success', sprintf('The Blog %s has been deleted', $blog->getSlug()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
-        return $this->redirectToRoute('atypikhouse_admin_staticpage_index');
+        return $this->redirectToRoute('atypikhouse_blog_admin_index');
     }
 
     /**
-     * Undelete a staticpage entity.
+     * Undelete a blog entity.
      *
      * @param string $slug Get the static Page slug
      *
@@ -150,16 +157,16 @@ class StaticPageAdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->getFilters()->disable('deleted');
 
-            $staticpage = $em->getRepository(StaticPage::class)->findOneBy(['slug' => $slug]);
-            if (null === $staticpage) {
+            $blog = $em->getRepository(Blog::class)->findOneBy(['slug' => $slug]);
+            if (null === $blog) {
                 throw new NotFoundHttpException('The page '.$slug.' does\'t exist');
             }
-            $staticpage->setDeletedAt(null);
+            $blog->setDeletedAt(null);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', sprintf('The Static Page %s has been undeleted', $staticpage->getSlug()));
+            $this->get('session')->getFlashBag()->add('success', sprintf('The Blog %s has been undeleted', $blog->getSlug()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
-        return $this->redirectToRoute('atypikhouse_admin_staticpage_index');
+        return $this->redirectToRoute('atypikhouse_blog_admin_index');
     }
 }

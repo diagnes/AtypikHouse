@@ -1,0 +1,19 @@
+atypikhouse_blog_admin_index:
+    path:     /
+    defaults: { _controller: "AtypikHouseBundle:BlogAdmin:index" }
+
+atypikhouse_blog_admin_new:
+    path:     /new
+    defaults: { _controller: "AtypikHouseBundle:BlogAdmin:new" }
+
+atypikhouse_blog_admin_edit:
+    path:     /{slug}/edit
+    defaults: { _controller: "AtypikHouseBundle:BlogAdmin:edit" }
+
+atypikhouse_blog_admin_delete:
+    path:     /{slug}/delete
+    defaults: { _controller: "AtypikHouseBundle:BlogAdmin:delete" }
+
+atypikhouse_blog_admin_undelete:
+    path:     /{slug}/undelete
+    defaults: { _controller: "AtypikHouseBundle:BlogAdmin:undelete" }

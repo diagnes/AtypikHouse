@@ -1,0 +1,7 @@
+atypikhouse_blog_index:
+    path:     /list
+    defaults: { _controller: "AtypikHouseBundle:Blog:index" }
+
+atypikhouse_blog_show:
+    path:     /{slug}/show
+    defaults: { _controller: "AtypikHouseBundle:Blog:show" }

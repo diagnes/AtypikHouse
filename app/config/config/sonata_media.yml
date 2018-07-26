@@ -46,6 +46,14 @@ sonata_media:
                 big: { width: 300 , height: 210, quality: 80 }
                 background: { width: 1000 , quality: 90 }
                 widget: { width: 300 , height: 220 , quality: 90 }
+
+        blog:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                small: { width: 290, height: 150, quality: 90 }
+                main: { width: 820 , height: 320, quality: 80 }
+                big: { width: 1110 , height: 435, quality: 80 }
     cdn:
         server:
             path: /uploads/media

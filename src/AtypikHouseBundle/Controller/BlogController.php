@@ -1,0 +1,64 @@
+<?php
+
+namespace AtypikHouseBundle\Controller;
+
+use AtypikHouseBundle\Entity\Blog;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+/**
+ * Blog controller.
+ *
+ * In this controller user can read and
+ * see all available blog posted
+ *
+ * PHP version 7.1
+ *
+ * @category  Controller
+ * @author    Diagne Stéphane <diagne.stephane@gmail.com>
+ * @copyright 2018
+ */
+class BlogController extends Controller
+{
+    /**
+     * Lists all blog entities.
+     *
+     * @return Response
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $blogs = $em->getRepository(Blog::class)->getllAvailableBlog();
+
+        return $this->render(
+            'AtypikHouseBundle:blog:index.html.twig',
+            [
+            'blogs' => $blogs,
+            ]
+        );
+    }
+
+    /**
+     * Finds and displays a blog entity.
+     *
+     * @param string $slug Get the targeted blog
+     *
+     * @return Response
+     */
+    public function showAction(string $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $blog = $em->getRepository(Blog::class)->findOneBy(['slug' => $slug, 'visible' => true]);
+        if (null === $blog) {
+            throw new NotFoundHttpException("This page doen't exist");
+        }
+        return $this->render(
+            'AtypikHouseBundle:blog:show.html.twig',
+            [
+            'blog' => $blog,
+            ]
+        );
+    }
+}

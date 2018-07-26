@@ -140,7 +140,7 @@
                 <div class="travel-title float-left">
                     <h2>Travel Magazine</h2>
                 </div>
-                <a href="index.html#" title="" class="awe-btn awe-btn-5 arrow-right awe-btn-lager text-uppercase float-right">view all</a>
+                <a href="{{ path('atypikhouse_blog_index') }}" title="" class="awe-btn awe-btn-5 arrow-right awe-btn-lager text-uppercase float-right">view all</a>
             </div>
         </div>
         <div class="container">
@@ -149,162 +149,45 @@
                     <div class="col-lg-6">
                         <div class="magazine-ds">
                             <div id="owl-magazine-ds">
+                                {% for blog in blogs %}
                                 <div class="magazine-item">
                                     <div class="magazine-header">
-                                        <h2>Five festivals to look forward to this year</h2>
+                                        <h2>{{ blog.title }}</h2>
                                         <ul>
-                                            <li>by <a href="index.html" title="">Admin</a></li>
-                                            <li>03.5.2014</li>
+                                            <li>by {{ blog.author.username }}</li>
+                                            <li>{{ blog.createdAt | date('d.m.Y') }}</li>
                                         </ul>
                                         <hr class="hr">
                                     </div>
                                     <div class="magazine-body">
-                                        <p>Suspendisse ullamcorper lacus et commodo laoreet. Sed sodales aliquet felis, quis volutpat massa imperdiet in. Praesent rutrum malesuada risus, ullamcorper pretium tortor. Mauris lacinia nisl id massa consectetur, eu tempus mauris lacinia. Fusce commodo porttitor sapien quis condimentum.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae. Suspendisse eu libero odio.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae.</p>
+                                        {{ blog.description }}
                                     </div>
                                     <div class="magazine-footer clearfix">
-                                        <div class="post-share magazine-share float-left"><a href="index.html" title=""><i class="fa fa-facebook"></i></a> <a href="index.html" title=""><i class="fa fa-twitter"></i></a> <a href="index.html" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        <a href="index.html" title="" class="awe-btn awe-btn-5 arrow-right awe-btn-lager text-uppercase float-right">view more</a>
+                                        <div class="post-share magazine-share float-left">
+                                            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ absolute_url(path('atypikhouse_blog_show',{'slug' : blog.slug})) }}" title=""><i class="fa fa-facebook"></i></a>
+                                            <a target="_blank" href="https://twitter.com/home?status={{ absolute_url(path('atypikhouse_blog_show',{'slug' : blog.slug})) }}" title=""><i class="fa fa-twitter"></i></a>
+                                            <a target="_blank" href="https://plus.google.com/share?url={{ absolute_url(path('atypikhouse_blog_show',{'slug' : blog.slug})) }}" title=""><i class="fa fa-google-plus"></i></a>
+                                        </div>
+                                        <a href="{{ path('atypikhouse_blog_show',{'slug' : blog.slug}) }}" title="" class="awe-btn awe-btn-5 arrow-right awe-btn-lager text-uppercase float-right">view more</a>
                                     </div>
                                 </div>
-                                <div class="magazine-item">
-                                    <div class="magazine-header">
-                                        <h2>Five festivals to look forward to this year</h2>
-                                        <ul>
-                                            <li>by <a href="index.html" title="">Admin</a></li>
-                                            <li>03.5.2014</li>
-                                        </ul>
-                                        <hr class="hr">
-                                    </div>
-                                    <div class="magazine-body">
-                                        <p>Suspendisse ullamcorper lacus et commodo laoreet. Sed sodales aliquet felis, quis volutpat massa imperdiet in. Praesent rutrum malesuada risus, ullamcorper pretium tortor. Mauris lacinia nisl id massa consectetur, eu tempus mauris lacinia. Fusce commodo porttitor sapien quis condimentum.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae. Suspendisse eu libero odio.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae.</p>
-                                    </div>
-                                    <div class="magazine-footer clearfix">
-                                        <div class="post-share magazine-share float-left"><a href="index.html" title=""><i class="fa fa-facebook"></i></a> <a href="index.html" title=""><i class="fa fa-twitter"></i></a> <a href="index.html" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        <a href="index.html" title="" class="awe-btn awe-btn-5 arrow-right awe-btn-lager text-uppercase float-right">view more</a>
-                                    </div>
-                                </div>
-                                <div class="magazine-item">
-                                    <div class="magazine-header">
-                                        <h2>Five festivals to look forward to this year</h2>
-                                        <ul>
-                                            <li>by <a href="index.html" title="">Admin</a></li>
-                                            <li>03.5.2014</li>
-                                        </ul>
-                                        <hr class="hr">
-                                    </div>
-                                    <div class="magazine-body">
-                                        <p>Suspendisse ullamcorper lacus et commodo laoreet. Sed sodales aliquet felis, quis volutpat massa imperdiet in. Praesent rutrum malesuada risus, ullamcorper pretium tortor. Mauris lacinia nisl id massa consectetur, eu tempus mauris lacinia. Fusce commodo porttitor sapien quis condimentum.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae. Suspendisse eu libero odio.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae.</p>
-                                    </div>
-                                    <div class="magazine-footer clearfix">
-                                        <div class="post-share magazine-share float-left"><a href="index.html" title=""><i class="fa fa-facebook"></i></a> <a href="index.html" title=""><i class="fa fa-twitter"></i></a> <a href="index.html" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        <a href="index.html" title="" class="awe-btn awe-btn-5 arrow-right awe-btn-lager text-uppercase float-right">view more</a>
-                                    </div>
-                                </div>
-                                <div class="magazine-item">
-                                    <div class="magazine-header">
-                                        <h2>Five festivals to look forward to this year</h2>
-                                        <ul>
-                                            <li>by <a href="index.html" title="">Admin</a></li>
-                                            <li>03.5.2014</li>
-                                        </ul>
-                                        <hr class="hr">
-                                    </div>
-                                    <div class="magazine-body">
-                                        <p>Suspendisse ullamcorper lacus et commodo laoreet. Sed sodales aliquet felis, quis volutpat massa imperdiet in. Praesent rutrum malesuada risus, ullamcorper pretium tortor. Mauris lacinia nisl id massa consectetur, eu tempus mauris lacinia. Fusce commodo porttitor sapien quis condimentum.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae. Suspendisse eu libero odio.</p>
-                                        <p>Curabitur sollicitudin magna sed sem blandit sodales. Integer in eros sit amet tellus vulputate laoreet ut in purus. Nullam quis lacus nisl.<br>Sed venenatis commodo leo, ac pulvinar ipsum mattis vitae.</p>
-                                    </div>
-                                    <div class="magazine-footer clearfix">
-                                        <div class="post-share magazine-share float-left"><a href="index.html" title=""><i class="fa fa-facebook"></i></a> <a href="index.html" title=""><i class="fa fa-twitter"></i></a> <a href="index.html" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        <a href="index.html" title="" class="awe-btn awe-btn-5 arrow-right awe-btn-lager text-uppercase float-right">view more</a>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="magazine-thum" id="magazine-thum">
-                            <div class="thumnail-item active clearfix">
-                                <figure class="float-left"><img src="images/magazine/img-1.jpg" alt=""></figure>
+                            {% for blog in blogs %}
+                            <div class="thumnail-item{% if loop.first %} active{% endif %} clearfix">
+                                <figure class="float-left">
+                                    {% media blog.image, 'small' %}
+                                </figure>
                                 <div class="thumnail-text">
-                                    <h4>Thailand by Train with Eastern and Oriental Express</h4>
-                                    <span>03.5.2014</span>
+                                    <h4>{{ blog.title }}</h4>
+                                    <span>{{ blog.createdAt | date('d.m.Y') }}</span>
                                 </div>
                             </div>
-                            <div class="thumnail-item clearfix">
-                                <figure class="float-left"><img src="images/magazine/img-2.jpg" alt=""></figure>
-                                <div class="thumnail-text">
-                                    <h4>Thailand by Train with Eastern and Oriental Express</h4>
-                                    <span>03.5.2014</span>
-                                </div>
-                            </div>
-                            <div class="thumnail-item clearfix">
-                                <figure class="float-left"><img src="images/magazine/img-3.jpg" alt=""></figure>
-                                <div class="thumnail-text">
-                                    <h4>Thailand by Train with Eastern and Oriental Express</h4>
-                                    <span>03.5.2014</span>
-                                </div>
-                            </div>
-                            <div class="thumnail-item clearfix">
-                                <figure class="float-left"><img src="images/magazine/img-4.jpg" alt=""></figure>
-                                <div class="thumnail-text">
-                                    <h4>Thailand by Train with Eastern and Oriental Express</h4>
-                                    <span>03.5.2014</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="confidence-subscribe">
-        <div class="bg-parallax bg-3"></div>
-        <div class="container">
-            <div class="row cs-sb-cn">
-                <div class="col-md-6">
-                    <div class="confidence">
-                        <h3>AtypikNews</h3>
-                        <ul>
-                            <li>
-                                <span class="label-nb">01</span>
-                                <h5>New House</h5>
-                                <p>Be inform about new house coming on the platform</p>
-                            </li>
-                            <li>
-                                <span class="label-nb">02</span>
-                                <h5>New Deals</h5>
-                                <p>Promotion, Deal and reduction information</p>
-                            </li>
-                            <li>
-                                <span class="label-nb">03</span>
-                                <h5>Trip idea</h5>
-                                <p>Miss idea ? Our newsletter will sove your problem</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="subscribe">
-                        <h3>Subscribe to our newsletter</h3>
-                        <p>Enter your email address and we’ll send you our regular promotional emails, packed with special offers, great deals, and huge discounts</p>
-                        <div class="subscribe-form">
-                            <form action="index.html#" method="get"><input type="text" name="" value="" placeholder="Your email" class="subscribe-input"> <button type="submit" class="awe-btn awe-btn-5 arrow-right text-uppercase awe-btn-lager">subcrible</button></form>
-                        </div>
-                        <div class="follow-us">
-                            <h4>Follow us</h4>
-                            <div class="follow-group">
-                                <a href="https://www.facebook.com/" title=""><i class="fa fa-facebook"></i></a>
-                                <a href="https://twitter.com/?lang=fr" title=""><i class="fa fa-twitter"></i></a>
-                                <a href="https://www.pinterest.fr" title=""><i class="fa fa-pinterest"></i></a>
-                                <a href="https://www.instagram.com" title=""><i class="fa fa-instagram"></i></a>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

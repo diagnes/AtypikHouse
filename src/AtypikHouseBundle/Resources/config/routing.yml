@@ -14,6 +14,14 @@ atypik_house_api_reservation_admin:
     resource: "@AtypikHouseBundle/Resources/config/routing/reservation_admin.yml"
     prefix:   /reservation/admin
 
+atypik_house_article_admin:
+    resource: "@AtypikHouseBundle/Resources/config/routing/blog_admin.yml"
+    prefix:   /admin/blog
+
+atypik_house_article:
+    resource: "@AtypikHouseBundle/Resources/config/routing/blog.yml"
+    prefix:   /blog
+
 atypik_house_staticpage_admin:
     resource: "@AtypikHouseBundle/Resources/config/routing/staticpage.yml"
     prefix:   /admin/staticpage

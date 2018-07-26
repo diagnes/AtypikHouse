@@ -2,18 +2,12 @@
 
 namespace AtypikHouseBundle\Controller;
 
-use AtypikHouseBundle\Entity\Reservation;
-use AtypikHouseBundle\Enum\ReservationStateEnum;
-use AtypikHouseBundle\Form\ReservationType;
+use AtypikHouseBundle\Entity\Blog;
 use AtypikHouseBundle\Form\SearchHouseFormType;
 use HousingBundle\Entity\Housing;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use ToolsBundle\Service\DataResponseAdapter;
 
 /**
  * Reservation controller.
@@ -31,6 +25,7 @@ class IndexController extends Controller
         $housingRepo = $em->getRepository(Housing::class);
         $form = $this->createForm(SearchHouseFormType::class, null);
         $housings = $housingRepo->findBy([], ['createdAt' => 'DESC'], 3);
+        $blogs = $em->getRepository(Blog::class)->getllAvailableBlog(4);
         $topCity = $housingRepo->getTopCityTravel();
         $housingsTotal = $housingRepo->getTotalHousing();
         $form->handleRequest($request);
@@ -49,7 +44,8 @@ class IndexController extends Controller
             'form' => $form->createView(),
             'housings' => $housings,
             'topCity' => $topCity,
-            'housingsTotal' => $housingsTotal
+            'housingsTotal' => $housingsTotal,
+                'blogs' => $blogs,
             ]
         );
     }

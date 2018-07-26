@@ -104,22 +104,15 @@
                         <li>
                             <a href="javascript:void(0)">Blogs<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a href="javascript:void(0)">List</a></li>
-                                <li><a href="javascript:void(0)">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">News<span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li><a href="javascript:void(0)">List</a></li>
-                                <li><a href="javascript:void(0)">Edit</a></li>
+                                <li><a href="{{ path('atypikhouse_blog_admin_index') }}">List</a></li>
+                                <li><a href="{{ path('atypikhouse_blog_admin_new') }}">New</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="javascript:void(0)">Static Pages<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li><a href="{{ path('atypikhouse_admin_staticpage_index') }}">List</a></li>
-                                <li><a href="{{ path('atypikhouse_admin_staticpage_new') }}">Edit</a></li>
+                                <li><a href="{{ path('atypikhouse_admin_staticpage_new') }}">New</a></li>
                             </ul>
                         </li>
                     </ul>
