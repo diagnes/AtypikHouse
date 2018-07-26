@@ -1,5 +1,6 @@
 {% extends '::layout.html.twig' %}
 
+{% block title %}{{ parent() }} | {{ staticPage.name }}{% endblock %}
 {% block content %}
     <section class="sub-banner">
         <div class="bg-parallax bg-1"></div>
