@@ -3,7 +3,20 @@
 {% set menu_level = 'dashboard' %}
 {% block title %}{{ parent() }} | DashBoard{% endblock %}
 {% block content %}
-    Hello World
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Dashboard {{ app.user.username }}</h2>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="coming-soon">
+                    <h2>CRM DASHBOARD COMING SOON</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block Toastr %}toastr.info('Admin Interface', 'Welcome to AtypikHouse'){% endblock %}

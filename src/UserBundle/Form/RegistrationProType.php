@@ -24,25 +24,49 @@ class RegistrationProType extends AbstractType
 
         $builder
             ->add(
-                'siret',
-                TextType::class,
+                'email',
+                EmailType::class,
                 [
-                    'label' => 'Siret',
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'input-text',
+                        'placeholder' => 'Email',
                     ]
                 ]
             )
             ->add(
-                'entreprise',
+                'username',
                 TextType::class,
                 [
-                    'label' => 'Enterprise',
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'input-text',
+                        'placeholder' => 'Username',
                     ]
                 ]
-            );
+            )
+            ->add(
+                'plainPassword',
+                RepeatedType::class,
+                [
+                    'type' => PasswordType::class,
+                    'first_name' => 'pass',
+                    'second_name' => 'confirm',
+                    'first_options' => [
+                        'attr' => [
+                            'class' => 'input-text',
+                            'placeholder' => 'Password',
+                        ]
+                    ],
+                    'second_options' => [
+                        'label' => false,
+                        'attr' => [
+                            'class' => 'input-text',
+                            'placeholder' => 'Repeat Password',
+                        ]
+                    ],
+                    'invalid_message' => 'fos_user.password.mismatch',
+                ]
+            )
+            ->add('professionalInfos', RegistrationProfessionalType::class);
     }
 
     /**

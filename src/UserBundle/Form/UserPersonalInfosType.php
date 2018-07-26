@@ -4,12 +4,15 @@ namespace UserBundle\Form;
 
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use UserBundle\Entity\UserPersonalInfos;
+use UserBundle\Enum\UserGenderEnum;
 
 /**
  * Class UserPersonalInfosType
@@ -30,21 +33,18 @@ class UserPersonalInfosType extends AbstractType
                 'image',
                 MediaType::class,
                 [
-                    'label' => false,
+                    'label' => 'Profile picture',
                     'provider' => 'sonata.media.provider.image',
                     'required' => true,
-                    'context'  => 'default'
+                    'context'  => 'user'
                 ]
             )
             ->add(
                 'gender',
-                TextType::class,
+                ChoiceType::class,
                 [
                     'label' => 'Gender',
-                    'attr' => [
-                        'class' => 'input-text',
-                        'placeholder' => 'Gender',
-                    ]
+                    'choices' => array_flip(UserGenderEnum::toAssoc())
                 ]
             )
             ->add(
@@ -74,6 +74,7 @@ class UserPersonalInfosType extends AbstractType
                 DateType::class,
                 [
                     'label' => 'BirthDate',
+                    'years' => range(date('Y'), date('Y')-100),
                     'attr' => [
                         'placeholder' => 'BirthDate',
                     ]
@@ -125,13 +126,10 @@ class UserPersonalInfosType extends AbstractType
             )
             ->add(
                 'nationality',
-                TextType::class,
+                CountryType::class,
                 [
-                    'label' => 'Gender',
-                    'attr' => [
-                        'class' => 'input-text',
-                        'placeholder' => 'Gender',
-                    ]
+                    'label' => 'Nationality',
+                    'empty_data' => 'FR',
                 ]
             )
             ->add(

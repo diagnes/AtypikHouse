@@ -14,8 +14,8 @@ parameters:
         succeeded: grumphp-happy.txt
     tasks:
         git_blacklist: ~
-        phpcpd:
-            exclude: ['vendor', 'var/cache', 'web']
+        #phpcpd:
+         #   exclude: ['vendor', 'var/cache', 'web']
         phpcs:
             standard: 'phpcs_custom_ruleset.xml'
             severity: 5

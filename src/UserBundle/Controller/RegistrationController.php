@@ -197,11 +197,15 @@ class RegistrationController extends Controller
             return new JsonResponse($event->getResponse());
         }
 
-        $form = ('pro' === $type) ? $formFactory->createForm() : $this->createForm(RegistrationProType::class, $user);
+        $form = ('simple' === $type) ? $formFactory->createForm() : $this->createForm(
+            RegistrationProType::class,
+            null,
+            [
+            'action' => $this->generateUrl('fos_user_registration_register_pro')
+            ]
+        );
+
         $form->setData($user);
-
-        $formPro = ('pro' === $type) ? null : $this->createForm(RegistrationProType::class, $user);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -229,11 +233,27 @@ class RegistrationController extends Controller
             }
         }
         return $this->render(
-            'UserBundle::register.html.twig',
+            $this->getRegisterView($type),
             [
                 'form' => $form->createView(),
-                'formPro' => $formPro ? $formPro->createView() : null,
             ]
         );
+    }
+
+    /**
+     * Get the right view for register action
+     *
+     * @param string $type Get the view type of register
+     *
+     * @return string
+     */
+    private function getRegisterView(string $type)
+    {
+        $views = [
+            'simple' => 'UserBundle::register.html.twig',
+            'pro' => 'UserBundle::register-pro.html.twig'
+        ];
+
+        return $views[$type];
     }
 }

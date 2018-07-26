@@ -47,6 +47,11 @@
                                             <p>{{ housing.description | truncate(150) }}</a></p>
                                             <hr class="hr">
                                             <div class="price-box float-left"><span class="price special-price">{{ housing.price }}€<small>/night</small></span></div>
+                                            <div class="hotel-service float-right">
+                                                <span>Type : {{ housing.type.name }}</span>
+                                                <span> /// </span>
+                                                <span>Max resident : {{ housing.maxResident }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}

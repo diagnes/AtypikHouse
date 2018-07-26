@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block title %}{{ parent() }} | Register{% endblock %}
+{% block title %}{{ parent() }} | Register Pro{% endblock %}
 {% block content %}
     <section class="sub-banner">
         <div class="bg-parallax bg-1"></div>
@@ -20,13 +20,11 @@
                         <section class="user-profile">
                             <div class="user-form user-signup user-signup-two-part">
                                 <div class="row">
-
                                     <div class="col-xs-12">
-                                        <h2 class="user-profile__title">Sign Up</h2>
-                                        <p>Enjoy the new atypik lifestyle.</p>
+                                        <h2 class="user-profile__title">Sign Up As Host</h2>
+                                        <p>Share your home and enjoy people.</p>
                                         {{ form_start(form) }}
-                                        {{ form_errors(form.email) }}
-                                        {{ form_errors(form.username) }}
+                                        {{ form_errors(form) }}
                                         <div class="field-input">
                                             {{ form_widget(form.email) }}
                                         </div>
@@ -40,7 +38,13 @@
                                             {{ form_widget(form.plainPassword.confirm) }}
                                         </div>
                                         <div class="field-input">
-                                            <button type="submit" id="_submit" name="_submit" class="awe-btn awe-btn-1 awe-btn-block">Sign Up</button>
+                                            {{ form_widget(form.professionalInfos.siret) }}
+                                        </div>
+                                        <div class="field-input">
+                                            {{ form_widget(form.professionalInfos.entreprise) }}
+                                        </div>
+                                        <div class="field-input">
+                                            <button type="submit" id="_submit" name="_submit" class="awe-btn awe-btn-1 awe-btn-block">Sign As Host</button>
                                         </div>
                                         {{ form_end(form) }}
                                     </div>

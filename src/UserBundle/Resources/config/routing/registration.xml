@@ -8,6 +8,10 @@
         <default key="_controller">FOSUserBundle:Registration:register</default>
     </route>
 
+    <route id="fos_user_registration_register_pro" path="/pro">
+        <default key="_controller">UserBundle:Registration:registerPro</default>
+    </route>
+
     <route id="user_registration_register_modal" path="/register-modal" methods="GET">
         <default key="_controller">AnaxagoSecurityBundle:Registration:registerModal</default>
         <default key="referrer">/</default>

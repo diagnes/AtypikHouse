@@ -29,12 +29,14 @@ class HousingRepository extends EntityRepository
             FROM housing AS h
               INNER JOIN address AS ad ON h.address_id = ad.id
               LEFT JOIN housing_undisponibility AS hu ON h.id = hu.housing_id
+              INNER JOIN housing_type AS ht ON ht.id = h.type_id
             WHERE
               (
                 ad.city LIKE :destination
                 OR ad.city LIKE :destination
                 OR ad.country LIKE :destination
                 OR h.title LIKE :destination
+                OR ht.name LIKE :destination
               )
               AND h.max_resident >= :resident
               AND h.deleted_at IS NULL
