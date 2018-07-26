@@ -94,7 +94,7 @@ class HousingRepository extends EntityRepository
      *
      * @param int $id Get the targeted Housing
      *
-     * @return array
+     * @return array|bool
      */
     public function getBestNotationHouse(int $id)
     {
@@ -127,7 +127,7 @@ class HousingRepository extends EntityRepository
         $query->bindParam('done', $done);
         $query->execute();
 
-        return $query->fetchAll()[0];
+        return $query->fetchAll()[0] ?? null;
     }
 
 

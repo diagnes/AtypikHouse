@@ -163,6 +163,7 @@ class RegistrationController extends Controller
      * @SuppressWarnings(PHPMD)
      *
      * @return null|RedirectResponse|Response
+     * @throws \InvalidArgumentException
      */
     private function returnConnectionResponse(Request $request, string $type = 'simple')
     {
@@ -171,7 +172,7 @@ class RegistrationController extends Controller
         if ($authChecker->isGranted('ROLE_PROPRIETARY')) {
             return new RedirectResponse($router->generate('admin_homepage'), 307);
         }
-        if ($authChecker->isGranted('ROLE_USER')) {
+        if ($authChecker->isGranted('ROLE_USER') && 'simple' === $type) {
             return new RedirectResponse($router->generate('atypikhouse_home'), 307);
         }
         /**
@@ -187,7 +188,8 @@ class RegistrationController extends Controller
          */
         $userManager = $this->get('fos_user.user_manager');
 
-        $user = $userManager->createUser();
+        $user = $this->getUser() ?: $userManager->createUser();
+
         $user->setEnabled(true);
 
         $event = new GetResponseUserEvent($user, $request);

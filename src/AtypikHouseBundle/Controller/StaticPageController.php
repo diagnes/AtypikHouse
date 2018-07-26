@@ -43,7 +43,7 @@ class StaticPageController extends Controller
         } else {
             $filter = [
                 'slug' => $slug,
-                'visible' => true,
+                'enabled' => true,
             ];
         }
 

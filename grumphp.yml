@@ -15,7 +15,7 @@ parameters:
     tasks:
         git_blacklist: ~
         phpcpd:
-           exclude: ['vendor', 'var/cache', 'web']
+           exclude: ['vendor', 'var/cache', 'web', 'src/UserBundle/Form/']
         phpcs:
             standard: 'phpcs_custom_ruleset.xml'
             severity: 5

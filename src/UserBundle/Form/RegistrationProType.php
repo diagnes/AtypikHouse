@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use UserBundle\Entity\User;
 
-class RegistrationProType extends AbstractType
+class RegistrationProType extends RegistrationType
 {
     /**
      * @param FormBuilderInterface $builder Get the form type builder

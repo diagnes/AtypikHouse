@@ -49,6 +49,7 @@ class HousingProprietaryController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $housingManager->isValidHousing($housing);
+            $housing->setProprietary($this->getUser());
             $em->persist($housing);
             $em->flush();
             $this->redirectToRoute('atyipikhouse_admin_housing_edit', ['slug' => $housing->getSlug()]);
@@ -166,12 +167,14 @@ class HousingProprietaryController extends Controller
     /**
      * Ask for a validation by an adminfor housing publication
      *
-     * @param string $slug Get the targeted housing slug
+     * @param Request $request Get the request
+     * @param string  $slug    Get the targeted housing slug
      *
      * @return RedirectResponse
      */
-    public function validationAskAction(string $slug)
+    public function validationAskAction(Request $request, string $slug)
     {
+        $referer = $request->headers->get('referer');
         try {
             $housing = $this->get('ah.housing_manager')->getHousingEntity($slug);
             $em = $this->getDoctrine()->getManager();
@@ -181,7 +184,8 @@ class HousingProprietaryController extends Controller
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
-        return $this->redirectToRoute('atyipikhouse_admin_housing_index');
+
+        return $this->redirect($referer);
     }
 
 
