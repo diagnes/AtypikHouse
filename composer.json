@@ -72,6 +72,9 @@
         "update-doc":[
             "./app/script/update-doc.sh"
         ],
+        "prod-debug":[
+            "./app/script/prod-debug.sh"
+        ],
         "atipik-up-dev":[
             "./app/script/up-dev.sh",
             "@symfony-scripts"
