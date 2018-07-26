@@ -2238,6 +2238,36 @@ blockquote:before {
     height: 5px;
     margin-left: 5px
 }
+.nav-desktop ul>li.notification:hover {
+    background-color: #fff;
+}
+.nav-desktop ul>li.notification:hover>a {
+    color: #333;
+}
+li.notification a span.label {
+    background: #3fc3ff;
+    padding: 6px 10px;
+    border-radius: 100%;
+    position: absolute;
+    top: 10%;
+    left: 46%;
+    font-size: 15px;
+}
+.nav-desktop ul li.notification.menu-parent>a:after {
+    content: none;
+}
+li.notification i {
+    font-size: 29px;
+}
+.nav-desktop ul li.notification ul li span{
+    position: relative;
+    color: #3fc3ff;
+    display: block;
+    text-align: right;
+}
+.nav-desktop ul li.notification ul li:hover span{
+    color: #fff;
+}
 
 .nav .bars-close,
 .nav ul li,

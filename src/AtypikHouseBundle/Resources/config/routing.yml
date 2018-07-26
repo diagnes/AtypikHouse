@@ -2,6 +2,10 @@ atypikhouse_home:
     path:     /
     defaults: { _controller: "AtypikHouseBundle:Index:index" }
 
+atypikhouse_check_notification:
+    path:     /valid-notification/{id}
+    defaults: { _controller: "AtypikHouseBundle:Index:notificationTransfer" }
+
 atypikhouse_static_page:
     path:     /page/{slug}
     defaults: { _controller: "AtypikHouseBundle:StaticPage:index" }

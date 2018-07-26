@@ -44,6 +44,16 @@ class PaymentInfos extends BasePayment
     }
 
     /**
+     * Get paypal amount
+     *
+     * @return float
+     */
+    public function getPaypalAmount()
+    {
+        return $this->totalAmount / 100;
+    }
+
+    /**
      * Get Reservation
      *
      * @return Reservation

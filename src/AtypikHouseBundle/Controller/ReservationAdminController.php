@@ -120,6 +120,7 @@ class ReservationAdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $reservation->setState(ReservationStateEnum::VALIDATED);
             $em->flush();
+            $this->get('ah.notification_manager')->userReservationValidatedNotification($reservation);
             $this->get('session')->getFlashBag()->add('success', sprintf('The reservation %d has been validate', $reservation->getId()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
@@ -142,6 +143,7 @@ class ReservationAdminController extends Controller
             $reservation->setState(ReservationStateEnum::REFUSED);
             $em->persist($reservation);
             $em->flush();
+            $this->get('ah.notification_manager')->userReservationRefusedNotification($reservation);
             $this->get('session')->getFlashBag()->add('success', sprintf('The reservation %d has been validate', $reservation->getId()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());

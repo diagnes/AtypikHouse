@@ -86,6 +86,8 @@ class PaymentController extends Controller
         if (PaymentStateEnum::COMPLETED === strtolower($payment->getDetails()['PAYMENTINFO_0_PAYMENTSTATUS'])) {
             $reservation->setState(ReservationStateEnum::DONE);
             $em->flush();
+
+            $this->get('ah.notification_manager')->userPaidReservationNotification($reservation);
             return $this->redirectToRoute(
                 'atypikhouse_reservation_step_four',
                 [

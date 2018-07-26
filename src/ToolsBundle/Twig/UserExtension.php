@@ -2,18 +2,33 @@
 
 namespace ToolsBundle\Twig;
 
-use AtypikHouseBundle\Entity\Reservation;
-use AtypikHouseBundle\Enum\ReservationStateEnum;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Intl\Intl;
 use Twig_Environment;
 use UserBundle\Entity\User;
+use UserBundle\Entity\UserNotification;
 
 /**
  * Twig Extension UserExtension
  */
 class UserExtension extends \Twig_Extension
 {
+
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    /**
+     * UserExtension constructor.
+     *
+     * @param EntityManager $em Get the entityManager
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * Create list of filters for reservation
      *
@@ -34,7 +49,32 @@ class UserExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('getVisibleNotifications', [$this, 'getVisibleNotifications']),
         ];
+    }
+
+    /**
+     * Get all user not seen notification
+     *
+     * @param User $user Get the user
+     *
+     * @return UserNotification[]
+     */
+    public function getVisibleNotifications(User $user)
+    {
+        return $this->em->getRepository(UserNotification::class)->findBy(['targetUser' => $user, 'state' => 1]);
+    }
+
+    /**
+     * Get visible notification
+     *
+     * @param User $user Get the user
+     *
+     * @return int
+     */
+    public function visibleNotifFilter(User $user)
+    {
+        return $this->em->getRepository(User::class)->visbleNotification($user->getId());
     }
 
     /**

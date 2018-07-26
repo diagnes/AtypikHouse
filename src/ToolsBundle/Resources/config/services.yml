@@ -25,6 +25,7 @@ services:
 
     tools.user_extension:
         class: ToolsBundle\Twig\UserExtension
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
           - { name: twig.extension }
 

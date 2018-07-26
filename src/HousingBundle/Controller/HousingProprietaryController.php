@@ -180,6 +180,7 @@ class HousingProprietaryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $housing->setState(HousingStateEnum::VALIDATION_ASK);
             $em->flush();
+            $this->get('ah.notification_manager')->askForValidationNotification($housing);
             $this->get('session')->getFlashBag()->add('success', sprintf('The validation ask for %s housing has been sent', $housing->getTitle()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());

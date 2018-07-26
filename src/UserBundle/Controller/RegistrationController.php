@@ -224,6 +224,11 @@ class RegistrationController extends Controller
 
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
+                if ('simple' === $type) {
+                    $this->get('ah.notification_manager')->userRegisterNotification();
+                } else {
+                    $this->get('ah.notification_manager')->userRegisterProNotification();
+                }
                 return $response;
             }
 

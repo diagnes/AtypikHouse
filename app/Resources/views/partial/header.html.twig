@@ -21,6 +21,25 @@
                                 <li><a href="{{ path('fos_user_registration_register_pro') }}" title="Become Host">Become Host</a></li>
                             {% endif %}
                             {% if app.user %}
+                                <li class="notification">
+                                    <a href="javascript:void(0)">
+                                        <i class="fa fa-bell-o"></i>
+                                        {% set visibleNotifs = getVisibleNotifications(app.user) %}
+                                        {% if visibleNotifs | length > 0 %}
+                                            <span class="label">{{ visibleNotifs | length }}</span>
+                                        {% endif %}
+                                    </a>
+                                    <ul class="sub-menu">
+                                        {% for visibleNotif in visibleNotifs %}
+                                            <li>
+                                                <a href="{{ path('atypikhouse_check_notification', {'id' : visibleNotif.id}) }}">
+                                                    {{ visibleNotif.message }}
+                                                    <span>{{ visibleNotif.createdAt|time_diff }}</span>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
                                 <li>
                                     <a href="{{ path('atypikhouse_home') }}" title="">
                                         {% if app.user.personalInfos is not null and app.user.personalInfos.image %}

@@ -60,6 +60,7 @@ class ReservationController extends Controller
             $em->persist($reservation);
             $em->flush();
 
+            $this->get('ah.notification_manager')->userStartReservationNotification($reservation);
             return $this->redirectToRoute('atypikhouse_reservation_step_two', ['slug' => $housing->getSlug(), 'id' => $reservation->getId()]);
         }
 

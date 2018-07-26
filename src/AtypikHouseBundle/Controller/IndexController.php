@@ -3,11 +3,15 @@
 namespace AtypikHouseBundle\Controller;
 
 use AtypikHouseBundle\Entity\Blog;
+use AtypikHouseBundle\Enum\NotificationTypeEnum;
 use AtypikHouseBundle\Form\SearchHouseFormType;
 use HousingBundle\Entity\Housing;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use UserBundle\Entity\UserNotification;
 
 /**
  * Reservation controller.
@@ -48,5 +52,26 @@ class IndexController extends Controller
                 'blogs' => $blogs,
             ]
         );
+    }
+
+    /**
+     * Set notification has viewed
+     *
+     * @param Request $request Get the request
+     * @param int     $id      Get tne notification id
+     *
+     * @return RedirectResponse
+     */
+    public function notificationTransferAction(Request $request, int $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $notif = $em->getRepository(UserNotification::class)->findOneBy(['id' => $id]);
+        if (null === $notif) {
+            throw new NotFoundHttpException('Cette notification n\'éxiste pas');
+        }
+        $notif->setState(0);
+        $em->flush();
+
+        return $this->redirect($request->headers->get('referer'));
     }
 }

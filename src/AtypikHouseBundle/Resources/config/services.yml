@@ -2,6 +2,11 @@ services:
     ah.reservation_manager:
         class: AtypikHouseBundle\Service\ReservationManager
         arguments: ['@jms_serializer.serializer', '@doctrine.orm.entity_manager', '%atypikhouse_global_fees%', '@security.helper']
+
+    ah.notification_manager:
+        class: AtypikHouseBundle\Service\NotificationManager
+        arguments: ['@doctrine.orm.entity_manager', '@security.helper', '@mailer', '%kernel.environment%', '@templating.engine.twig', '@router']
+
     ah.reservation_listener:
         class: AtypikHouseBundle\Listener\ReservationListener
         arguments: ['@ah.reservation_manager']

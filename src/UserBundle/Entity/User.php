@@ -63,7 +63,7 @@ class User extends BaseUser
     private $professionalInfos;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserBundle\Entity\UserNotification", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="UserBundle\Entity\UserNotification", mappedBy="targetUser")
      */
     private $notifications;
 

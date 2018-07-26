@@ -1,0 +1,47 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="calendar.html#"><i class="fa fa-bars"></i> </a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <span class="m-r-sm text-muted welcome-message">Welcome to AtypikOffice</span>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="calendar.html#">
+                    <i class="fa fa-bell"></i>
+                    {% set visibleNotifs = getVisibleNotifications(app.user) %}
+                    {% if visibleNotifs | length > 0 %}
+                        <span class="label label-primary">{{ visibleNotifs | length }}</span>
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu dropdown-alerts">
+                    {% for visibleNotif in visibleNotifs %}
+                        <li>
+                            <a href="{{ path('atypikhouse_check_notification', {'id' : visibleNotif.id}) }}">
+                                <div>
+                                    {{ visibleNotif.message }}
+                                    <span class="pull-right text-muted small">{{ visibleNotif.createdAt|time_diff }}</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                    {% endfor %}
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="{{ path('atypikhouse_home') }}">
+                    <i class="fa fa-home"></i> Home
+                </a>
+            </li>
+            <li>
+                <a href="{% if is_granted('ROLE_PREVIOUS_ADMIN') %}{{ path('atypikhouse_home', {'_switch_user': '_exit'}) }}{% else %}{{ path('fos_user_security_logout') }}{% endif %}">
+                    <i class="fa fa-sign-out"></i> Log out
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+</div>

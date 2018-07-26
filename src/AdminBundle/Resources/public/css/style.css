@@ -312,6 +312,9 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   -o-transition: all 0.4s;
   transition: all 0.4s;
 }
+.page-heading .col-lg-4 {
+  margin-top: 20px;
+}
 .navbar-fixed-top {
   background: #fff;
   transition-duration: 0.4s;

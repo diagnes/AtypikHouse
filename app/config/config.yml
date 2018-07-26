@@ -10,7 +10,8 @@ imports:
     - { resource: config/hwi_oauth.yml }
     - { resource: config/payum.yml }
     - { resource: config/froala.yml }
-
+#    - { resource: config/lexik_jwt_authentication.yml }
+#    - { resource: config/nelmio_cors.yml }
 #Bundles config file
     - { resource: "@ToolsBundle/Resources/config/services.yml" }
     - { resource: "@UserBundle/Resources/config/services.yml" }
@@ -25,7 +26,7 @@ parameters:
     locale: en
 framework:
     #esi: ~
-    translator: ~
+    translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'

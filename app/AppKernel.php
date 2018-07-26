@@ -40,6 +40,8 @@ class AppKernel extends Kernel
 
             #Authentification Bundle RestApi
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            #Cross origin utility
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
 
             #Oauth
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),

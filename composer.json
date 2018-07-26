@@ -35,6 +35,7 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "kms/froala-editor-bundle": "^2.8",
         "lexik/jwt-authentication-bundle": "^2.4",
+        "nelmio/cors-bundle": "^1.5",
         "payum/paypal-express-checkout-nvp": "^1.5",
         "payum/payum-bundle": "^2.3",
         "php-http/client-implementation": "^1.0",

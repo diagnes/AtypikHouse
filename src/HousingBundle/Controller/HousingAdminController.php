@@ -79,6 +79,7 @@ class HousingAdminController extends Controller
             $housing->setState(HousingStateEnum::VALIDATED);
             $housing->setVisible(true);
             $em->flush();
+            $this->get('ah.notification_manager')->userAskForValidationValidated($housing);
             $this->get('session')->getFlashBag()->add('success', sprintf('The %s housing has been validated', $housing->getTitle()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
@@ -100,6 +101,7 @@ class HousingAdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $housing->setState(HousingStateEnum::REFUSED);
             $em->flush();
+            $this->get('ah.notification_manager')->userAskForValidationRefused($housing);
             $this->get('session')->getFlashBag()->add('success', sprintf('The %s housing has been refused', $housing->getTitle()));
         } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());

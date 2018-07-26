@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0995c9664ad425a442c47e0556bffcea",
+    "content-hash": "55b7dcfaacefc5f093d516e99c0ab4e0",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -3539,6 +3539,64 @@
             "time": "2016-12-05T07:27:31+00:00"
         },
         {
+            "name": "nelmio/cors-bundle",
+            "version": "1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nelmio/NelmioCorsBundle.git",
+                "reference": "548dc8ebd3984acd2f6d8787ab1dac2e9aa14254"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/548dc8ebd3984acd2f6d8787ab1dac2e9aa14254",
+                "reference": "548dc8ebd3984acd2f6d8787ab1dac2e9aa14254",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "^2.7 || ^3.0 || ^4.0"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^1.0 || ^2.0",
+                "mockery/mockery": "^0.9 || ^1.0",
+                "symfony/phpunit-bridge": "^2.7 || ^3.0 || ^4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nelmio\\CorsBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nelmio",
+                    "homepage": "http://nelm.io"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/nelmio/NelmioCorsBundle/contributors"
+                }
+            ],
+            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Symfony2 application",
+            "keywords": [
+                "api",
+                "cors",
+                "crossdomain"
+            ],
+            "time": "2017-12-11T18:41:54+00:00"
+        },
+        {
             "name": "ocramius/package-versions",
             "version": "1.3.0",
             "source": {
@@ -3879,67 +3937,6 @@
                 "library"
             ],
             "time": "2016-08-04T08:15:12+00:00"
-        },
-        {
-            "name": "payum/offline",
-            "version": "1.5.0",
-            "target-dir": "Payum/Offline",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Payum/Offline.git",
-                "reference": "1b63f5bb5c54079fdb83e5956848e05d14234c52"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Payum/Offline/zipball/1b63f5bb5c54079fdb83e5956848e05d14234c52",
-                "reference": "1b63f5bb5c54079fdb83e5956848e05d14234c52",
-                "shasum": ""
-            },
-            "require": {
-                "payum/core": "^1.5"
-            },
-            "require-dev": {
-                "payum/core": "^1.5@dev",
-                "phpunit/phpunit": "^5.7",
-                "symfony/phpunit-bridge": "^3.1|^4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Payum\\Offline": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/Payum/Offline/contributors"
-                },
-                {
-                    "name": "Kotlyar Maksim",
-                    "email": "kotlyar.maksim@gmail.com"
-                },
-                {
-                    "name": "Payum project",
-                    "homepage": "https://payum.forma-pro.com/"
-                }
-            ],
-            "description": "The Payum extension. It provides Offline payment integration.",
-            "homepage": "https://payum.forma-pro.com",
-            "keywords": [
-                "invoice",
-                "offlile",
-                "payment"
-            ],
-            "time": "2017-12-22T14:26:41+00:00"
         },
         {
             "name": "payum/paypal-express-checkout-nvp",
@@ -7483,6 +7480,67 @@
                 "php"
             ],
             "time": "2018-07-15T17:25:16+00:00"
+        },
+        {
+            "name": "payum/offline",
+            "version": "1.5.0",
+            "target-dir": "Payum/Offline",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Payum/Offline.git",
+                "reference": "1b63f5bb5c54079fdb83e5956848e05d14234c52"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Payum/Offline/zipball/1b63f5bb5c54079fdb83e5956848e05d14234c52",
+                "reference": "1b63f5bb5c54079fdb83e5956848e05d14234c52",
+                "shasum": ""
+            },
+            "require": {
+                "payum/core": "^1.5"
+            },
+            "require-dev": {
+                "payum/core": "^1.5@dev",
+                "phpunit/phpunit": "^5.7",
+                "symfony/phpunit-bridge": "^3.1|^4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Payum\\Offline": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/Payum/Offline/contributors"
+                },
+                {
+                    "name": "Kotlyar Maksim",
+                    "email": "kotlyar.maksim@gmail.com"
+                },
+                {
+                    "name": "Payum project",
+                    "homepage": "https://payum.forma-pro.com/"
+                }
+            ],
+            "description": "The Payum extension. It provides Offline payment integration.",
+            "homepage": "https://payum.forma-pro.com",
+            "keywords": [
+                "invoice",
+                "offlile",
+                "payment"
+            ],
+            "time": "2017-12-22T14:26:41+00:00"
         },
         {
             "name": "pdepend/pdepend",
