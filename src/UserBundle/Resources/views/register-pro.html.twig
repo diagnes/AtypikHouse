@@ -31,12 +31,14 @@
                                         <div class="field-input">
                                             {{ form_widget(form.username) }}
                                         </div>
-                                        <div class="field-input">
-                                            {{ form_widget(form.plainPassword.pass) }}
-                                        </div>
-                                        <div class="field-input">
-                                            {{ form_widget(form.plainPassword.confirm) }}
-                                        </div>
+                                        {% if form.plainPassword is defined %}
+                                            <div class="field-input">
+                                                {{ form_widget(form.plainPassword.pass) }}
+                                            </div>
+                                            <div class="field-input">
+                                                {{ form_widget(form.plainPassword.confirm) }}
+                                            </div>
+                                        {% endif %}
                                         <div class="field-input">
                                             {{ form_widget(form.professionalInfos.siret) }}
                                         </div>

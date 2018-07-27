@@ -391,6 +391,31 @@ class ReservationManager
     }
 
     /**
+     * Check if most important user information is completed
+     *
+     * @return bool
+     */
+    public function hasCompleteProfile()
+    {
+        /** @var User $user */
+        $user = $this->security->getUser();
+
+        if (null === $user->getPersonalInfos()) {
+            return false;
+        }
+
+        if (null === $user->getPersonalInfos()->getFirstname() || null === $user->getPersonalInfos()->getLastname()) {
+            return false;
+        }
+
+        if (null === $user->getPersonalInfos()->getAddress()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get all unavailability of an housing cause of calendar and reservation
      *
      * @param Housing     $housing     Get the targeted Housing

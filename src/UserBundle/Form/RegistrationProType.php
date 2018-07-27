@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use UserBundle\Entity\User;
 
@@ -67,6 +69,18 @@ class RegistrationProType extends RegistrationType
                 ]
             )
             ->add('professionalInfos', RegistrationProfessionalType::class);
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                $user = $event->getData();
+                $form = $event->getForm();
+
+                if ($user && $user->getId()) {
+                    $form->remove('plainPassword');
+                }
+            }
+        );
     }
 
     /**

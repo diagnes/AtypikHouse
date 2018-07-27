@@ -92,7 +92,7 @@ class HousingController extends Controller
     public function showAction(string $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $housing = $this->get('ah.housing_manager')->getHousingEntity($slug);
+        $housing = $this->get('ah.housing_manager')->getHousingFrontEntity($slug);
         $reservations = $em->getRepository(Reservation::class)->getHousingReviews($slug);
 
         return $this->render(

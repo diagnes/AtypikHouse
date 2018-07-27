@@ -85,9 +85,36 @@ class HousingManager
             throw new \ErrorException(sprintf('This housing %d does not exist', $slug));
         }
 
-        if (!$this->security->isGranted('ROLE_PROPRIETARY') && $this->security->getUser() !== $housing->getUser()) {
+        if (!$this->security->isGranted('ROLE_PROPRIETARY') && $this->security->getUser() !== $housing->getProprietary()) {
             throw new AccessDeniedException('You are not allowed to see this housing');
         }
+        return $housing;
+    }
+
+    /**
+     * Made some check and return the housing for action
+     *
+     * @param string $slug Get the slug targeted housing
+     *
+     * @return Housing
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     * @throws \ErrorException
+     */
+    public function getHousingFrontEntity(string $slug)
+    {
+        $housing = $this->em->getRepository(Housing::class)->findOneBy(
+            [
+            'slug' => $slug,
+            'state' => HousingStateEnum::VALIDATED,
+            'visible' => true,
+            ]
+        );
+
+        if ($housing === null) {
+            throw new \ErrorException(sprintf('This housing %d does not exist', $slug));
+        }
+
         return $housing;
     }
 

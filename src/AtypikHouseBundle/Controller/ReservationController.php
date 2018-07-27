@@ -43,9 +43,16 @@ class ReservationController extends Controller
     {
         $housingManager = $this->get('ah.housing_manager');
         $reservationManager = $this->get('ah.reservation_manager');
+
+        if (!$reservationManager->hasCompleteProfile()) {
+            $this->get('session')->getFlashBag()->add('danger', 'You need to complete your personnal infos for make a reservation');
+
+            return $this->redirectToRoute('fos_user_profile_edit');
+        }
+
         $em = $this->getDoctrine()->getManager();
 
-        $housing = $housingManager->getHousingEntity($slug);
+        $housing = $housingManager->getHousingFrontEntity($slug);
         $reservation = $reservationManager->createReservation($housing);
         $form = $this->createForm(
             ReservationStartFormType::class,
@@ -90,7 +97,7 @@ class ReservationController extends Controller
         $housingManager = $this->get('ah.housing_manager');
         $reservationManager = $this->get('ah.reservation_manager');
 
-        $housing = $housingManager->getHousingEntity($slug);
+        $housing = $housingManager->getHousingFrontEntity($slug);
         $reservation = $reservationManager->getReservationEntity($id);
 
         if (ReservationStateEnum::PENDING !== $reservation->getState()) {
@@ -121,7 +128,7 @@ class ReservationController extends Controller
     {
         $housingManager = $this->get('ah.housing_manager');
         $reservationManager = $this->get('ah.reservation_manager');
-        $housing = $housingManager->getHousingEntity($slug);
+        $housing = $housingManager->getHousingFrontEntity($slug);
         $reservation = $reservationManager->getReservationEntity($id);
         if (ReservationStateEnum::VALIDATED !== $reservation->getState()) {
             throw new AccessDeniedException('Your reservation has not been validated yet');
@@ -152,7 +159,7 @@ class ReservationController extends Controller
         $housingManager = $this->get('ah.housing_manager');
         $reservationManager = $this->get('ah.reservation_manager');
 
-        $housing = $housingManager->getHousingEntity($slug);
+        $housing = $housingManager->getHousingFrontEntity($slug);
         $reservation = $reservationManager->getReservationEntity($id);
 
         if (ReservationStateEnum::DONE !== $reservation->getState()) {
@@ -184,7 +191,7 @@ class ReservationController extends Controller
         $housingManager = $this->get('ah.housing_manager');
         $reservationManager = $this->get('ah.reservation_manager');
 
-        $housing = $housingManager->getHousingEntity($slug);
+        $housing = $housingManager->getHousingFrontEntity($slug);
         $reservation = $reservationManager->getReservationEntity($id);
 
         return $this->render(
@@ -248,7 +255,7 @@ class ReservationController extends Controller
     public function getAllUndisponibilityAction(string $slug)
     {
         $reservationManager = $this->get('ah.reservation_manager');
-        $housing = $this->get('ah.housing_manager')->getHousingEntity($slug);
+        $housing = $this->get('ah.housing_manager')->getHousingFrontEntity($slug);
         return new JsonResponse($reservationManager->getUndisponibility($housing), Response::HTTP_ACCEPTED);
     }
 

@@ -6,6 +6,7 @@ use AtypikHouseBundle\Entity\Blog;
 use AtypikHouseBundle\Enum\NotificationTypeEnum;
 use AtypikHouseBundle\Form\SearchHouseFormType;
 use HousingBundle\Entity\Housing;
+use HousingBundle\Enum\HousingStateEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class IndexController extends Controller
         $em = $this->getDoctrine()->getManager();
         $housingRepo = $em->getRepository(Housing::class);
         $form = $this->createForm(SearchHouseFormType::class, null);
-        $housings = $housingRepo->findBy([], ['createdAt' => 'DESC'], 3);
+        $housings = $housingRepo->findBy(['state' => HousingStateEnum::VALIDATED], ['createdAt' => 'DESC'], 3);
         $blogs = $em->getRepository(Blog::class)->getllAvailableBlog(4);
         $topCity = $housingRepo->getTopCityTravel();
         $housingsTotal = $housingRepo->getTotalHousing();
