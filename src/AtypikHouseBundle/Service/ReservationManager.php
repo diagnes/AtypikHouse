@@ -114,9 +114,6 @@ class ReservationManager
             throw new \ErrorException(sprintf('This reservation %d does not exist', $id));
         }
 
-        if (!$this->security->isGranted('ROLE_PROPRIETARY') && $this->security->getUser() !== $reservation->getUser()) {
-            throw new AccessDeniedException('You are not allowed to see this reservation');
-        }
         return $reservation;
     }
 
