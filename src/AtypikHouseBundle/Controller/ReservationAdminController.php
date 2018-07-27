@@ -23,8 +23,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @category  Controller
  * @author    Diagne Stéphane <diagne.stephane@gmail.com>
  * @copyright 2018
- *
- * @Security("has_role('ROLE_ADMIN')")
  */
 class ReservationAdminController extends Controller
 {
@@ -32,6 +30,8 @@ class ReservationAdminController extends Controller
      * Lists all reservation entities.
      *
      * @return Response
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @throws AccessDeniedException
      */
@@ -51,6 +51,8 @@ class ReservationAdminController extends Controller
      * Creates a new reservation entity
      *
      * @param Request $request Get the request for this action
+     *
+     * @Security("has_role('ROLE_ADMIN')")
      *
      * @return RedirectResponse|Response
      */
@@ -84,6 +86,8 @@ class ReservationAdminController extends Controller
      * @param Request     $request     Get the request for this action
      * @param Reservation $reservation Get the reservation for this action
      *
+     * @Security("has_role('ROLE_ADMIN')")
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Reservation $reservation)
@@ -111,6 +115,8 @@ class ReservationAdminController extends Controller
      *
      * @param int $id This the reservation id
      *
+     * @Security("has_role('ROLE_PROPRIETARY')")
+     *
      * @return RedirectResponse
      */
     public function validateAction(int $id): RedirectResponse
@@ -132,6 +138,8 @@ class ReservationAdminController extends Controller
      * Refused admin reservation.
      *
      * @param int $id This the reservation id
+     *
+     * @Security("has_role('ROLE_PROPRIETARY')")
      *
      * @return RedirectResponse
      */
